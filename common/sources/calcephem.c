@@ -1,4 +1,4 @@
-#include  "moon.h"
+#include  "calcephem.h"
 #include  <string.h>
 #include  "structure.h"
 #include  <time.h>
@@ -473,7 +473,7 @@ void MiniMoon(double T, double *RA, double *DEC){
 /*#define DegPerRad       57.29577951308232087680*/
 /*#define RadPerDeg        0.01745329251994329576*/
 
-/*extern*/ static double /*Glon, SinGlat, CosGlat, */TimeZone;
+/*extern static double Glon, SinGlat, CosGlat, TimeZone;*/
 
 #if 0
 void MoonRise(int year, int month, int day, double LocalHour, double *UTRise, double *UTSet){
