@@ -18,8 +18,8 @@
 
 /**
 *** \file moondata.c
-*** \brief moondata.c implementation.
-*** \details Implementation file for moondata.c.
+*** \brief moondata.h implementation.
+*** \details Implementation file for moondata.h.
 **/
 
 
