@@ -4,8 +4,6 @@
     <file alias="MoonPhaseIcon">moonphase.xpm</file>
   </qresource>
   <qresource prefix="ActionIcons">
-    <file alias="RestoreIcon">restore.xpm</file>
-    <file alias="MaximizeIcon">maximize.xpm</file>
     <file alias="QuitIcon">quit.xpm</file>
   </qresource>
   <qresource prefix="WidgetIcons">
