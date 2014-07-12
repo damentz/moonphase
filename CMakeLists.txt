@@ -31,10 +31,15 @@ PROJECT(moonphase)
 INCLUDE(${CMAKE_SOURCE_DIR}/preferences.cmake OPTIONAL)
 
 # Build information.
+SET(MAJORVERSION_NUMBER 0)
+SET(MINORVERSION_NUMBER 1)
+SET(PATCHVERSION_NUMBER 0)
+SET(DISPLAYNAME_STRING "Moon Phase")
 SET(OWNER_STRING "Alan Wise")
+SET(DESCRIPTION_STRING "Displays the phase of the moon in the system tray.")
 SET(COPYRIGHTNOTICE_STRING
     "Copyright (C) 2014 ${OWNER_STRING}.")
-SET(WEBSITE_STRING "")
+SET(WEBSITE_STRING "http://sourceforge.net/projects/moonphase/")
 SET(LICENSE_STRING 
     "License GPLv3: GNU GPL version 3 or later <http://gnu.org/licenses/>.")
 
@@ -45,10 +50,6 @@ STRING(REGEX REPLACE "\n" "\\\\n\"\n\"" CCODE "${ESCAPEQUOTES}")
 SET(LICENSEAGREEMENT "const char f_pLicenseAgreement[]=\n\"${CCODE}\";")
 FILE(WRITE
     "${CMAKE_CURRENT_BINARY_DIR}/licenseagreement.h" "${LICENSEAGREEMENT}")
-
-# Additional modules
-SET(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH}
-    "${CMAKE_CURRENT_LIST_DIR}/cmake/Modules/")
 
 
 #
@@ -76,6 +77,11 @@ ADD_SUBDIRECTORY(qt)
 #
 # Installation
 #
+
+IF(BUILD_EXECUTABLE)
+  FILE(GLOB MOONPHASE_IMAGES "${CMAKE_SOURCE_DIR}/images/*")
+  INSTALL(FILES "${MOONPHASE_IMAGES}" DESTINATION "share/moonphase")
+ENDIF(BUILD_EXECUTABLE)
 
 
 #
