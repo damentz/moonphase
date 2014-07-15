@@ -78,7 +78,6 @@ ENDIF(OPTION_MOONPHASE_BUILDMOONPHASEQT)
 
 IF(OPTION_MOONPHASE_BUILDMOONPHASEQT)
   INCLUDE("${CMAKE_SOURCE_DIR}/common/common.cmake")
-#  INCLUDE("${CMAKE_CURRENT_SOURCE_DIR}/wwWidgets/wwWidgets.cmake")
   SET(MOONPHASEQT_SOURCES
       "${CMAKE_CURRENT_SOURCE_DIR}/sources/moonphaseqt.cpp"
       "${CMAKE_CURRENT_SOURCE_DIR}/sources/controlpaneldialog.cpp"
@@ -105,6 +104,7 @@ ENDIF(OPTION_MOONPHASE_BUILDMOONPHASEQT)
 #
 
 IF(OPTION_MOONPHASE_BUILDMOONPHASEQT)
+  # moonphase-qt depends on an external library that is built from source code.
   IF(UNIX)
     SET(CONFIGURE_COMMAND
         "${CMAKE_CURRENT_SOURCE_DIR}/wwwidgets/cmake_configure_command.sh")
@@ -124,29 +124,16 @@ IF(OPTION_MOONPHASE_BUILDMOONPHASEQT)
     ENDIF()
   ENDIF()
   SET(FNAME "${FNAME}${CMAKE_STATIC_LIBRARY_SUFFIX}")
-
-  # moonphase-qt depends on an external library that is built from source code.
-  ExternalProject_Add(wwwidgets
+  EXTERNALPROJECT_ADD(wwwidgets
       URL "http://www.wysota.eu.org/wwwidgets/wwWidgets-1.0.tar.gz"
-#      URL "${CMAKE_CURRENT_SOURCE_DIR}/wwwidgets/wwWidgets-1.0.tar.gz"
       URL_HASH MD5=e8f8cbe75ee409f18ba44f786bcc438c
       DOWNLOAD_DIR "${CMAKE_CURRENT_SOURCE_DIR}/wwwidgets/"
       SOURCE_DIR "${CMAKE_BINARY_DIR}/wwwidgets/"
       BINARY_DIR "${CMAKE_BINARY_DIR}/wwwidgets/"
       PATCH_COMMAND ""
-#      CONFIGURE_COMMAND
-#          "${CMAKE_CURRENT_SOURCE_DIR}/wwwidgets/cmake_configure_command.sh"
       CONFIGURE_COMMAND ${CONFIGURE_COMMAND}
-#      BUILD_COMMAND "$(MAKE)"
       BUILD_COMMAND ${BUILD_COMMAND}
       INSTALL_COMMAND "")
-
-
-#  ExternalProject_Get_Property(wwwidgets DEPENDS)
-#MESSAGE(DEV_WARNING ${install_dir})
-
-
-
 
   ADD_EXECUTABLE(
       ${EXECUTABLENAME_STRING}
