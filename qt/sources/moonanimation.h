@@ -57,11 +57,6 @@
 typedef struct structMOONANIMATION
 {
   /**
-  *** \brief Image path name.
-  *** \details Path name to image.
-  **/
-  QString *pFileName;
-  /**
   *** \brief Image frames.
   *** \details List of frames in the image.
   **/

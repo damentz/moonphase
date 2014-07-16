@@ -103,7 +103,6 @@ STRUCTURE_PROTOTYPE_INITIALIZEMEMBERS(MoonAnimation,MOONANIMATION_T)
   }
   else
   {
-    pStructure->pFileName=new QString("");
     pStructure->pImages=new QList<QPixmap>;
     ErrorCode=ERRORCODE_SUCCESS;
   }
@@ -135,11 +134,6 @@ STRUCTURE_PROTOTYPE_UNINITIALIZEMEMBERS(MoonAnimation,MOONANIMATION_T)
       MESSAGELOG_Warning("pStructure->pImages==NULL");
     }
     delete pStructure->pImages;
-    if (pStructure->pFileName==NULL)
-    {
-      MESSAGELOG_Warning("pStructure->pFileName==NULL");
-    }
-    delete pStructure->pFileName;
     ErrorCode=ERRORCODE_SUCCESS;
   }
 
@@ -231,53 +225,50 @@ ERRORCODE_T MoonAnimation_ReadFile(
     ErrorCode=ERRORCODE_NULLPARAMETER;
     MESSAGELOG_LogError(ErrorCode);
   }
-  else if (QString(pPathName)==pMoonAnimation->pFileName)
-  {
-    MESSAGELOG_Warning("Trying to reload same file.");  // TODO
-    ErrorCode=ERRORCODE_TRUE;
-  }
   else
   {
-    *(pMoonAnimation->pFileName)="";
     pMoonAnimation->pImages->clear();
-    ErrorCode=ERRORCODE_FALSE;
-    /*QPixmap*/ Image.load(pPathName);
-    FrameCount=0;
-    if (Image.isNull()==0)
+    ErrorCode=ERRORCODE_INVALIDDATA;
+    if (Image.load(pPathName)==false)
+      ErrorCode=ERRORCODE_LIBRARYFAILURE;
+    else
     {
-      /* How are the frames arranged? */
-      if (Image.width()>=Image.height())
+      FrameCount=0;
+      if (Image.isNull()==0)
       {
-        /* Horizontally. Make sure the width is a multiple of the height. */
-        if (Image.width()%Image.height()==0)
+        /* How are the frames arranged? */
+        if (Image.width()>=Image.height())
         {
-          FrameCount=Image.width()/Image.height();
-          DX=Image.height();
-          DY=0;
-          Size=Image.height();
+          /* Horizontally. Make sure the width is a multiple of the height. */
+          if (Image.width()%Image.height()==0)
+          {
+            FrameCount=Image.width()/Image.height();
+            DX=Image.height();
+            DY=0;
+            Size=Image.height();
+          }
         }
-      }
-      else
-      {
-        /* Vertically. Make sure the height is a multiple of the width. */
-        if (Image.height()%Image.width()==0)
+        else
         {
-          FrameCount=Image.height()/Image.width();
-          DX=0;
-          DY=Image.width();
-          Size=Image.width();
+          /* Vertically. Make sure the height is a multiple of the width. */
+          if (Image.height()%Image.width()==0)
+          {
+            FrameCount=Image.height()/Image.width();
+            DX=0;
+            DY=Image.width();
+            Size=Image.width();
+          }
         }
-      }
 
-      /* Valid image? */
-      if (FrameCount>0)
-      {
-        /* Split the image into frames. */
-        for(Frame=0;Frame<FrameCount;Frame++)
-          pMoonAnimation->pImages->append(
-              Image.copy(Frame*DX,Frame*DY,Size,Size));
-        *(pMoonAnimation->pFileName)=QString(pPathName);
-        ErrorCode=ERRORCODE_TRUE;
+        /* Valid image? */
+        if (FrameCount>0)
+        {
+          /* Split the image into frames. */
+          for(Frame=0;Frame<FrameCount;Frame++)
+            pMoonAnimation->pImages->append(
+                Image.copy(Frame*DX,Frame*DY,Size,Size));
+          ErrorCode=ERRORCODE_SUCCESS;
+        }
       }
     }
   }
