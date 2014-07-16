@@ -1092,6 +1092,9 @@ void CONTROLPANELDIALOG_C::AnimationTimerTriggeredSlot(void)
 
 void CONTROLPANELDIALOG_C::ButtonBoxButtonClickedSlot(QAbstractButton *pButton)
 {
+  bool ForceUpdateFlag;
+
+
   DEBUGLOG_Printf1(
       "CONTROLPANELDIALOG_C::ButtonBoxButtonClickedSlot(%p)",pButton);
   DEBUGLOG_LogIn();
@@ -1101,6 +1104,7 @@ void CONTROLPANELDIALOG_C::ButtonBoxButtonClickedSlot(QAbstractButton *pButton)
     case QDialogButtonBox::Apply:
       /* Force an update if the file name changed, the use opaque background
           flag changed, or the background color changed. */
+      ForceUpdateFlag=false;
       if ( (m_pAnimationFilenameChooser->text()!=
           m_pSettings->GetAnimationPathname()) ||
           (m_pUseOpaqueBackgroundGroupBox->isChecked()!=
@@ -1112,13 +1116,15 @@ void CONTROLPANELDIALOG_C::ButtonBoxButtonClickedSlot(QAbstractButton *pButton)
             m_pSettings->GetAnimationPathname())
           MoonAnimation_ReadFile(
             &m_MoonTrayImages,qPrintable(m_pAnimationFilenameChooser->text()));
-        ForceUpdate();
+          ForceUpdateFlag=true;
       }
       if (m_pRemindOncePerSessionCheckBox->isChecked()==false)
         m_CloseReminderIssued=false;
       ReadPreferences(m_pSettings);
       SaveSettings();
       PreferencesChangedSlot();     // Force a dialog update.
+      if (ForceUpdateFlag==true)
+        ForceUpdate();
       break;
     case QDialogButtonBox::Close:
       close();
