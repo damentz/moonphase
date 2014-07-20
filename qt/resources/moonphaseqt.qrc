@@ -4,6 +4,7 @@
     <file alias="MoonPhaseIcon">moonphase.xpm</file>
   </qresource>
   <qresource prefix="ActionIcons">
+    <file alias="ControlPanelIcon">controlpanel.xpm</file>
     <file alias="QuitIcon">quit.xpm</file>
   </qresource>
   <qresource prefix="WidgetIcons">

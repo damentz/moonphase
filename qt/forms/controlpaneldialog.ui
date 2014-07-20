@@ -56,7 +56,7 @@
             </sizepolicy>
            </property>
            <property name="suffix">
-            <string> hour(s)</string>
+            <string> hours</string>
            </property>
            <property name="minimum">
             <number>4</number>
@@ -510,6 +510,10 @@
    </property>
   </action>
   <action name="m_pShowControlPanelAction">
+   <property name="icon">
+    <iconset resource="../resources/moonphaseqt.qrc">
+     <normaloff>:/ActionIcons/ControlPanelIcon</normaloff>:/ActionIcons/ControlPanelIcon</iconset>
+   </property>
    <property name="text">
     <string>&amp;Control Panel</string>
    </property>
@@ -546,7 +550,7 @@
    <slot>PreferencesChangedSlot()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>226</x>
+     <x>216</x>
      <y>76</y>
     </hint>
     <hint type="destinationlabel">
@@ -749,7 +753,6 @@
   <slot>MoveDownToolTipItemButtonClickedSlot()</slot>
   <slot>RemoveToolTipItemButtonClickedSlot()</slot>
   <slot>ToolTipItemSelectionChangedSlot()</slot>
-  <slot>AnimationFileNameEditingFinishedSlot()</slot>
   <slot>StillRunningReminderClickedSlot()</slot>
   <slot>ShowControlPanelSlot()</slot>
   <slot>AnimationPathnameChangedSlot()</slot>
