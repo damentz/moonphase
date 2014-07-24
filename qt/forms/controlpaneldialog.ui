@@ -160,7 +160,7 @@
           </sizepolicy>
          </property>
          <property name="title">
-          <string>&amp;Use opaque background</string>
+          <string>Use opaque &amp;background</string>
          </property>
          <property name="checkable">
           <bool>true</bool>
@@ -328,7 +328,7 @@
              </sizepolicy>
             </property>
             <property name="text">
-             <string>&amp;Confirm</string>
+             <string>Con&amp;firm</string>
             </property>
            </widget>
           </item>
@@ -437,7 +437,7 @@
            </property>
            <widget class="QWidget" name="m_pProgramInformationTab">
             <attribute name="title">
-             <string>Information</string>
+             <string>&amp;Information</string>
             </attribute>
             <layout class="QGridLayout" name="gridLayout_5">
              <item row="0" column="0">
@@ -460,7 +460,7 @@
            </widget>
            <widget class="QWidget" name="m_pLicenseAgreementTab">
             <attribute name="title">
-             <string>License Agreement</string>
+             <string>&amp;License Agreement</string>
             </attribute>
             <layout class="QGridLayout" name="gridLayout_6">
              <item row="0" column="0">
