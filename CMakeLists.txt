@@ -40,16 +40,38 @@ SET(DESCRIPTION_STRING "Displays the phase of the moon in the system tray.")
 SET(COPYRIGHTNOTICE_STRING
     "Copyright (C) 2014 ${OWNER_STRING}.")
 SET(WEBSITE_STRING "http://sourceforge.net/projects/moonphase/")
-SET(LICENSE_STRING 
+SET(LICENSE_STRING
     "License GPLv3: GNU GPL version 3 or later <http://gnu.org/licenses/>.")
+SET(PACKAGE_NAME "moonphase")
 
-# Convert license agreement to include file
+# Convert license agreement to include file.
 FILE(READ "${PROJECT_SOURCE_DIR}/COPYING" COPYING)
 STRING(REGEX REPLACE "\"" "\\\\\"" ESCAPEQUOTES "${COPYING}")
 STRING(REGEX REPLACE "\n" "\\\\n\"\n\"" CCODE "${ESCAPEQUOTES}")
 SET(LICENSEAGREEMENT "const char f_pLicenseAgreement[]=\n\"${CCODE}\";")
 FILE(WRITE
     "${CMAKE_CURRENT_BINARY_DIR}/licenseagreement.h" "${LICENSEAGREEMENT}")
+
+# Install information.
+IF(UNIX)
+  SET(INSTALL_BINARYDIRECTORY "bin")
+  SET(INSTALL_ICONDIRECTORY "share/pixmaps")
+  SET(INSTALL_IMAGEDIRECTORY "share/moonphase")
+ELSEIF(WIN32 AND MSVC)
+  SET(INSTALL_BINARYDIRECTORY ".")
+  SET(INSTALL_ICONDIRECTORY ".")
+  SET(INSTALL_IMAGEDIRECTORY ".")
+ELSE()
+  MESSAGE(FATAL_ERROR
+      "Unknown build configuration. CMakeLists.txt needs to be updated!")
+ENDIF()
+
+# Default to Release build type
+IF(NOT CMAKE_BUILD_TYPE)
+  SET(CMAKE_BUILD_TYPE Release CACHE STRING
+      "Choose the type of build, options are: None Debug Release RelWithDebInfo MinSizeRel."
+      FORCE)
+ENDIF()
 
 
 #
@@ -80,8 +102,8 @@ ADD_SUBDIRECTORY(qt)
 
 IF(BUILD_EXECUTABLE)
   FILE(GLOB MOONPHASE_IMAGES "${CMAKE_SOURCE_DIR}/images/*")
-  INSTALL(FILES "${MOONPHASE_IMAGES}" DESTINATION "share/moonphase")
-ENDIF(BUILD_EXECUTABLE)
+  INSTALL(FILES ${MOONPHASE_IMAGES} DESTINATION ${INSTALL_IMAGEDIRECTORY})
+ENDIF()
 
 
 #

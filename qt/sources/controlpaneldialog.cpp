@@ -46,6 +46,9 @@
 #include  "config.h"
 #include  "../licenseagreement.h"
 
+#ifdef    DEBUG
+#include  <time.h>
+#endif    /* DEBUG */
 #include  <QtGui>
 
 
