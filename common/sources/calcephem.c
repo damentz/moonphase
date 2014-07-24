@@ -1,7 +1,15 @@
+#ifdef    __GNUC__
+#define   _GNU_SOURCE
+#endif    /* __GNUC__ */
+#ifdef    _MSC_VER
+#define   _USE_MATH_DEFINES
+#endif    /* _MSC_VER */
 #include  "calcephem.h"
 #include  <string.h>
 #include  "structure.h"
 #include  <time.h>
+#include  <math.h>
+
 
 static double Moon(double T, double *LAMBDA, double *BETA, double *R, double *AGE);
 static double sine(double phi);
