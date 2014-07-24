@@ -1,0 +1,17 @@
+Source: moonphase
+Section: x11
+Priority: optional
+Maintainer: Alan Wise <alanwise@sourceforge.net>
+Build-Depends: debhelper (>= 8.0.0), cmake
+Standards-Version: 3.9.4
+Homepage: http://moonphase.sourceforge.net/
+Vcs-Git: git://git.code.sf.net/p/moonphase/code
+#Vcs-Browser: http://sourceforge.net/p/moonphase/code/ci/master/tree/
+
+Package: moonphase
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Displays the phase of the moon in the system tray.
+ Displays the phase of the moon in the system tray. Additionally, a window
+ can be displayed that shows user selectable data about the moon
+ (rise/set times, percent illumination, etc).
