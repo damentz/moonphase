@@ -1,2 +1,2 @@
 #!/bin/sh
-qmake "CONFIG+=staticlib release"
+qmake-qt4 "CONFIG+=staticlib release"
