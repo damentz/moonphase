@@ -1,7 +1,6 @@
 Name:           moonphase
-Version:        0.2.0
+Version:        0.2.1
 Release:        1
-#%{?dist}
 Summary:        Displays the phase of the moon in the system tray
 
 License:        GPLv3+
@@ -17,13 +16,15 @@ BuildRequires:
 Requires:       
 
 %changelog
+* Thu Jul 31 2014 Alan Wise <alanwise@sourceforge.net> - 0.2.1-1
+- New upstream version.
+
 * Thu Jul 31 2014 Alan Wise <alanwise@sourceforge.net> - 0.2.0-1
 - Initial version of the package.
 
 Group: Applications/Engineering
 Prefix: /usr
 Provides: moonphase
-#Buildroot: /tmp/jikesrpm
 
 %prep
 %setup -q
@@ -34,8 +35,6 @@ make
 
 %install
 %make_install
-#rm -rf $RPM_BUILD_ROOT
-#$make_install
 
 %files
 %defattr(-,root,root,-)
