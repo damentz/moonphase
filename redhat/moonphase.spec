@@ -1,5 +1,5 @@
 Name:           moonphase
-Version:        0.2.1
+Version:        0.2.2
 Release:        1
 Summary:        Displays the phase of the moon in the system tray
 
@@ -16,10 +16,15 @@ BuildRequires:
 Requires:       
 
 %changelog
-* Thu Jul 31 2014 Alan Wise <alanwise@sourceforge.net> - 0.2.1-1
+* Thu Sep 4 2014 Alan Wise <alanwise@users.sourceforge.net> - 0.2.2-1
+- New upstream version.
+- Minor spec changes.
+- Added desktop entry.
+
+* Thu Jul 31 2014 Alan Wise <alanwise@users.sourceforge.net> - 0.2.1-1
 - New upstream version.
 
-* Thu Jul 31 2014 Alan Wise <alanwise@sourceforge.net> - 0.2.0-1
+* Thu Jul 31 2014 Alan Wise <alanwise@users.sourceforge.net> - 0.2.0-1
 - Initial version of the package.
 
 Group: Applications/Engineering
@@ -38,9 +43,10 @@ make
 
 %files
 %defattr(-,root,root,-)
-%{_bindir}/moonphase-qt
+%{_bindir}/%{name}-qt
 %{_datadir}/%{name}/moon_56frames.png
-%{_datadir}/pixmaps/moonphase.xpm
+%{_datadir}/icons/%{name}.xpm
+%{_datadir}/applications/%{name}-qt.desktop
 %doc COPYING
 
 #ExcludeArch:

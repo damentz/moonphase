@@ -3,11 +3,11 @@ Upstream-Name: moonphase
 Source: http://sourceforge.net/projects/moonphase/
 
 Files: *
-Copyright: 2014 Alan Wise <alanwise@sourceforge.net>
+Copyright: 2014 Alan Wise <alanwise@users.sourceforge.net>
 License: GPL-3.0+
 
 Files: debian/*
-Copyright: 2014 Alan Wise <alanwise@sourceforge.net>
+Copyright: 2014 Alan Wise <alanwise@users.sourceforge.net>
 License: GPL-3.0+
 
 License: GPL-3.0+
