@@ -43,6 +43,12 @@ IF(OPTION_MOONPHASE_BUILDMOONPHASEQT)
   CONFIGURE_FILE(
       "${CMAKE_CURRENT_SOURCE_DIR}/cmake/config.h.in"
       "${CMAKE_CURRENT_BINARY_DIR}/config.h")
+  # Create the desktop entry
+  IF(UNIX)
+    CONFIGURE_FILE(
+        ${CMAKE_CURRENT_LIST_DIR}/cmake/moonphase-qt.desktop.in
+        ${CMAKE_CURRENT_BINARY_DIR}/moonphase-qt.desktop)
+  ENDIF()
   # Check for debug mode.
   STRING(TOLOWER "${CMAKE_BUILD_TYPE}" BUILD_TYPELC)
   IF("${BUILD_TYPELC}" STREQUAL "debug")
@@ -198,7 +204,10 @@ IF(OPTION_MOONPHASE_BUILDMOONPHASEQT)
   IF(UNIX)
     # Install an icon.
     INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/resources/moonphase.xpm"
-        DESTINATION ${INSTALL_ICONDIRECTORY})
+        DESTINATION ${CMAKE_INSTALL_PREFIX}/share/icons)
+    # Install the desktop file.
+    INSTALL(FILES "${CMAKE_CURRENT_BINARY_DIR}/moonphase-qt.desktop"
+        DESTINATION "${CMAKE_INSTALL_PREFIX}/share/applications")
   ENDIF()
 ENDIF()
 

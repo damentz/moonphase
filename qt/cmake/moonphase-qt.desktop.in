@@ -1,0 +1,20 @@
+[Desktop Entry]
+Type=Application
+#Version=
+Name=Moon Phase (Qt)
+#GenericName=
+#NoDisplay=
+Comment=Show the phase of the moon.
+Icon=${CMAKE_INSTALL_PREFIX}/${INSTALL_ICONDIRECTORY}/moonphase.xpm
+#Hidden=
+# ? OnlyShowIn=GNOME,KDE,XFCE
+#NotShowIn=
+#DBusActivatable=
+#TryExec=
+Exec=moonphase-qt
+#Path=
+Terminal=false
+#Actions=
+#MimeTypes=
+Categories=Utility;Science;Astronomy;Qt;
+# ? ^ TrayIcon,GNOME,KDE,XFCE ^
