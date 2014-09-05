@@ -20,7 +20,6 @@
 *** \file controlpaneldialog.cpp
 *** \brief controlpaneldialog.h implementation.
 *** \details Implementation file for controlpaneldialog.h.
-***
 **/
 
 
@@ -117,6 +116,24 @@
 *** \details Time between checks for any icon updates.
 **/
 #define   UPDATETIMER_RATE        (4*60*60*1000)  /* 4 hours, in milliseconds */
+
+/**
+*** \brief Binary subdirectory.
+*** \details Subdirectory containing the executable.
+**/
+#define   DIRECTORY_BINARY  "/bin"
+
+/**
+*** \brief Image subdirectory.
+*** \details Subdirectory containing the moonphase images.
+**/
+#define   DIRECTORY_IMAGES  "/share/moonphase"
+
+/**
+*** \brief Default animation.
+*** \details Filename of the default animation.
+**/
+#define   FILENAME_IMAGE    "moon_56frames.png"
 
 
 /****
@@ -643,6 +660,10 @@ void SETTINGS_C::SetUseOpaqueBackgroundFlag(bool const UseFlag)
 CONTROLPANELDIALOG_C::CONTROLPANELDIALOG_C(QWidget *pParent) : QDialog(pParent)
 {
   ERRORCODE_T ErrorCode;
+  QString BaseDirectory;
+  QFileInfo FileInfo;
+  bool FoundFlag;
+
 
 
   DEBUGLOG_Printf1("CONTROLPANELDIALOG_C::CONTROLPANELDIALOG_C(%p)",pParent);
@@ -716,14 +737,42 @@ CONTROLPANELDIALOG_C::CONTROLPANELDIALOG_C(QWidget *pParent) : QDialog(pParent)
       MESSAGELOG_LogError(ErrorCode);
       if (ErrorCode<0)
         MoonAnimation_Uninitialize(&m_MoonTrayImages);
-
-
     }
     if (ErrorCode<0)
       MoonData_Uninitialize(&m_MoonData);
   }
   if (ErrorCode<0)
     throw(ErrorCode);
+
+  /* The animation pathname hasn't been set. Let's try to find the default. */
+  if (m_pSettings->GetAnimationPathname()=="")
+  {
+    /* Under Unix, the executable is in a base directory + "/bin".
+        Under Windows, the executable is in the base directory. */
+    BaseDirectory=QCoreApplication::applicationDirPath();
+
+    /* Strip off any "/bin". */
+    if (BaseDirectory.endsWith(DIRECTORY_BINARY,Qt::CaseInsensitive)==true)
+      BaseDirectory.chop(strlen(DIRECTORY_BINARY));
+
+    /* Check the base directory. Should work on Windows, not Unix. */
+    FoundFlag=0;
+    FileInfo.setFile(BaseDirectory,FILENAME_IMAGE);
+    FoundFlag=FileInfo.exists();
+    if (FoundFlag==false)
+    {
+      /* Check the "images" directory. Should work on Unix, not Windows. */
+      FileInfo.setFile(BaseDirectory+QString(DIRECTORY_IMAGES),FILENAME_IMAGE);
+      FoundFlag=FileInfo.exists();
+    }
+
+    /* Found something, set it. */
+    if (FoundFlag==true)
+      m_pSettings->SetAnimationPathname(FileInfo.filePath());
+
+    /* Save the defaults to the config file. */
+    m_pSettings->Save();
+  }
 
   /* Initialize tabs. */
   InitializePreferencesTab();   // Preview animation loaded here.

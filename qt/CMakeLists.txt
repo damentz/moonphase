@@ -204,10 +204,15 @@ IF(OPTION_MOONPHASE_BUILDMOONPHASEQT)
   IF(UNIX)
     # Install an icon.
     INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/resources/moonphase.xpm"
-        DESTINATION ${CMAKE_INSTALL_PREFIX}/share/icons)
+        DESTINATION share/icons)
     # Install the desktop file.
     INSTALL(FILES "${CMAKE_CURRENT_BINARY_DIR}/moonphase-qt.desktop"
-        DESTINATION "${CMAKE_INSTALL_PREFIX}/share/applications")
+        DESTINATION share/applications)
+  ENDIF()
+  IF(WIN32)
+    # Install README
+    INSTALL(FILES "${CMAKE_SOURCE_DIR}/windows/README.txt"
+        DESTINATION .)
   ENDIF()
 ENDIF()
 
