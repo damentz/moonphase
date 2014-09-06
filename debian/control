@@ -1,7 +1,7 @@
 Source: moonphase
 Section: x11
 Priority: optional
-Maintainer: Alan Wise <alanwise@sourceforge.net>
+Maintainer: Alan Wise <alanwise@users.sourceforge.net>
 Build-Depends: debhelper (>= 8.0.0), cmake
 Standards-Version: 3.9.4
 Homepage: http://moonphase.sourceforge.net/
