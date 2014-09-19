@@ -58,6 +58,12 @@
 ****/
 
 /**
+*** \brief Allow multiple instances flag key.
+*** \details Key to access allow multiple instances flag in configuration file.
+**/
+#define   PREFERENCES_ALLOWMULTIPLEINSTANCESFLAG    "AllowMultipleInstancesFlag"
+
+/**
 *** \brief Animation pathname key.
 *** \details Key to access animation pathname in configuration file.
 **/
@@ -220,6 +226,14 @@ class SETTINGS_C : protected QSettings
     void Save(void);
 
     /**
+    *** \brief Returns the allow multiple instance flag.
+    *** \details Returns the allow multiple instance flag.
+    *** \retval 0 Allow only one instance.
+    *** \retval !0 Allow multiple instances.
+    **/
+    bool GetAllowMultipleInstancesFlag(void) const;
+
+    /**
     *** \brief Returns the animation pathname.
     *** \details Returns the pathname of the animation image.
     *** \returns Pathname of the animation image.
@@ -279,6 +293,14 @@ class SETTINGS_C : protected QSettings
     *** \retval !0 Draw background using a color.
     **/
     bool GetUseOpaqueBackgroundFlag(void) const;
+
+    /**
+    *** \brief Sets the allow multiple instances flag.
+    *** \details Sets the allow multiple instances flag.
+    *** \param AllowMultipleInstancesFlag 0=Allow only one instance,\n
+    ***   !0=Allow multiple instances.
+    **/
+    void SetAllowMultipleInstancesFlag(bool AllowMultipleInstancesFlag);
 
     /**
     *** \brief Sets the animation pathname.
@@ -341,6 +363,12 @@ class SETTINGS_C : protected QSettings
 
   private:
     /**
+    *** \brief Sets the allow multiple instances flag.
+    *** \details Sets the allow multiple instances flag.
+    **/
+    bool m_AllowMultipleInstancesFlag;
+
+    /**
     *** \brief Animation pathname.
     *** \details Pathname of the animation image.
     **/
@@ -394,13 +422,14 @@ SETTINGS_C::SETTINGS_C(void)
   DEBUGLOG_Printf0("SETTINGS_C::SETTINGS_C()");
   DEBUGLOG_LogIn();
 
+  m_AllowMultipleInstancesFlag=false;
   m_AnimationPathname="";
   m_BackgroundColor=QColor(0,0,0);
   m_ConfirmDiscardFlag=true;
   m_ConfirmQuitFlag=true;
   m_RemindOncePerSessionFlag=true;
   m_StillRunningReminderFlag=true;
-  m_UpdateInterval=24;
+  m_UpdateInterval=4;
   m_UseOpaqueBackgroundFlag=false;
 
   DEBUGLOG_LogOut();
@@ -432,7 +461,8 @@ bool SETTINGS_C::operator==(SETTINGS_C const &RHS) const
       (m_StillRunningReminderFlag==RHS.m_StillRunningReminderFlag) &&
       (m_RemindOncePerSessionFlag==RHS.m_RemindOncePerSessionFlag) &&
       (m_ConfirmDiscardFlag==RHS.m_ConfirmDiscardFlag) &&
-      (m_ConfirmQuitFlag==RHS.m_ConfirmQuitFlag);
+      (m_ConfirmQuitFlag==RHS.m_ConfirmQuitFlag) &&
+      (m_AllowMultipleInstancesFlag==RHS.m_AllowMultipleInstancesFlag);
 
   DEBUGLOG_LogOut();
   return(EqualFlag);
@@ -457,6 +487,9 @@ void SETTINGS_C::Load(void)
   DEBUGLOG_Printf0("SETTINGS_C::Load()");
   DEBUGLOG_LogIn();
 
+  m_AllowMultipleInstancesFlag=
+      value(PREFERENCES_ALLOWMULTIPLEINSTANCESFLAG,m_AllowMultipleInstancesFlag)
+      .toBool();
   m_AnimationPathname=
       value(PREFERENCES_ANIMATIONPATHNAME,m_AnimationPathname).toString();
   m_BackgroundColor=
@@ -482,6 +515,7 @@ void SETTINGS_C::Save(void)
   DEBUGLOG_Printf0("SETTINGS_C::Save()");
   DEBUGLOG_LogIn();
 
+  setValue(PREFERENCES_ALLOWMULTIPLEINSTANCESFLAG,m_AllowMultipleInstancesFlag);
   setValue(PREFERENCES_ANIMATIONPATHNAME,m_AnimationPathname);
   setValue(PREFERENCES_BACKGROUNDCOLOR,m_BackgroundColor);
   setValue(PREFERENCES_CONFIRMDISCARDCHANGESFLAG,m_ConfirmDiscardFlag);
@@ -493,6 +527,15 @@ void SETTINGS_C::Save(void)
 
   DEBUGLOG_LogOut();
   return;
+}
+
+bool SETTINGS_C::GetAllowMultipleInstancesFlag(void) const
+{
+  DEBUGLOG_Printf0("SETTINGS_C::GetAllowMultipleInstancesFlag()");
+  DEBUGLOG_LogIn();
+
+  DEBUGLOG_LogOut();
+  return(m_AllowMultipleInstancesFlag);
 }
 
 QString SETTINGS_C::GetAnimationPathname(void) const
@@ -565,6 +608,19 @@ bool SETTINGS_C::GetUseOpaqueBackgroundFlag(void) const
 
   DEBUGLOG_LogOut();
   return(m_UseOpaqueBackgroundFlag);
+}
+
+void SETTINGS_C::SetAllowMultipleInstancesFlag(
+    bool const AllowMultipleInstancesFlag)
+{
+  DEBUGLOG_Printf1("SETTINGS_C::SetAllowMultipleInstancesFlag(%u)",
+      AllowMultipleInstancesFlag);
+  DEBUGLOG_LogIn();
+
+  m_AllowMultipleInstancesFlag=AllowMultipleInstancesFlag;
+
+  DEBUGLOG_LogOut();
+  return;
 }
 
 void SETTINGS_C::SetAnimationPathname(QString const Pathname)
@@ -744,6 +800,9 @@ CONTROLPANELDIALOG_C::CONTROLPANELDIALOG_C(QWidget *pParent) : QDialog(pParent)
   if (ErrorCode<0)
     throw(ErrorCode);
 
+  /* Read configuration. */
+  m_pSettings->Load();
+
   /* The animation pathname hasn't been set. Let's try to find the default. */
   if (m_pSettings->GetAnimationPathname()=="")
   {
@@ -893,7 +952,7 @@ void CONTROLPANELDIALOG_C::closeEvent(QCloseEvent *pEvent)
       (m_CloseReminderIssued==false))) )
   {
     QMessageBox::information(this,tr(MOONPHASEQT_DISPLAYNAME_STRING),
-        tr("The program will continue to run in the system tray. To stop it, "
+        tr("This program will continue to run in the system tray. To stop it, "
         "right click the system tray icon and select <b>Quit</b>."));
     if (m_pSettings->GetRemindOncePerSessionFlag()==true)
       m_CloseReminderIssued=true;
@@ -977,6 +1036,21 @@ void CONTROLPANELDIALOG_C::ForceUpdate(void)
   return;
 }
 
+bool CONTROLPANELDIALOG_C::GetAllowMultipleInstancesFlag(void)
+{
+  SETTINGS_C Settings;
+
+
+  DEBUGLOG_Printf0("CONTROLPANELDIALOG_C::GetAllowMultipleInstancesFlag()");
+  DEBUGLOG_LogIn();
+
+  /* Always read from the config file. */
+  Settings.Load();
+
+  DEBUGLOG_LogOut();
+  return(Settings.GetAllowMultipleInstancesFlag());
+}
+
 void CONTROLPANELDIALOG_C::InitializeAboutTab(void)
 {
   DEBUGLOG_Printf0("CONTROLPANELDIALOG_C::InitializeAboutTab()");
@@ -1027,6 +1101,8 @@ void CONTROLPANELDIALOG_C::LoadSettings(void)
       m_pSettings->GetRemindOncePerSessionFlag());
   m_pConfirmDiscardCheckBox->setChecked(m_pSettings->GetConfirmDiscardFlag());
   m_pConfirmQuitCheckBox->setChecked(m_pSettings->GetConfirmQuitFlag());
+  m_pAllowMultipleInstancesCheckBox->setChecked(
+      m_pSettings->GetAllowMultipleInstancesFlag());
 
   DEBUGLOG_LogOut();
   return;
@@ -1048,6 +1124,8 @@ void CONTROLPANELDIALOG_C::ReadPreferences(SETTINGS_C *pSettings)
       m_pRemindOncePerSessionCheckBox->isChecked());
   pSettings->SetConfirmDiscardFlag(m_pConfirmDiscardCheckBox->isChecked());
   pSettings->SetConfirmQuitFlag(m_pConfirmQuitCheckBox->isChecked());
+  pSettings->SetAllowMultipleInstancesFlag(
+      m_pAllowMultipleInstancesCheckBox->isChecked());
 
   DEBUGLOG_LogOut();
   return;
@@ -1239,6 +1317,21 @@ void CONTROLPANELDIALOG_C::PreferencesChangedSlot(void)
   /* Update Apply button. */
   m_pButtonBox->button(QDialogButtonBox::Apply)->
       setEnabled(Settings!=*m_pSettings);
+
+  DEBUGLOG_LogOut();
+  return;
+}
+
+void CONTROLPANELDIALOG_C::InstanceMessageSlot(QString const &Message)
+{
+  DEBUGLOG_Printf2("CONTROLPANELDIALOG_C::InstanceMessageSlot(%p(%s))",
+      &Message,qPrintable(Message));
+  DEBUGLOG_LogIn();
+
+  if (QString::localeAwareCompare(Message,"Activate")==0)
+  {
+    ControlPanelActivatedSlot(QSystemTrayIcon::DoubleClick);
+  }
 
   DEBUGLOG_LogOut();
   return;

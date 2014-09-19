@@ -33,11 +33,11 @@ OPTION(OPTION_MOONPHASE_BUILDMOONPHASEQTDOCUMENTATION
 SET(EXECUTABLENAME_STRING "moonphase-qt")
 
 IF(OPTION_MOONPHASE_BUILDMOONPHASEQT)
-  # Trigger installation of images during install..
+  # Trigger installation of images during install.
   SET(BUILD_EXECUTABLE 1 CACHE INTERNAL
       "Trigger installation of images during install.")
   # Need Qt4.
-  FIND_PACKAGE(Qt4 REQUIRED)
+  FIND_PACKAGE(Qt4 REQUIRED QtCore QtGui QtNetwork)
   INCLUDE(${QT_USE_FILE})
   # Create a configuration file.
   CONFIGURE_FILE(
@@ -46,7 +46,7 @@ IF(OPTION_MOONPHASE_BUILDMOONPHASEQT)
   # Create the desktop entry
   IF(UNIX)
     CONFIGURE_FILE(
-        ${CMAKE_CURRENT_LIST_DIR}/cmake/moonphase-qt.desktop.in
+        ${CMAKE_CURRENT_SOURCE_DIR}/cmake/moonphase-qt.desktop.in
         ${CMAKE_CURRENT_BINARY_DIR}/moonphase-qt.desktop)
   ENDIF()
   # Check for debug mode.
@@ -74,7 +74,8 @@ IF(OPTION_MOONPHASE_BUILDMOONPHASEQT)
       "${CMAKE_BINARY_DIR}/wwwidgets/widgets/"
       "${CMAKE_BINARY_DIR}/wwwidgets/widgets/qwwbuttonlineedit/"
       "${CMAKE_BINARY_DIR}/wwwidgets/widgets/qwwcolorbutton/"
-      "${CMAKE_BINARY_DIR}/wwwidgets/widgets/qwwfilechooser/")
+      "${CMAKE_BINARY_DIR}/wwwidgets/widgets/qwwfilechooser/"
+      "${CMAKE_CURRENT_SOURCE_DIR}/qt-solutions/qtsingleapplication/src/")
 ENDIF()
 
 
@@ -87,9 +88,13 @@ IF(OPTION_MOONPHASE_BUILDMOONPHASEQT)
   SET(MOONPHASEQT_SOURCES
       "${CMAKE_CURRENT_SOURCE_DIR}/sources/moonphaseqt.cpp"
       "${CMAKE_CURRENT_SOURCE_DIR}/sources/controlpaneldialog.cpp"
-      "${CMAKE_CURRENT_SOURCE_DIR}/sources/moonanimation.cpp")
+      "${CMAKE_CURRENT_SOURCE_DIR}/sources/moonanimation.cpp"
+      "${CMAKE_CURRENT_SOURCE_DIR}/qt-solutions/qtsingleapplication/src/qtlocalpeer.cpp"
+      "${CMAKE_CURRENT_SOURCE_DIR}/qt-solutions/qtsingleapplication/src/qtsingleapplication.cpp")
   SET(MOONPHASEQT_HEADERS
-      "${CMAKE_CURRENT_SOURCE_DIR}/sources/controlpaneldialog.h")
+      "${CMAKE_CURRENT_SOURCE_DIR}/sources/controlpaneldialog.h"
+      "${CMAKE_CURRENT_SOURCE_DIR}/qt-solutions/qtsingleapplication/src/qtlocalpeer.h"
+      "${CMAKE_CURRENT_SOURCE_DIR}/qt-solutions/qtsingleapplication/src/qtsingleapplication.h")
   SET(MOONPHASEQT_FORMS
       "${CMAKE_CURRENT_SOURCE_DIR}/forms/controlpaneldialog.ui")
   SET(MOONPHASEQT_RESOURCES

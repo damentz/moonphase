@@ -77,6 +77,15 @@ class CONTROLPANELDIALOG_C : public QDialog, public Ui::CONTROLPANELDIALOGUI_C
     **/
     ~CONTROLPANELDIALOG_C(void);
 
+    /**
+    *** \brief Allow multiple instances flag.
+    *** \details Limit the program to one running instance or allow multiple
+    ***   instances at the same time.
+    *** \retval 0 Only once instance allowed.
+    *** \retval !0 Allow multiple instances.
+    **/
+    bool GetAllowMultipleInstancesFlag(void);
+
   protected:
     /**
     *** \brief Close event handler.
@@ -117,15 +126,6 @@ class CONTROLPANELDIALOG_C : public QDialog, public Ui::CONTROLPANELDIALOGUI_C
     void ForceUpdate(void);
 
     /**
-    *** \brief Reads preferences from widgets.
-    *** \details Reads the preferences from the various widgets in the
-    ***   preferences tab.
-    *** \param pSettings Storage for the preferences.
-    *** \return Preferences as set in the widgets.
-    **/
-    void ReadPreferences(SETTINGS_C *pSettings);
-
-    /**
     *** \brief About tab initializer.
     *** \details Initializes the About tab.
     **/
@@ -142,6 +142,15 @@ class CONTROLPANELDIALOG_C : public QDialog, public Ui::CONTROLPANELDIALOGUI_C
     *** \details Reads application settings from the configuration file.
     **/
     void LoadSettings(void);
+
+    /**
+    *** \brief Reads preferences from widgets.
+    *** \details Reads the preferences from the various widgets in the
+    ***   preferences tab.
+    *** \param pSettings Storage for the preferences.
+    *** \return Preferences as set in the widgets.
+    **/
+    void ReadPreferences(SETTINGS_C *pSettings);
 
     /**
     *** \brief Write settings.
@@ -196,6 +205,12 @@ class CONTROLPANELDIALOG_C : public QDialog, public Ui::CONTROLPANELDIALOGUI_C
     *** \details The preferences have changed.
     **/
     void PreferencesChangedSlot(void);
+
+    /**
+    *** \brief Message from another instance was received.
+    *** \details A messsage from another instance was received.
+    **/
+    void InstanceMessageSlot(QString const &Message);
 
     /**
     *** \brief Quit requested.

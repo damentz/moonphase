@@ -46,8 +46,8 @@
 
 #include  "errorcode.h"
 #include  "controlpaneldialog.h"
+#include  "QtSingleApplication"
 
-#include  <QApplication>
 #include  <QSystemTrayIcon>
 #include  <QMessageBox>
 
@@ -107,7 +107,7 @@
 **/
 int main(int ArgC, char *ppArgV[])
 {
-  QApplication *pApplication=NULL;
+  QtSingleApplication *pApplication=NULL;
   CONTROLPANELDIALOG_C *pDialog=NULL;
   int Return;
 
@@ -124,7 +124,7 @@ int main(int ArgC, char *ppArgV[])
     Q_INIT_RESOURCE(moonphaseqt);
 
     /* Create the application. */
-    pApplication=new QApplication(ArgC,ppArgV);
+    pApplication=new QtSingleApplication(ArgC,ppArgV);
 
     /* Set up settings keys. */
     QCoreApplication::setApplicationName(MOONPHASEQT_EXECUTABLENAME_STRING);
@@ -134,22 +134,39 @@ int main(int ArgC, char *ppArgV[])
     /* Create the main window. */
     pDialog=new CONTROLPANELDIALOG_C();
 
+    Return=EXIT_SUCCESS;
     if (QSystemTrayIcon::isSystemTrayAvailable()==false)
     {
       QMessageBox::critical(pDialog,MOONPHASEQT_DISPLAYNAME_STRING,
           "The system tray was not detected.\nThis program will quit now.");
-      Return=EXIT_SUCCESS;
     }
     else
     {
       QApplication::setQuitOnLastWindowClosed(false);
 
-      /* Begin processing events. */
-      Return=pApplication->exec();
-    }
+      /* Check for an already running instance and
+          for allow multiple instances flag cleared. */
+      if ( (pApplication->isRunning()==true) &&
+          (pDialog->GetAllowMultipleInstancesFlag()==false) )
+      {
+        /* Not allowed by configuration. */
+        QMessageBox::warning(pDialog,QObject::tr(MOONPHASEQT_DISPLAYNAME_STRING),
+            QObject::tr("Another instance of this program is already running. "
+            "This instance will be stopped and the other instance will be activated."));
+        pApplication->sendMessage("Activate");
+      }
+      else
+      {
+        QObject::connect(pApplication,SIGNAL(messageReceived(const QString &)),
+            pDialog,SLOT(InstanceMessageSlot(const QString&)));
 
-    /* Free the main window. */
-    delete pDialog;
+        /* Begin processing events. */
+        Return=pApplication->exec();
+      }
+
+      /* Free the main window. */
+      delete pDialog;
+    }
 
     /* Free the application. */
     delete pApplication;
