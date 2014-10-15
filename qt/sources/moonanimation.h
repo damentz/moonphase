@@ -36,6 +36,9 @@
 
 #include  "structure.h"
 
+#include  <QList>
+#include  <QPixmap>
+
 
 /****
 *****

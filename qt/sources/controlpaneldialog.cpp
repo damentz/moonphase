@@ -744,6 +744,9 @@ CONTROLPANELDIALOG_C::CONTROLPANELDIALOG_C(QWidget *pParent) : QDialog(pParent)
   if (ErrorCode<0)
     throw(ErrorCode);
 
+  /* Read configuration. */
+  m_pSettings->Load();
+
   /* The animation pathname hasn't been set. Let's try to find the default. */
   if (m_pSettings->GetAnimationPathname()=="")
   {
