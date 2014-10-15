@@ -1,6 +1,6 @@
+%define MmVersion 0.2
 Name:           moonphase
-MmVersion:      0.2
-Version:        %{MmVersion}.2
+Version:        %{MmVersion}.3
 Release:        1
 Summary:        Displays the phase of the moon in the system tray
 
