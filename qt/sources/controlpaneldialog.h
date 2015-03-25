@@ -54,6 +54,8 @@
 ****/
 
 class SETTINGS_C;
+class QNetworkAccessManager;
+class QNetworkReply;
 
 /**
 *** \brief Application main window.
@@ -188,6 +190,13 @@ class CONTROLPANELDIALOG_C : public QDialog, public Ui::CONTROLPANELDIALOGUI_C
     void ButtonBoxButtonClickedSlot(QAbstractButton *pButton);
 
     /**
+    *** \brief Check button clicked.
+    *** \details The Check button was clicked.
+    *** \param pButton
+    **/
+    void CheckButtonClickedSlot(void);
+
+    /**
     *** \brief Control panel activated.
     *** \details The control panel was activated.
     *** \param Reason The reason the system tray was activated.
@@ -195,10 +204,11 @@ class CONTROLPANELDIALOG_C : public QDialog, public Ui::CONTROLPANELDIALOGUI_C
     void ControlPanelActivatedSlot(QSystemTrayIcon::ActivationReason Reason);
 
     /**
-    *** \brief Help button clicked.
-    *** \details The help button was clicked.
+    *** \brief Current version download complete.
+    *** \details The downloading of the current version file is complete.
+    *** \param pReply Network reply.
     **/
-    void HelpButtonClickedSlot(void);
+    void CurrentVersionDownloadCompleteSlot(QNetworkReply *pReply);
 
     /**
     *** \brief Preferences changed.
@@ -293,6 +303,27 @@ class CONTROLPANELDIALOG_C : public QDialog, public Ui::CONTROLPANELDIALOGUI_C
     ***   and written to the configuration file.
     **/
     SETTINGS_C *m_pSettings;
+
+    /**
+    *** \brief Network access manager.
+    *** \details Allows the application to send network request and receive
+    ***   replies.
+    **/
+    QNetworkAccessManager *m_pNetworkAccess;
+
+    /**
+    *** \brief Start up flag.
+    *** \details If true, the control panel dialog has not completed
+    ***   initialization.
+    **/
+    bool m_StartUpFlag;
+
+    /**
+    *** \brief First update flag.
+    *** \details If true, the application has yet to download the current
+    ***   version file from the internet.
+    **/
+    bool m_FirstUpdateFlag;
 
     /**
     *** \brief Preview percent counter.

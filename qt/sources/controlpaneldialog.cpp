@@ -48,7 +48,15 @@
 #ifdef    DEBUG
 #include  <time.h>
 #endif    /* DEBUG */
-#include  <QtGui>
+#include  <QSettings>
+#include  <QDesktopWidget>
+#include  <QMenu>
+#include  <QTimer>
+#include  <QNetworkAccessManager>
+#include  <QMessageBox>
+#include  <QPainter>
+#include  <QNetworkRequest>
+#include  <QNetworkReply>
 
 
 /****
@@ -121,7 +129,7 @@
 *** \brief Icon update rate.
 *** \details Time between checks for any icon updates.
 **/
-#define   UPDATETIMER_RATE        (4*60*60*1000)  /* 4 hours, in milliseconds */
+#define   UPDATETIMER_RATE        (60*60*1000)    /* 1 hour, in milliseconds */
 
 /**
 *** \brief Binary subdirectory.
@@ -140,6 +148,16 @@
 *** \details Filename of the default animation.
 **/
 #define   FILENAME_IMAGE    "moon_56frames.png"
+
+/**
+*** \brief Read animation warning.
+*** \details Displays a message box informing the user that there was an error
+***   reading the moon animation file.
+**/
+#define   READANIMATIONWARNING(p) \
+    QMessageBox::warning(p,tr(MOONPHASEQT_DISPLAYNAME_STRING), \
+        tr("Unable to read moon animation file. Please select a new file."));
+
 
 
 /****
@@ -721,7 +739,6 @@ CONTROLPANELDIALOG_C::CONTROLPANELDIALOG_C(QWidget *pParent) : QDialog(pParent)
   bool FoundFlag;
 
 
-
   DEBUGLOG_Printf1("CONTROLPANELDIALOG_C::CONTROLPANELDIALOG_C(%p)",pParent);
   DEBUGLOG_LogIn();
 
@@ -730,9 +747,12 @@ CONTROLPANELDIALOG_C::CONTROLPANELDIALOG_C(QWidget *pParent) : QDialog(pParent)
   m_pAnimationTimer=NULL;
   m_pUpdateTimer=NULL;
   m_pSettings=NULL;
+  m_pNetworkAccess=NULL;
   m_PreviewPercentCounter=0;
   m_UpdateIntervalCounter=0;
   m_CloseReminderIssued=false;
+  m_StartUpFlag=true;
+  m_FirstUpdateFlag=true;
 
   /* Set up the user interface. */
   setupUi(this);
@@ -752,7 +772,7 @@ CONTROLPANELDIALOG_C::CONTROLPANELDIALOG_C(QWidget *pParent) : QDialog(pParent)
   m_pButtonBox->button(QDialogButtonBox::Help)->setEnabled(false);
 
   /* Create and set up the tray icon context menu. */
-  m_pTrayIconMenu = new QMenu(this);
+  m_pTrayIconMenu=new QMenu(this);
   m_pTrayIconMenu->addAction(m_pShowControlPanelAction);
   m_pTrayIconMenu->addSeparator();
   m_pTrayIconMenu->addAction(m_pQuitAction);
@@ -779,6 +799,10 @@ CONTROLPANELDIALOG_C::CONTROLPANELDIALOG_C(QWidget *pParent) : QDialog(pParent)
   m_pAnimationTimer=new QTimer(this);
   connect(m_pAnimationTimer,SIGNAL(timeout()),
       this,SLOT(AnimationTimerTriggeredSlot()));
+
+  m_pNetworkAccess=new QNetworkAccessManager;
+  connect(m_pNetworkAccess,SIGNAL(finished(QNetworkReply*)),
+      this,SLOT(CurrentVersionDownloadCompleteSlot(QNetworkReply*)));
 
   /* Initialize member variables. */
   ErrorCode=MoonData_Initialize(&m_MoonData);
@@ -851,13 +875,16 @@ CONTROLPANELDIALOG_C::CONTROLPANELDIALOG_C(QWidget *pParent) : QDialog(pParent)
   /* Show the tray icon. */
   m_pTrayIcon->show();
 
+  /* Any error here is because of an invalid animation file. Show the control
+      panel, and display a messsage. */
   if (ErrorCode<0)
   {
     ControlPanelActivatedSlot(QSystemTrayIcon::DoubleClick);
-    QMessageBox::warning(this,tr(MOONPHASEQT_DISPLAYNAME_STRING),
-        tr("Unable to load moon animation. Please select a new file."));
+    READANIMATIONWARNING(this);
     ErrorCode=ERRORCODE_SUCCESS;  /* "Error" handled. */
   }
+
+  m_StartUpFlag=false;
 
   DEBUGLOG_LogOut();
   return;
@@ -874,6 +901,11 @@ CONTROLPANELDIALOG_C::~CONTROLPANELDIALOG_C(void)
   DEBUGLOG_Printf0("CONTROLPANELDIALOG_C::~CONTROLPANELDIALOG_C()");
   DEBUGLOG_LogIn();
 
+  if (m_pNetworkAccess==NULL)
+  {
+    MESSAGELOG_Warning("m_pNetworkAccess==NULL");
+  }
+  delete m_pNetworkAccess;
   if (m_pSettings==NULL)
   {
     MESSAGELOG_Warning("m_pSettings==NULL");
@@ -919,7 +951,7 @@ void CONTROLPANELDIALOG_C::CheckSavePreferences(void)
   if ( (m_pButtonBox->button(QDialogButtonBox::Apply)->isEnabled()==true) &&
       (m_pSettings->GetConfirmDiscardFlag()==true) )
   {
-    if (QMessageBox::question(this,tr(MOONPHASEQT_DISPLAYNAME_STRING),
+    if (QMessageBox::question(this,MOONPHASEQT_DISPLAYNAME_STRING,
         tr("Your preferences have changed. Do you want to save them?"),
         QMessageBox::Yes|QMessageBox::No,QMessageBox::Yes)==QMessageBox::Yes)
     {
@@ -951,7 +983,7 @@ void CONTROLPANELDIALOG_C::closeEvent(QCloseEvent *pEvent)
       ((m_pSettings->GetRemindOncePerSessionFlag()==true) &&
       (m_CloseReminderIssued==false))) )
   {
-    QMessageBox::information(this,tr(MOONPHASEQT_DISPLAYNAME_STRING),
+    QMessageBox::information(this,MOONPHASEQT_DISPLAYNAME_STRING,
         tr("This program will continue to run in the system tray. To stop it, "
         "right click the system tray icon and select <b>Quit</b>."));
     if (m_pSettings->GetRemindOncePerSessionFlag()==true)
@@ -1063,8 +1095,19 @@ void CONTROLPANELDIALOG_C::InitializeAboutTab(void)
   m_pProgramInformationEdit->setText(MOONPHASEQT_DESCRIPTION_STRING"\n");
   m_pProgramInformationEdit->append(MOONPHASEQT_COPYRIGHTNOTICE_STRING"\n");
   m_pProgramInformationEdit->append("<a href=\""MOONPHASEQT_WEBSITE_STRING"\">"
-      MOONPHASEQT_WEBSITE_STRING"</a>");
-  m_pLicenseAgreementEdit->setText(f_pLicenseAgreement);
+      MOONPHASEQT_DISPLAYNAME_STRING" Web Site</a>\n");
+
+#ifdef    _WIN32
+  {
+    QString Buffer;
+
+    Buffer=QString(tr("Statically linked with Qt (Version "))
+        +qVersion()+QString(tr(")"));
+    m_pProgramInformationEdit->append(Buffer);
+  }
+#endif    /* _WIN32 */
+
+  m_pLicenseAgreementEdit->setPlainText(f_pLicenseAgreement);
 
   DEBUGLOG_LogOut();
   return;
@@ -1182,9 +1225,11 @@ void CONTROLPANELDIALOG_C::AnimationPathnameChangedSlot(void)
   DEBUGLOG_Printf0("CONTROLPANELDIALOG_C::AnimationPathnameChangedSlot()");
   DEBUGLOG_LogIn();
 
-  /* Try to load the file.  Don't care about return value. */
-  MoonAnimation_ReadFile(
-      &m_MoonPreviewImages,qPrintable(m_pAnimationFilenameChooser->text()));
+  /* Try to load the file. */
+  if ( (MoonAnimation_ReadFile(
+      &m_MoonPreviewImages,qPrintable(m_pAnimationFilenameChooser->text()))<0) &&
+      (m_StartUpFlag==false) )
+    READANIMATIONWARNING(this);
   PreferencesChangedSlot();
 
   DEBUGLOG_LogOut();
@@ -1201,7 +1246,7 @@ void CONTROLPANELDIALOG_C::AnimationTimerTriggeredSlot(void)
   DEBUGLOG_LogIn();
 
   /* Update the percent label. */
-  PercentString.sprintf("%d%%",m_PreviewPercentCounter);
+  PercentString.sprintf(tr("%d%%"),m_PreviewPercentCounter);
   m_pPreviewPercentLabel->setText(PercentString);
 
   /* Update the preview image. */
@@ -1240,13 +1285,16 @@ void CONTROLPANELDIALOG_C::ButtonBoxButtonClickedSlot(QAbstractButton *pButton)
           (m_pUseOpaqueBackgroundGroupBox->isChecked()!=
           m_pSettings->GetUseOpaqueBackgroundFlag()) ||
           (m_pBackgroundColorButton->currentColor()!=
-          m_pSettings->GetBackgroundColor()) )
+          m_pSettings->GetBackgroundColor()) ||
+          (m_pUpdateIntervalSpinBox->value()!=
+          (int)m_pSettings->GetUpdateInterval()) )
       {
         if (m_pAnimationFilenameChooser->text()!=
             m_pSettings->GetAnimationPathname())
+          /* Ignore return. If any error, the user has already been informed. */
           MoonAnimation_ReadFile(
             &m_MoonTrayImages,qPrintable(m_pAnimationFilenameChooser->text()));
-          ForceUpdateFlag=true;
+        ForceUpdateFlag=true;
       }
       if (m_pRemindOncePerSessionCheckBox->isChecked()==false)
         m_CloseReminderIssued=false;
@@ -1264,6 +1312,32 @@ void CONTROLPANELDIALOG_C::ButtonBoxButtonClickedSlot(QAbstractButton *pButton)
       break;
     default:
       break;
+  }
+
+  DEBUGLOG_LogOut();
+  return;
+}
+
+void CONTROLPANELDIALOG_C::CheckButtonClickedSlot(void)
+{
+  QNetworkRequest Request;
+
+
+  DEBUGLOG_Printf0("CONTROLPANELDIALOG_C::CheckButtonClickedSlot()");
+  DEBUGLOG_LogIn();
+
+  /* In the process of checking? */
+  if (m_pCheckButton->isEnabled()==true)
+  {
+    /* No, start the check. */
+    m_pCheckButton->setEnabled(false);
+    m_pCheckLabel->setText(tr("Checking for an update!"));
+    Request.setUrl(QString(
+        "http://downloads.sourceforge.net/project/moonphase/current_release"));
+    Request.setRawHeader("User-Agent","Mozilla Firefox");
+        // QNetworkRequest seems to default to "Mozilla" for the user agent
+        //   and sourceforge has implemented blocking for certain user agents.
+    m_pNetworkAccess->get(Request);
   }
 
   DEBUGLOG_LogOut();
@@ -1290,10 +1364,97 @@ void CONTROLPANELDIALOG_C::ControlPanelActivatedSlot(
   return;
 }
 
-void CONTROLPANELDIALOG_C::HelpButtonClickedSlot(void)
+void CONTROLPANELDIALOG_C::CurrentVersionDownloadCompleteSlot(
+    QNetworkReply *pReply)
 {
-  DEBUGLOG_Printf0("CONTROLPANELDIALOG_C::HelpButtonClickedSlot()");
+  QVariant RedirectURL;
+  QNetworkRequest Request;
+  QByteArray Data;
+  bool SuccessFlag;
+  QString ValueString;
+  bool OKFlag;
+  int Value;
+  int Delta;
+
+
+  DEBUGLOG_Printf1(
+      "CONTROLPANELDIALOG_C::CurrentVersionDownloadCompleteSlot(%p)",pReply);
   DEBUGLOG_LogIn();
+
+  /* Being redirected? */
+  RedirectURL=pReply->attribute(QNetworkRequest::RedirectionTargetAttribute);
+  if (RedirectURL!=QVariant())
+  {
+    Request.setUrl(RedirectURL.toString());
+    Request.setRawHeader("User-Agent","Mozilla Firefox");
+        // See previous comment about user agent.
+    m_pNetworkAccess->get(Request);
+  }
+  else
+  {
+    Data=pReply->readAll();
+    if (Data==QByteArray())
+      m_pCheckLabel->setText(tr("Error accessing the internet!"));
+    else
+    {
+      QString DataString(Data);
+
+      /* Expecting the data to be in the format "[M]M.[m]m.[p]p". []=optional. */
+      SuccessFlag=true;
+      Delta=0;
+      for(int Field=0;Field<3;Field++)
+      {
+        ValueString=DataString.section('.',Field,Field);
+        if (ValueString.isEmpty()==true)
+          SuccessFlag=false;
+        Value=ValueString.toInt(&OKFlag);
+        if (OKFlag==false)
+          SuccessFlag=false;
+        switch(Field)
+        {
+          case 0:
+            Delta=100*(MOONPHASEQT_MAJORVERSION_NUMBER-Value);
+            break;
+          case 1:
+            Delta=10*(MOONPHASEQT_MINORVERSION_NUMBER-Value);
+            break;
+          case 2:
+            Delta=1*(MOONPHASEQT_PATCHVERSION_NUMBER-Value);
+            break;
+          default:
+            SuccessFlag=false;
+        }
+        if (Delta!=0)
+          break;
+      }
+      if (SuccessFlag==false)
+        m_pCheckLabel->setText(tr("Error calculating version numbers!"));
+      else if (Delta>0)
+        m_pCheckLabel->setText(tr("You have a pre-release version!"));
+      else if (Delta==0)
+        m_pCheckLabel->setText(tr("This program is up to date!"));
+      else
+      {
+        m_pCheckLabel->setText(tr("An update is available!"));
+        if (m_FirstUpdateFlag==true)
+        {
+          QMessageBox UpdateMessageBox(this);
+
+          UpdateMessageBox.setWindowTitle(MOONPHASEQT_DISPLAYNAME_STRING);
+          UpdateMessageBox.setTextFormat(Qt::RichText); // Makes links clickable
+          UpdateMessageBox.setText("An update to this program is available!"
+              "<br><br>"
+              "Visit the <a href='"MOONPHASEQT_WEBSITE_STRING"'>"
+              MOONPHASEQT_DISPLAYNAME_STRING" Web Site</a>");
+          UpdateMessageBox.exec();
+        }
+      }
+    }
+    m_pCheckButton->setEnabled(true);
+    m_FirstUpdateFlag=false;
+  }
+
+  pReply->deleteLater();
 
   DEBUGLOG_LogOut();
   return;
@@ -1412,16 +1573,23 @@ void CONTROLPANELDIALOG_C::UpdateTimerTriggeredSlot(void)
   m_UpdateIntervalCounter++;
   if (m_UpdateIntervalCounter>=(m_pSettings->GetUpdateInterval()))
   {
+#ifndef   DEBUG
+    /* Force a check for an update. */
+    CheckButtonClickedSlot();
+#endif    /* DEBUG */
+
 #ifdef    DEBUG
     {
       time_t TimeSeconds1970;
       struct tm *pTimeInfo;
-      char pPtr[1024];
+#define   BUFFER_SIZE   (1024)
+      char pPtr[BUFFER_SIZE];
 
 
       time(&TimeSeconds1970);
       pTimeInfo=localtime(&TimeSeconds1970);
-      strftime(pPtr,1024,"%H:%M:%S",pTimeInfo);
+      strftime(pPtr,BUFFER_SIZE,"%H:%M:%S",pTimeInfo);
+#undef    BUFFER_SIZE
       MESSAGELOG_Info(pPtr);
     }
 #endif    /* DEBUG */

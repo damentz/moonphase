@@ -108,7 +108,7 @@
 int main(int ArgC, char *ppArgV[])
 {
   QtSingleApplication *pApplication=NULL;
-  CONTROLPANELDIALOG_C *pDialog=NULL;
+  CONTROLPANELDIALOG_C *pDialog;
   int Return;
 
   /* Initialize the debug and message logs (possibly, depends on defines). */

@@ -59,8 +59,8 @@
 *****
 ****/
 
-STRUCTURE_PROTOTYPE_INITIALIZEMEMBERS(MoonData,MOONDATA_T);
-STRUCTURE_PROTOTYPE_UNINITIALIZEMEMBERS(MoonData,MOONDATA_T);
+static STRUCTURE_PROTOTYPE_INITIALIZEMEMBERS(MoonData,MOONDATA_T);
+static STRUCTURE_PROTOTYPE_UNINITIALIZEMEMBERS(MoonData,MOONDATA_T);
 
 
 /****
@@ -85,7 +85,7 @@ STRUCTURE_PROTOTYPE_UNINITIALIZEMEMBERS(MoonData,MOONDATA_T);
 
 STRUCTURE_FUNCTION_INITIALIZE(MoonData,MOONDATA_T)
 
-STRUCTURE_PROTOTYPE_INITIALIZEMEMBERS(MoonData,MOONDATA_T)
+static STRUCTURE_PROTOTYPE_INITIALIZEMEMBERS(MoonData,MOONDATA_T)
 {
   ERRORCODE_T ErrorCode;
   UNUSED(pStructure);
@@ -102,7 +102,7 @@ STRUCTURE_PROTOTYPE_INITIALIZEMEMBERS(MoonData,MOONDATA_T)
 
 STRUCTURE_FUNCTION_UNINITIALIZE(MoonData,MOONDATA_T)
 
-STRUCTURE_PROTOTYPE_UNINITIALIZEMEMBERS(MoonData,MOONDATA_T)
+static STRUCTURE_PROTOTYPE_UNINITIALIZEMEMBERS(MoonData,MOONDATA_T)
 {
   ERRORCODE_T ErrorCode;
   UNUSED(pStructure);
@@ -125,7 +125,7 @@ float MoonData_GetMoonPhasePercent(MOONDATA_T const *pMoon)
   DEBUGLOG_Printf1("MoonData_GetMoonPhasePercent(%p)",pMoon);
   DEBUGLOG_LogIn();
 
-  Percent=100.0*pMoon->CTransData.MoonPhase;
+  Percent=(float)(100.0*pMoon->CTransData.MoonPhase);
 
   DEBUGLOG_LogOut();
   return(Percent);
@@ -136,7 +136,7 @@ void MoonData_Recalculate(MOONDATA_T *pMoon)
   time_t UTC;
   struct tm *pUTC;
   double Time;
-  time_t Date;
+  long /*time_t*/ Date;
 
 
   DEBUGLOG_Printf1("MoonData_Recalculate(%p)",pMoon);
