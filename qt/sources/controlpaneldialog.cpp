@@ -1246,7 +1246,7 @@ void CONTROLPANELDIALOG_C::AnimationTimerTriggeredSlot(void)
   DEBUGLOG_LogIn();
 
   /* Update the percent label. */
-  PercentString.sprintf(tr("%d%%"),m_PreviewPercentCounter);
+  PercentString.sprintf(qPrintable(tr("%d%%")),m_PreviewPercentCounter);
   m_pPreviewPercentLabel->setText(PercentString);
 
   /* Update the preview image. */
