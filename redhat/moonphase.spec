@@ -1,11 +1,12 @@
+%define MmVersion 0.2
 Name:           moonphase
-Version:        0.2.2
+Version:        %{MmVersion}.3
 Release:        1
 Summary:        Displays the phase of the moon in the system tray
 
 License:        GPLv3+
-URL:            http://moonphase.sourceforge.net
-Source0:        http://sourceforge.net/projects/moonphase/files/${version}/moonphase-%{version}.tar.gz
+URL:            http://sourceforge.net/projects/moonphase/
+Source0:        http://sourceforge.net/projects/moonphase/files/%{MmVersion}/moonphase-%{version}.tar.gz
 
 %description
 Displays the phase of the moon in the system tray. Additionally, a window
@@ -16,6 +17,9 @@ BuildRequires:
 Requires:       
 
 %changelog
+* Tue Oct 14 2014 Alan Wise <alanwise@users.sourceforge.net> - 0.2.3-1
+- New upstream version.
+
 * Thu Sep 4 2014 Alan Wise <alanwise@users.sourceforge.net> - 0.2.2-1
 - New upstream version.
 - Minor spec changes.

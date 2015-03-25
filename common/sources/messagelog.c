@@ -174,19 +174,16 @@ void MessageLog_Printf(
 
     /* Handle basic parameters. */
     if (ErrorFlag==0)
-      if (fprintf(pLogFile,"%s\t%u\t%s\t",pFilename,LineNumber,pType)<=0)
+      if (fprintf(pLogFile,"%s\t%d\t%s\t",pFilename,LineNumber,pType)<=0)
         ErrorFlag=!0;
 
     /* Handle the callers variable arguments. */
     if (ErrorFlag==0)
     {
       va_start(VAList,pFormat);
-      if (vfprintf(pLogFile,pFormat,VAList)<=0)
-        ErrorFlag=!0;
+      vfprintf(pLogFile,pFormat,VAList);
       va_end(VAList);
-      if (ErrorFlag==0)
-        if (fprintf(pLogFile,"\n")<=0)
-          ErrorFlag=!0;
+      fprintf(pLogFile,"\n");
     }
 
     fclose(pLogFile);
