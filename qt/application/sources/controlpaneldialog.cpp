@@ -43,7 +43,7 @@
 #include  "messagelog.h"
 
 #include  "config.h"
-#include  "../licenseagreement.h"
+#include  "licenseagreement.h"
 
 #ifdef    DEBUG
 #include  <time.h>

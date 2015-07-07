@@ -32,8 +32,8 @@ INCLUDE(${CMAKE_SOURCE_DIR}/preferences.cmake OPTIONAL)
 
 # Build information.
 SET(MAJORVERSION_NUMBER 0)
-SET(MINORVERSION_NUMBER 2)
-SET(PATCHVERSION_NUMBER 3)
+SET(MINORVERSION_NUMBER 3)
+SET(PATCHVERSION_NUMBER 0)
 SET(DISPLAYNAME_STRING "Moon Phase")
 SET(OWNER_STRING "Alan Wise")
 SET(DESCRIPTION_STRING "Displays the phase of the moon in the system tray.")
@@ -93,7 +93,7 @@ ENDIF()
 # Subdirectories
 #
 
-ADD_SUBDIRECTORY(qt)
+ADD_SUBDIRECTORY(qt/application)
 
 
 #

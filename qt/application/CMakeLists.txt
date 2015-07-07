@@ -16,7 +16,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-INCLUDE(CMakeDependentOption)
 INCLUDE(ExternalProject)
 
 OPTION(OPTION_MOONPHASE_BUILDMOONPHASEQT
@@ -70,12 +69,13 @@ ENDIF()
 #
 
 IF(OPTION_MOONPHASE_BUILDMOONPHASEQT)
-  INCLUDE_DIRECTORIES("${CMAKE_CURRENT_BINARY_DIR}"
+  INCLUDE_DIRECTORIES("${CMAKE_BINARY_DIR}"
+      "${CMAKE_CURRENT_BINARY_DIR}"
       "${CMAKE_BINARY_DIR}/wwwidgets/widgets/"
       "${CMAKE_BINARY_DIR}/wwwidgets/widgets/qwwbuttonlineedit/"
       "${CMAKE_BINARY_DIR}/wwwidgets/widgets/qwwcolorbutton/"
       "${CMAKE_BINARY_DIR}/wwwidgets/widgets/qwwfilechooser/"
-      "${CMAKE_CURRENT_SOURCE_DIR}/qt-solutions/qtsingleapplication/src/")
+      "${CMAKE_CURRENT_SOURCE_DIR}/../qt-solutions/qtsingleapplication/src/")
 ENDIF()
 
 
@@ -89,12 +89,12 @@ IF(OPTION_MOONPHASE_BUILDMOONPHASEQT)
       "${CMAKE_CURRENT_SOURCE_DIR}/sources/moonphaseqt.cpp"
       "${CMAKE_CURRENT_SOURCE_DIR}/sources/controlpaneldialog.cpp"
       "${CMAKE_CURRENT_SOURCE_DIR}/sources/moonanimation.cpp"
-      "${CMAKE_CURRENT_SOURCE_DIR}/qt-solutions/qtsingleapplication/src/qtlocalpeer.cpp"
-      "${CMAKE_CURRENT_SOURCE_DIR}/qt-solutions/qtsingleapplication/src/qtsingleapplication.cpp")
+      "${CMAKE_CURRENT_SOURCE_DIR}/../qt-solutions/qtsingleapplication/src/qtlocalpeer.cpp"
+      "${CMAKE_CURRENT_SOURCE_DIR}/../qt-solutions/qtsingleapplication/src/qtsingleapplication.cpp")
   SET(MOONPHASEQT_HEADERS
       "${CMAKE_CURRENT_SOURCE_DIR}/sources/controlpaneldialog.h"
-      "${CMAKE_CURRENT_SOURCE_DIR}/qt-solutions/qtsingleapplication/src/qtlocalpeer.h"
-      "${CMAKE_CURRENT_SOURCE_DIR}/qt-solutions/qtsingleapplication/src/qtsingleapplication.h")
+      "${CMAKE_CURRENT_SOURCE_DIR}/../qt-solutions/qtsingleapplication/src/qtlocalpeer.h"
+      "${CMAKE_CURRENT_SOURCE_DIR}/../qt-solutions/qtsingleapplication/src/qtsingleapplication.h")
   SET(MOONPHASEQT_FORMS
       "${CMAKE_CURRENT_SOURCE_DIR}/forms/controlpaneldialog.ui")
   SET(MOONPHASEQT_RESOURCES
@@ -122,14 +122,14 @@ IF(OPTION_MOONPHASE_BUILDMOONPHASEQT)
   # moonphase-qt depends on an external library that is built from source code.
   IF(UNIX)
     SET(CONFIGURE_COMMAND
-        "${CMAKE_CURRENT_SOURCE_DIR}/wwwidgets/cmake_configure_command_${BUILD_TYPELC}")
+        "${CMAKE_CURRENT_SOURCE_DIR}/../wwwidgets/cmake_configure_command_${BUILD_TYPELC}")
     SET(BUILD_COMMAND "$(MAKE)")
     SET(GUI_TYPE )
     SET(WWWIDGETS_LIBRARYPATHNAME ".")
     SET(OS_LIBRARIES m)
   ELSEIF(WIN32 AND MSVC)
     SET(CONFIGURE_COMMAND
-        "${CMAKE_CURRENT_SOURCE_DIR}/wwwidgets/cmake_configure_command_${BUILD_TYPELC}.bat")
+        "${CMAKE_CURRENT_SOURCE_DIR}/../wwwidgets/cmake_configure_command_${BUILD_TYPELC}.bat")
     SET(BUILD_COMMAND nmake)
     SET(GUI_TYPE WIN32)
     SET(WWWIDGETS_LIBRARYPATHNAME "${BUILD_TYPELC}")
@@ -149,7 +149,7 @@ IF(OPTION_MOONPHASE_BUILDMOONPHASEQT)
   EXTERNALPROJECT_ADD(wwwidgets
       URL "http://www.wysota.eu.org/wwwidgets/wwWidgets-1.0.tar.gz"
       URL_HASH MD5=e8f8cbe75ee409f18ba44f786bcc438c
-      DOWNLOAD_DIR "${CMAKE_CURRENT_SOURCE_DIR}/wwwidgets/"
+      DOWNLOAD_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../wwwidgets/"
       SOURCE_DIR "${CMAKE_BINARY_DIR}/wwwidgets/"
       BINARY_DIR "${CMAKE_BINARY_DIR}/wwwidgets/"
       PATCH_COMMAND ""

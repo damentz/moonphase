@@ -47,7 +47,7 @@ PROJECT_BRIEF          = "@DESCRIPTION_STRING@"
 # exceed 55 pixels and the maximum width should not exceed 200 pixels.
 # Doxygen will copy the logo to the output directory.
 
-PROJECT_LOGO           = "@CMAKE_CURRENT_LIST_DIR@/../logo.png"
+PROJECT_LOGO           = "@CMAKE_SOURCE_DIR@/logo.png"
 
 # The OUTPUT_DIRECTORY tag is used to specify the (relative or absolute)
 # base path where the generated documentation will be put.
@@ -654,7 +654,7 @@ WARN_LOGFILE           =
 # directories like "/usr/src/myproject". Separate the files or directories
 # with spaces.
 
-INPUT                  = "@CMAKE_CURRENT_LIST_DIR@/../common/sources/" \
+INPUT                  = "@CMAKE_SOURCE_DIR@/common/sources/" \
                          "@CMAKE_CURRENT_LIST_DIR@/sources/"
 
 # This tag can be used to specify the character encoding of the source files
@@ -1585,8 +1585,8 @@ SEARCH_INCLUDES        = YES
 # contain include files that are not input files but should be processed by
 # the preprocessor.
 
-INCLUDE_PATH           = "@CMAKE_CURRENT_LIST_DIR@/../toolbox/generic/sources/" \
-                         "@CMAKE_CURRENT_LIST_DIR@/../common/sources/" \
+INCLUDE_PATH           = "@CMAKE_SOURCE_DIR@/toolbox/generic/sources/" \
+                         "@CMAKE_SOURCE_DIR@/common/sources/" \
                          "@CMAKE_CURRENT_LIST_DIR@/sources/"
 
 # You can use the INCLUDE_FILE_PATTERNS tag to specify one or more wildcard
