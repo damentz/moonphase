@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MESSAGELOGOPTIONSDIALOGUI_C</class>
+ <widget class="QDialog" name="MESSAGELOGOPTIONSDIALOGUI_C">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>194</width>
+    <height>236</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Message log options</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QCheckBox" name="m_pAutoRefreshCheckBox">
+     <property name="text">
+      <string>Auto refresh</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QCheckBox" name="m_pAlwaysOnTopCheckBox">
+     <property name="text">
+      <string>Always on top</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QCheckBox" name="m_pDisplayOnStartupCheckBox">
+     <property name="text">
+      <string>Display on startup</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="Line" name="line">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QCheckBox" name="m_pSaveWindowPositionCheckBox">
+     <property name="text">
+      <string>Save window position</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QCheckBox" name="m_pClearWindowPositionCheckBox">
+     <property name="text">
+      <string>Clear window position</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QCheckBox" name="m_pSaveWindowSizeCheckBox">
+     <property name="text">
+      <string>Save window size</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QCheckBox" name="m_pClearWindowSizeCheckBox">
+     <property name="text">
+      <string>Clear window size</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QDialogButtonBox" name="m_pButtonBox">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>m_pButtonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>MESSAGELOGOPTIONSDIALOGUI_C</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>184</x>
+     <y>133</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>193</x>
+     <y>148</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pButtonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>MESSAGELOGOPTIONSDIALOGUI_C</receiver>
+   <slot>SaveOptions()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>135</x>
+     <y>127</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>141</x>
+     <y>219</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>SaveOptions()</slot>
+ </slots>
+</ui>

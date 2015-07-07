@@ -1,0 +1,11 @@
+<RCC>
+  <qresource prefix="DebugConsole" >
+    <file alias="DebugConsoleIcon" >debugconsole.xpm</file>
+    <file alias="Debug1Icon" >ant.xpm</file>
+    <file alias="Debug2Icon" >spider.xpm</file>
+    <file alias="OptionsIcon" >wrench_and_screwdriver.xpm</file>
+    <file alias="RefreshIcon" >refresh.xpm</file>
+    <file alias="Test1Icon" >nuclearsymbol.xpm</file>
+    <file alias="Test2Icon" >biohazardsymbol.xpm</file>
+  </qresource>
+</RCC>

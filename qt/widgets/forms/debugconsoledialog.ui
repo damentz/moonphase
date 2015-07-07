@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>DEBUGCONSOLEDIALOGUI_C</class>
+ <widget class="QDialog" name="DEBUGCONSOLEDIALOGUI_C">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>400</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Debug console</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QTabWidget" name="m_pTabWidget">
+     <property name="currentIndex">
+      <number>0</number>
+     </property>
+     <widget class="QWidget" name="m_pMessageLogTab">
+      <attribute name="title">
+       <string>&amp;Message log</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <widget class="MESSAGELOGVIEWERWIDGET_C" name="m_pMessageLogViewerWidget">
+         <property name="toolTip">
+          <string></string>
+         </property>
+         <property name="whatsThis">
+          <string></string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="m_pDebugLogTab">
+      <attribute name="title">
+       <string>&amp;Debug log</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_3">
+       <item>
+        <widget class="DEBUGLOGVIEWERWIDGET_C" name="m_pDebugLogViewerWidget">
+         <property name="toolTip">
+          <string></string>
+         </property>
+         <property name="whatsThis">
+          <string></string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+   <item>
+    <widget class="QDialogButtonBox" name="m_pButtonBox">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Close</set>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>DEBUGLOGVIEWERWIDGET_C</class>
+   <extends>QWidget</extends>
+   <header>debuglogviewerwidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>MESSAGELOGVIEWERWIDGET_C</class>
+   <extends>QWidget</extends>
+   <header>messagelogviewerwidget.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>m_pButtonBox</sender>
+   <signal>clicked(QAbstractButton*)</signal>
+   <receiver>DEBUGCONSOLEDIALOGUI_C</receiver>
+   <slot>DialogBoxButtonClickedSlot(QAbstractButton*)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>342</x>
+     <y>378</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>474</x>
+     <y>377</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>DialogBoxButtonClickedSlot(QAbstractButton*)</slot>
+  <slot>MessageLogButtonClickedSlot(QAbstractButton*)</slot>
+  <slot>DebugLogButtonClickedSlot(QAbstractButton*)</slot>
+  <slot>Debug1ButtonClickedSlot()</slot>
+  <slot>Debug2ButtonClickedSlot()</slot>
+  <slot>Test1ButtonClickedSlot()</slot>
+  <slot>Test2ButtonClickedSlot()</slot>
+  <slot>OptionButtonClickedSlot()</slot>
+  <slot>MessageLogDisableAutoRefreshCheckBoxClickedSlot(bool)</slot>
+  <slot>DebugLogDisableAutoRefreshCheckBoxClickedSlot(bool)</slot>
+ </slots>
+</ui>
