@@ -1,6 +1,6 @@
 #
 # This file is part of moonphase.
-# Copyright (C) 2014 by Alan Wise (alanwise@users.sourceforge.net)
+# Copyright (C) 2014-2015 by Alan Wise (alanwise@users.sourceforge.net)
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -38,7 +38,7 @@ SET(DISPLAYNAME_STRING "Moon Phase")
 SET(OWNER_STRING "Alan Wise")
 SET(DESCRIPTION_STRING "Displays the phase of the moon in the system tray.")
 SET(COPYRIGHTNOTICE_STRING
-    "Copyright (C) 2014 ${OWNER_STRING}.")
+    "Copyright (C) 2014-2015 ${OWNER_STRING}.")
 SET(WEBSITE_STRING "http://sourceforge.net/projects/moonphase/")
 SET(LICENSE_STRING
     "License GPLv3: GNU GPL version 3 or later <http://gnu.org/licenses/>.")
