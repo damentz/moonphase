@@ -26,19 +26,14 @@
 # Include paths
 #
 
-INCLUDE_DIRECTORIES("${CMAKE_CURRENT_LIST_DIR}/sources/")
+INCLUDE_DIRECTORIES("${CMAKE_CURRENT_LIST_DIR}/sources/"
+    "${CMAKE_SOURCE_DIR}/toolbox/generic/sources/")
 
 
 #
 # Sources
 #
 
-# Until toolbox is updated
-#INCLUDE(${CMAKE_SOURCE_DIR}/toolbox/generic/toolboxgeneric.cmake)
-SET(COMMON_FILES 
-    "${CMAKE_CURRENT_LIST_DIR}/sources/debuglog.c"
-    "${CMAKE_CURRENT_LIST_DIR}/sources/messagelog.c")
-# ...
 SET(COMMON_FILES "${COMMON_FILES}"
     "${CMAKE_CURRENT_LIST_DIR}/sources/calcephem.c"
     "${CMAKE_CURRENT_LIST_DIR}/sources/moondata.c")

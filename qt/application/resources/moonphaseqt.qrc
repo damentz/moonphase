@@ -8,6 +8,8 @@
     <file alias="QuitIcon">quit.xpm</file>
   </qresource>
   <qresource prefix="WidgetIcons">
+    <file alias="MoonDataIcon">moondata.xpm</file>
+    <file alias="TestIcon">test.xpm</file>
     <file alias="PreferencesIcon">preferences.xpm</file>
     <file alias="AboutIcon">about.xpm</file>
   </qresource>

@@ -474,7 +474,7 @@
               </widget>
              </item>
              <item row="1" column="0">
-              <layout class="QVBoxLayout" name="m_pCheckDonateVLayout">
+              <layout class="QVBoxLayout" name="m_pCheckVLayout">
                <item>
                 <widget class="QFrame" name="m_pCheckFrame">
                  <property name="frameShape">

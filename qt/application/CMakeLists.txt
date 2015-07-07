@@ -96,7 +96,8 @@ IF(OPTION_MOONPHASE_BUILDMOONPHASEQT)
       "${CMAKE_CURRENT_SOURCE_DIR}/../qt-solutions/qtsingleapplication/src/qtlocalpeer.h"
       "${CMAKE_CURRENT_SOURCE_DIR}/../qt-solutions/qtsingleapplication/src/qtsingleapplication.h")
   SET(MOONPHASEQT_FORMS
-      "${CMAKE_CURRENT_SOURCE_DIR}/forms/controlpaneldialog.ui")
+      "${CMAKE_CURRENT_SOURCE_DIR}/forms/controlpaneldialog.ui"
+      "${CMAKE_CURRENT_SOURCE_DIR}/forms/testwidget.ui")
   SET(MOONPHASEQT_RESOURCES
       "${CMAKE_CURRENT_SOURCE_DIR}/resources/moonphaseqt.qrc")
   QT4_WRAP_CPP(MOONPHASEQT_MOC ${MOONPHASEQT_HEADERS})
@@ -165,6 +166,8 @@ IF(OPTION_MOONPHASE_BUILDMOONPHASEQT)
       ${MOONPHASEQT_FILES})
   TARGET_LINK_LIBRARIES(
       ${EXECUTABLENAME_STRING}
+      toolboxgeneric
+      toolboxqtwidgets
       "${CMAKE_BINARY_DIR}/wwwidgets/widgets/${WWWIDGETS_LIBRARYPATHNAME}"
       ${OS_LIBRARIES}
       ${QT_LIBRARIES})

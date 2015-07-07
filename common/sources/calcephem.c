@@ -6,7 +6,6 @@
 #endif    /* _MSC_VER */
 #include  "calcephem.h"
 #include  <string.h>
-#include  "structure.h"
 #include  <time.h>
 #include  <math.h>
 

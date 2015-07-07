@@ -34,6 +34,7 @@
 ****/
 
 #include  "ui_controlpaneldialog.h"
+#include  "ui_testwidget.h"
 #include  "moonanimation.h"
 #include  "moondata.h"
 
@@ -53,9 +54,31 @@
 *****
 ****/
 
-class SETTINGS_C;
 class QNetworkAccessManager;
 class QNetworkReply;
+
+/**
+*** \brief Test widget.
+*** \details A widget containing other widgets to be used for testing.
+**/
+class TESTWIDGET_C : public QWidget, public Ui::TESTWIDGETUI_C
+{
+  Q_OBJECT
+
+  public:
+    /**
+    *** \brief Constructor.
+    *** \details Constructor.
+    *** \param pParent Pointer to parent widget.
+    **/
+    TESTWIDGET_C(QWidget *pParent=NULL);
+
+    /**
+    *** \brief Destructor.
+    *** \details Destructor.
+    **/
+    ~TESTWIDGET_C(void);
+};
 
 /**
 *** \brief Application main window.
@@ -97,12 +120,20 @@ class CONTROLPANELDIALOG_C : public QDialog, public Ui::CONTROLPANELDIALOGUI_C
     void closeEvent(QCloseEvent *pEvent);
 
   private:
+    class SETTINGS_C;
+
     /**
     *** \brief Checks for changed preferences, might prompt to save/discard.
     *** \details Checks if the preferences have changed, and if desired, prompts
     ***   the user to save/discard them.
     **/
     void CheckSavePreferences(void);
+
+    /**
+    *** \brief Creates and initializes the test tab.
+    *** \details Creates the test tab in the tab widget and initializes it.
+    **/
+    void CreateAndInitializeTestTab(void);
 
     /**
     *** \brief Draws a frame of an animation.
@@ -211,10 +242,10 @@ class CONTROLPANELDIALOG_C : public QDialog, public Ui::CONTROLPANELDIALOGUI_C
     void CurrentVersionDownloadCompleteSlot(QNetworkReply *pReply);
 
     /**
-    *** \brief Preferences changed.
-    *** \details The preferences have changed.
+    *** \brief Date and/or time changed.
+    *** \details The date and/or time changed in the test widget.
     **/
-    void PreferencesChangedSlot(void);
+    void DateTimeChanged(QDateTime DateTime);
 
     /**
     *** \brief Message from another instance was received.
@@ -223,22 +254,28 @@ class CONTROLPANELDIALOG_C : public QDialog, public Ui::CONTROLPANELDIALOGUI_C
     void InstanceMessageSlot(QString const &Message);
 
     /**
+    *** \brief Preferences changed.
+    *** \details The preferences have changed.
+    **/
+    void PreferencesChangedSlot(void);
+
+    /**
     *** \brief Quit requested.
     *** \details The user wants to quit.
     **/
     void QuitSlot(void);
 
     /**
-    *** \brief Still Running Reminder widget clicked.
-    *** \details The Still Running Reminder widget was clicked.
-    **/
-    void StillRunningReminderClickedSlot(void);
-
-    /**
     *** \brief Show control panel.
     *** \details The control panel needs to be shown.
     **/
     void ShowControlPanelSlot(void);
+
+    /**
+    *** \brief Still Running Reminder widget clicked.
+    *** \details The Still Running Reminder widget was clicked.
+    **/
+    void StillRunningReminderClickedSlot(void);
 
     /**
     *** \brief Update timer triggered.
@@ -344,6 +381,12 @@ class CONTROLPANELDIALOG_C : public QDialog, public Ui::CONTROLPANELDIALOGUI_C
     ***   preferences. Indicates if the reminder has been issued already.
     **/
     bool m_CloseReminderIssued;
+
+    /**
+    *** \brief Test widget.
+    *** \details A test widget used for testing/debugging.
+    **/
+    TESTWIDGET_C *m_pTestWidget;
 };
 
 
