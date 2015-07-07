@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>DEBUGLOGVIEWERWIDGETUI_C</class>
+ <widget class="QWidget" name="DEBUGLOGVIEWERWIDGETUI_C">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>300</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="margin">
+    <number>0</number>
+   </property>
+   <item>
+    <widget class="QPlainTextEdit" name="m_pTextEdit">
+     <property name="lineWrapMode">
+      <enum>QPlainTextEdit::NoWrap</enum>
+     </property>
+     <property name="readOnly">
+      <bool>true</bool>
+     </property>
+     <property name="textInteractionFlags">
+      <set>Qt::NoTextInteraction</set>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="HLayout">
+     <item>
+      <widget class="QCheckBox" name="m_pDisableAutoRefreshCheckBox">
+       <property name="text">
+        <string>Disable &amp;autorefresh</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QDialogButtonBox" name="m_pButtonBox">
+       <property name="standardButtons">
+        <set>QDialogButtonBox::NoButton</set>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>m_pButtonBox</sender>
+   <signal>clicked(QAbstractButton*)</signal>
+   <receiver>DEBUGLOGVIEWERWIDGETUI_C</receiver>
+   <slot>ButtonBoxButtonClickedSlot(QAbstractButton*)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>229</x>
+     <y>273</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>519</x>
+     <y>162</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>ButtonBoxButtonClickedSlot(QAbstractButton*)</slot>
+ </slots>
+</ui>
