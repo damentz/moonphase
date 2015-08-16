@@ -1,6 +1,6 @@
-%define MmVersion 0.2
+%define MmVersion 0.3
 Name:           moonphase
-Version:        %{MmVersion}.3
+Version:        %{MmVersion}.1
 Release:        1
 Summary:        Displays the phase of the moon in the system tray
 
@@ -17,6 +17,9 @@ BuildRequires:
 Requires:       
 
 %changelog
+* Sun Aug 16 2015 Alan Wise <alanwise@users.sourceforge.net> - 0.3.1-1
+- New upstream version.
+
 * Tue Oct 14 2014 Alan Wise <alanwise@users.sourceforge.net> - 0.2.3-1
 - New upstream version.
 

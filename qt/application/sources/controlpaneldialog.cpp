@@ -1152,7 +1152,7 @@ void CONTROLPANELDIALOG_C::InitializeAboutTab(void)
   {
     QString Buffer;
 
-    Buffer=QString(tr("Statically linked with Qt (Version "))
+    Buffer=QString(tr("\nStatically linked with Qt (Version "))
         +qVersion()+QString(tr(")"));
     m_pProgramInformationEdit->append(Buffer);
   }

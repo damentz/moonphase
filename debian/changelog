@@ -1,3 +1,9 @@
+moonphase (0.3.1-1) unstable; urgency=low
+
+  * New upstream version (Closes: #nnnn)
+
+ -- Alan Wise <alanwise@users.sourceforge.net>  Sun, 16 Aug 2015 14:35:00 -0700
+
 moonphase (0.2.3-1) unstable; urgency=low
 
   * New upstream version (Closes: #nnnn)
