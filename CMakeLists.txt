@@ -52,6 +52,10 @@ SET(LICENSEAGREEMENT "const char f_pLicenseAgreement[]=\n\"${CCODE}\";")
 FILE(WRITE
     "${CMAKE_CURRENT_BINARY_DIR}/licenseagreement.h" "${LICENSEAGREEMENT}")
 
+IF(WIN32)
+  ADD_DEFINITIONS(-DUNICODE)  # Needed for qtsingleapplication (qlockedfile_win.cpp)
+ENDIF()
+
 # Install information.
 IF(UNIX)
   SET(INSTALL_BINARYDIRECTORY "bin")
