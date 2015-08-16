@@ -1,0 +1,849 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>CONTROLPANELDIALOGUI_C</class>
+ <widget class="QDialog" name="CONTROLPANELDIALOGUI_C">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>410</width>
+    <height>548</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Control Panel</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="../resources/moonphaseqt.qrc">
+    <normaloff>:/MoonPhaseIcon</normaloff>:/MoonPhaseIcon</iconset>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="sizeConstraint">
+    <enum>QLayout::SetDefaultConstraint</enum>
+   </property>
+   <item>
+    <widget class="QTabWidget" name="m_pTabWidget">
+     <property name="currentIndex">
+      <number>0</number>
+     </property>
+     <widget class="QWidget" name="m_pPreferencesTab">
+      <attribute name="icon">
+       <iconset resource="../resources/moonphaseqt.qrc">
+        <normaloff>:/WidgetIcons/PreferencesIcon</normaloff>:/WidgetIcons/PreferencesIcon</iconset>
+      </attribute>
+      <attribute name="title">
+       <string>&amp;Preferences</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_4">
+       <item>
+        <layout class="QFormLayout" name="m_pUpdateIntervalFLayout">
+         <item row="0" column="0">
+          <widget class="QLabel" name="m_pUpdateIntervalLabel">
+           <property name="text">
+            <string>&amp;Update interval</string>
+           </property>
+           <property name="buddy">
+            <cstring>m_pUpdateIntervalSpinBox</cstring>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QSpinBox" name="m_pUpdateIntervalSpinBox">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="suffix">
+            <string> hour(s)</string>
+           </property>
+           <property name="minimum">
+            <number>1</number>
+           </property>
+           <property name="maximum">
+            <number>24</number>
+           </property>
+           <property name="singleStep">
+            <number>1</number>
+           </property>
+           <property name="value">
+            <number>2</number>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="m_pAllowMultipleInstancesLabel">
+           <property name="text">
+            <string>Allow &amp;multiple instances</string>
+           </property>
+           <property name="buddy">
+            <cstring>m_pAllowMultipleInstancesCheckBox</cstring>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QCheckBox" name="m_pAllowMultipleInstancesCheckBox">
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="m_pImageGroupBox">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="title">
+          <string>Image</string>
+         </property>
+         <layout class="QFormLayout" name="formLayout">
+          <item row="0" column="0">
+           <widget class="QLabel" name="m_pAnimationPathnameLabel">
+            <property name="text">
+             <string>Path&amp;name</string>
+            </property>
+            <property name="buddy">
+             <cstring>m_pAnimationFilenameChooser</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="m_pAnimationPreviewLabel">
+            <property name="text">
+             <string>Preview</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <layout class="QHBoxLayout" name="m_pPreviewHLayout">
+            <item>
+             <widget class="QLabel" name="m_pPreviewViewLabel">
+              <property name="minimumSize">
+               <size>
+                <width>64</width>
+                <height>64</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>64</width>
+                <height>64</height>
+               </size>
+              </property>
+              <property name="frameShape">
+               <enum>QFrame::Box</enum>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="m_pPreviewPercentLabel">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>120</width>
+                <height>16777215</height>
+               </size>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item row="0" column="1">
+           <widget class="QwwFileChooser" name="m_pAnimationFilenameChooser"/>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="m_pUseOpaqueBackgroundGroupBox">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="title">
+          <string>Use opaque &amp;background</string>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+         <property name="checked">
+          <bool>false</bool>
+         </property>
+         <layout class="QFormLayout" name="formLayout_4">
+          <property name="horizontalSpacing">
+           <number>0</number>
+          </property>
+          <item row="1" column="1">
+           <layout class="QFormLayout" name="m_pBackgroundColorFLayout">
+            <property name="fieldGrowthPolicy">
+             <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+            </property>
+            <property name="leftMargin">
+             <number>9</number>
+            </property>
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <property name="rightMargin">
+             <number>9</number>
+            </property>
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
+            <item row="0" column="0">
+             <widget class="QLabel" name="m_pBackgroundColorLabel">
+              <property name="text">
+               <string>Colo&amp;r  </string>
+              </property>
+              <property name="buddy">
+               <cstring>m_pBackgroundColorButton</cstring>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <layout class="QHBoxLayout" name="m_pBackgroundColorButtonHLayout">
+              <item>
+               <widget class="QwwColorButton" name="m_pBackgroundColorButton">
+                <property name="showName">
+                 <bool>false</bool>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="m_pBackgroundColorButtonHSpacer">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="m_pOnCloseGroupBox">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="font">
+          <font>
+           <kerning>true</kerning>
+          </font>
+         </property>
+         <property name="title">
+          <string>On close</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_2">
+          <item>
+           <layout class="QHBoxLayout" name="m_pOnCloseHLayout">
+            <item>
+             <widget class="QCheckBox" name="m_pStillRunningReminder">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>&quot;&amp;Still running&quot; reminder</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="m_pRemindOncePerSessionCheckBox">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>&amp;Once per session</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="m_pStillRunningReminderHSpacer">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>65535</width>
+                <height>1</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="m_pConfirmDiscardCheckBox">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string>Confirm &amp;discarding of changes</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="m_pOnQuitGroupBox">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="title">
+          <string>On quit</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_3">
+          <property name="spacing">
+           <number>0</number>
+          </property>
+          <item>
+           <widget class="QCheckBox" name="m_pConfirmQuitCheckBox">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string>Con&amp;firm</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <spacer name="m_pPreferencesVSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Preferred</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>1</width>
+           <height>65535</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="m_pAboutTab">
+      <attribute name="icon">
+       <iconset resource="../resources/moonphaseqt.qrc">
+        <normaloff>:/WidgetIcons/AboutIcon</normaloff>:/WidgetIcons/AboutIcon</iconset>
+      </attribute>
+      <attribute name="title">
+       <string>&amp;About</string>
+      </attribute>
+      <layout class="QGridLayout" name="gridLayout_7">
+       <item row="0" column="0">
+        <layout class="QVBoxLayout" name="m_pAboutVLayout">
+         <item>
+          <layout class="QHBoxLayout" name="m_pInfoHLayout">
+           <item>
+            <widget class="QLabel" name="m_pProgramIcon">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>32</width>
+               <height>32</height>
+              </size>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="pixmap">
+              <pixmap resource="../resources/moonphaseqt.qrc">:/MoonPhaseIcon</pixmap>
+             </property>
+             <property name="scaledContents">
+              <bool>false</bool>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <layout class="QVBoxLayout" name="m_pNameVLayout">
+             <property name="spacing">
+              <number>0</number>
+             </property>
+             <item>
+              <widget class="QLabel" name="m_pProgramNameLabel">
+               <property name="font">
+                <font>
+                 <pointsize>14</pointsize>
+                 <weight>75</weight>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="m_pExecutableNameVersionLabel">
+               <property name="text">
+                <string/>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <widget class="QTabWidget" name="m_pAboutTabWidget">
+           <property name="tabPosition">
+            <enum>QTabWidget::North</enum>
+           </property>
+           <property name="tabShape">
+            <enum>QTabWidget::Rounded</enum>
+           </property>
+           <property name="currentIndex">
+            <number>0</number>
+           </property>
+           <widget class="QWidget" name="m_pProgramInformationTab">
+            <attribute name="title">
+             <string>&amp;Information</string>
+            </attribute>
+            <layout class="QGridLayout" name="gridLayout_5">
+             <item row="0" column="0">
+              <widget class="QTextBrowser" name="m_pProgramInformationEdit">
+               <property name="acceptDrops">
+                <bool>false</bool>
+               </property>
+               <property name="lineWrapMode">
+                <enum>QTextEdit::WidgetWidth</enum>
+               </property>
+               <property name="textInteractionFlags">
+                <set>Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse</set>
+               </property>
+               <property name="openExternalLinks">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="0">
+              <layout class="QVBoxLayout" name="m_pCheckVLayout">
+               <item>
+                <widget class="QFrame" name="m_pCheckFrame">
+                 <property name="frameShape">
+                  <enum>QFrame::StyledPanel</enum>
+                 </property>
+                 <property name="frameShadow">
+                  <enum>QFrame::Raised</enum>
+                 </property>
+                 <layout class="QHBoxLayout" name="horizontalLayout_2">
+                  <property name="margin">
+                   <number>5</number>
+                  </property>
+                  <item>
+                   <widget class="QLabel" name="m_pCheckLabel">
+                    <property name="text">
+                     <string>Check for an update!</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QPushButton" name="m_pCheckButton">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                    <property name="text">
+                     <string>C&amp;heck</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </widget>
+               </item>
+              </layout>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QWidget" name="m_pLicenseAgreementTab">
+            <attribute name="title">
+             <string>&amp;License Agreement</string>
+            </attribute>
+            <layout class="QGridLayout" name="gridLayout_6">
+             <item row="0" column="0">
+              <widget class="QPlainTextEdit" name="m_pLicenseAgreementEdit">
+               <property name="lineWrapMode">
+                <enum>QPlainTextEdit::NoWrap</enum>
+               </property>
+               <property name="readOnly">
+                <bool>true</bool>
+               </property>
+               <property name="textInteractionFlags">
+                <set>Qt::NoTextInteraction</set>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+   <item>
+    <widget class="QDialogButtonBox" name="m_pButtonBox">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Apply|QDialogButtonBox::Close|QDialogButtonBox::Help</set>
+     </property>
+    </widget>
+   </item>
+  </layout>
+  <action name="m_pQuitAction">
+   <property name="icon">
+    <iconset resource="../resources/moonphaseqt.qrc">
+     <normaloff>:/ActionIcons/QuitIcon</normaloff>:/ActionIcons/QuitIcon</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Quit</string>
+   </property>
+   <property name="toolTip">
+    <string>Quit</string>
+   </property>
+  </action>
+  <action name="m_pShowControlPanelAction">
+   <property name="icon">
+    <iconset resource="../resources/moonphaseqt.qrc">
+     <normaloff>:/ActionIcons/ControlPanelIcon</normaloff>:/ActionIcons/ControlPanelIcon</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Control Panel</string>
+   </property>
+   <property name="toolTip">
+    <string>Show control panel</string>
+   </property>
+  </action>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QwwColorButton</class>
+   <extends>QPushButton</extends>
+   <header>qwwcolorbutton.h</header>
+  </customwidget>
+  <customwidget>
+   <class>QwwFileChooser</class>
+   <extends>QwwButtonLineEdit</extends>
+   <header>qwwfilechooser.h</header>
+  </customwidget>
+  <customwidget>
+   <class>QwwButtonLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>qwwbuttonlineedit.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources>
+  <include location="../resources/moonphaseqt.qrc"/>
+ </resources>
+ <connections>
+  <connection>
+   <sender>m_pUpdateIntervalSpinBox</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>CONTROLPANELDIALOGUI_C</receiver>
+   <slot>PreferencesChangedSlot()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>216</x>
+     <y>76</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>409</x>
+     <y>178</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pUseOpaqueBackgroundGroupBox</sender>
+   <signal>clicked()</signal>
+   <receiver>CONTROLPANELDIALOGUI_C</receiver>
+   <slot>PreferencesChangedSlot()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>288</x>
+     <y>329</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>409</x>
+     <y>216</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pStillRunningReminder</sender>
+   <signal>clicked()</signal>
+   <receiver>CONTROLPANELDIALOGUI_C</receiver>
+   <slot>StillRunningReminderClickedSlot()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>224</x>
+     <y>383</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>409</x>
+     <y>293</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pRemindOncePerSessionCheckBox</sender>
+   <signal>clicked()</signal>
+   <receiver>CONTROLPANELDIALOGUI_C</receiver>
+   <slot>PreferencesChangedSlot()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>373</x>
+     <y>383</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>409</x>
+     <y>318</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pConfirmDiscardCheckBox</sender>
+   <signal>clicked()</signal>
+   <receiver>CONTROLPANELDIALOGUI_C</receiver>
+   <slot>PreferencesChangedSlot()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>301</x>
+     <y>412</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>409</x>
+     <y>346</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pConfirmQuitCheckBox</sender>
+   <signal>clicked()</signal>
+   <receiver>CONTROLPANELDIALOGUI_C</receiver>
+   <slot>PreferencesChangedSlot()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>246</x>
+     <y>476</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>409</x>
+     <y>411</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pButtonBox</sender>
+   <signal>clicked(QAbstractButton*)</signal>
+   <receiver>CONTROLPANELDIALOGUI_C</receiver>
+   <slot>ButtonBoxButtonClickedSlot(QAbstractButton*)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>232</x>
+     <y>513</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>409</x>
+     <y>491</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pBackgroundColorButton</sender>
+   <signal>colorPicked(QColor)</signal>
+   <receiver>CONTROLPANELDIALOGUI_C</receiver>
+   <slot>PreferencesChangedSlot()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>142</x>
+     <y>316</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>409</x>
+     <y>257</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pUseOpaqueBackgroundGroupBox</sender>
+   <signal>clicked()</signal>
+   <receiver>CONTROLPANELDIALOGUI_C</receiver>
+   <slot>UseOpaqueBackgroundClickedSlot()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>161</x>
+     <y>304</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>409</x>
+     <y>241</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pAnimationFilenameChooser</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>CONTROLPANELDIALOGUI_C</receiver>
+   <slot>AnimationPathnameChangedSlot()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>380</x>
+     <y>160</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>409</x>
+     <y>121</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pStillRunningReminder</sender>
+   <signal>clicked()</signal>
+   <receiver>CONTROLPANELDIALOGUI_C</receiver>
+   <slot>PreferencesChangedSlot()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>190</x>
+     <y>383</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>409</x>
+     <y>367</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pShowControlPanelAction</sender>
+   <signal>triggered()</signal>
+   <receiver>CONTROLPANELDIALOGUI_C</receiver>
+   <slot>ShowControlPanelSlot()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>204</x>
+     <y>261</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pAllowMultipleInstancesCheckBox</sender>
+   <signal>clicked()</signal>
+   <receiver>CONTROLPANELDIALOGUI_C</receiver>
+   <slot>PreferencesChangedSlot()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>288</x>
+     <y>92</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>204</x>
+     <y>273</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pCheckButton</sender>
+   <signal>clicked()</signal>
+   <receiver>CONTROLPANELDIALOGUI_C</receiver>
+   <slot>CheckButtonClickedSlot()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>370</x>
+     <y>475</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>204</x>
+     <y>273</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>HelpButtonClickedSlot()</slot>
+  <slot>PreferencesChangedSlot()</slot>
+  <slot>ButtonBoxButtonClickedSlot(QAbstractButton*)</slot>
+  <slot>UseOpaqueBackgroundClickedSlot()</slot>
+  <slot>AddMessageBoxItemButtonClickedSlot()</slot>
+  <slot>OptionsMessageBoxItemButtonClickedSlot()</slot>
+  <slot>MoveUpMessageBoxItemButtonClickedSlot()</slot>
+  <slot>MoveDownMessageBoxItemButtonClickedSlot()</slot>
+  <slot>RemoveMessageBoxItemButtonClickedSlot()</slot>
+  <slot>MessageBoxItemSelectionChangedSlot()</slot>
+  <slot>AddToolTipItemButtonClickedSlot()</slot>
+  <slot>OptionsToolTipItemButtonClickedSlot()</slot>
+  <slot>MoveUpToolTipItemButtonClickedSlot()</slot>
+  <slot>MoveDownToolTipItemButtonClickedSlot()</slot>
+  <slot>RemoveToolTipItemButtonClickedSlot()</slot>
+  <slot>ToolTipItemSelectionChangedSlot()</slot>
+  <slot>StillRunningReminderClickedSlot()</slot>
+  <slot>ShowControlPanelSlot()</slot>
+  <slot>AnimationPathnameChangedSlot()</slot>
+  <slot>CheckButtonClickedSlot()</slot>
+ </slots>
+</ui>

@@ -1,0 +1,16 @@
+<RCC>
+  <qresource prefix="/">
+    <file alias="ErrorIcon">error.xpm</file>
+    <file alias="MoonPhaseIcon">moonphase.xpm</file>
+  </qresource>
+  <qresource prefix="ActionIcons">
+    <file alias="ControlPanelIcon">controlpanel.xpm</file>
+    <file alias="QuitIcon">quit.xpm</file>
+  </qresource>
+  <qresource prefix="WidgetIcons">
+    <file alias="MoonDataIcon">moondata.xpm</file>
+    <file alias="TestIcon">test.xpm</file>
+    <file alias="PreferencesIcon">preferences.xpm</file>
+    <file alias="AboutIcon">about.xpm</file>
+  </qresource>
+</RCC>

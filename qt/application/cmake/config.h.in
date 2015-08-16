@@ -1,0 +1,147 @@
+/*
+** This file is part of moonphase.
+** Copyright (C) 2014-2015 by Alan Wise (alanwise@users.sourceforge.net)
+**
+** This program is free software: you can redistribute it and/or modify
+** it under the terms of the GNU General Public License as published by
+** the Free Software Foundation, either version 3 of the License, or
+** (at your option) any later version.
+**
+** This program is distributed in the hope that it will be useful,
+** but WITHOUT ANY WARRANTY; without even the implied warranty of
+** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+** GNU General Public License for more details.
+**
+** You should have received a copy of the GNU General Public License
+** along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+/**
+*** \file config.h
+*** \brief TODO
+*** \details TODO
+**/
+
+
+#ifndef   CONFIG_H
+#define   CONFIG_H
+
+
+/****
+*****
+***** INCLUDES
+*****
+****/
+
+
+/****
+*****
+***** DEFINES
+*****
+****/
+
+/**
+*** \brief Application display name.
+*** \details Name of application to be displayed in dialog boxes, etc.
+**/
+#define   MOONPHASEQT_DISPLAYNAME_STRING      "@DISPLAYNAME_STRING@"
+
+/**
+*** \brief Application executable name.
+*** \details Name of application executable and configuration data.
+**/
+#define   MOONPHASEQT_EXECUTABLENAME_STRING   "@EXECUTABLENAME_STRING@"
+
+/**
+*** \brief Application description.
+*** \details Description of application.
+**/
+#define   MOONPHASEQT_DESCRIPTION_STRING      "@DESCRIPTION_STRING@"
+/**
+*** \brief Major version number.
+*** \details Application major version number.
+**/
+#define   MOONPHASEQT_MAJORVERSION_NUMBER     @MAJORVERSION_NUMBER@
+
+/**
+*** \brief Minor version number.
+*** \details Application minor version number.
+**/
+#define   MOONPHASEQT_MINORVERSION_NUMBER     @MINORVERSION_NUMBER@
+
+/**
+*** \brief Patch version number.
+*** \details Application patch version number.
+**/
+#define   MOONPHASEQT_PATCHVERSION_NUMBER     @PATCHVERSION_NUMBER@
+
+/**
+*** \brief Application version string.
+*** \details Version string of application..
+**/
+#define   MOONPHASEQT_VERSION_STRING          "@MAJORVERSION_NUMBER@." \
+                                              "@MINORVERSION_NUMBER@." \
+                                              "@PATCHVERSION_NUMBER@"
+
+/**
+*** \brief Application owner.
+*** \details Owner of application.
+**/
+#define   MOONPHASEQT_OWNER_STRING            "@OWNER_STRING@"
+
+/**
+*** \brief Application copyright notice.
+*** \details Copyright notice of application.
+**/
+#define   MOONPHASEQT_COPYRIGHTNOTICE_STRING  "@COPYRIGHTNOTICE_STRING@"
+
+/**
+*** \brief Application web site.
+*** \details Web site address of application.
+**/
+#define   MOONPHASEQT_WEBSITE_STRING          "@WEBSITE_STRING@"
+
+/**
+*** \brief Application license.
+*** \details License of application.
+**/
+#define   MOONPHASEQT_LICENSE_STRING          "@LICENSE_STRING@"
+
+
+/****
+*****
+***** DATA TYPES
+*****
+****/
+
+
+/****
+*****
+***** DATA
+*****
+****/
+
+
+/****
+*****
+***** VARIABLES
+*****
+****/
+
+
+/****
+*****
+***** PROTOTYPES
+*****
+****/
+
+#ifdef  __cplusplus
+extern "C" {
+#endif  /* __cplusplus */
+
+#ifdef  __cplusplus
+}
+#endif  /* __cplusplus */
+
+
+#endif    /* CONFIG_H */

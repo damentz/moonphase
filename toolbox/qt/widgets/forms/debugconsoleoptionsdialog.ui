@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>DEBUGCONSOLEOPTIONSDIALOGUI_C</class>
+ <widget class="QDialog" name="DEBUGCONSOLEOPTIONSDIALOGUI_C">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>285</width>
+    <height>259</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="windowTitle">
+   <string>Debug console options</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QTabWidget" name="m_pTabWidget">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="currentIndex">
+      <number>0</number>
+     </property>
+     <widget class="QWidget" name="m_pConsoleTab">
+      <attribute name="title">
+       <string>&amp;Console</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <widget class="QCheckBox" name="m_pConsoleAlwaysOnTopCheckBox">
+         <property name="text">
+          <string>&amp;Always on top</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="m_pConsoleDisplayOnStartupCheckBox">
+         <property name="text">
+          <string>&amp;Display on startup</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="Line" name="m_pLine">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="m_pConsoleSaveWindowPositionCheckBox">
+         <property name="text">
+          <string>Save window &amp;position</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="m_pConsoleClearWindowPositionCheckBox">
+         <property name="text">
+          <string>Clear window &amp;position</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="m_pConsoleSaveWindowSizeCheckBox">
+         <property name="text">
+          <string>Save window &amp;size</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="m_pConsoleClearWindowSizeCheckBox">
+         <property name="text">
+          <string>Clear window &amp;size</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="m_pMessageLogTab">
+      <attribute name="title">
+       <string>&amp;Message log</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_3">
+       <item>
+        <widget class="QCheckBox" name="m_pMessageLogAutoRefreshCheckBox">
+         <property name="text">
+          <string>&amp;Auto refresh</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="m_pMessageLogMergeDuplicatesCheckBox">
+         <property name="text">
+          <string>Merge duplicates</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="m_pMessageLogRemovePathsCheckBox">
+         <property name="text">
+          <string>Remove paths from filenames</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="m_pMessageLogVSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>1</width>
+           <height>1</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="m_pDebugLogTab">
+      <attribute name="title">
+       <string>&amp;Debug log</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_4">
+       <item>
+        <widget class="QCheckBox" name="m_pDebugLogAutoRefreshCheckBox">
+         <property name="text">
+          <string>&amp;Auto refresh</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="m_pDebugLogVSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>1</width>
+           <height>1</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+   <item>
+    <widget class="QDialogButtonBox" name="m_pDialogBoxButtonBox">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Apply|QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>m_pDialogBoxButtonBox</sender>
+   <signal>clicked(QAbstractButton*)</signal>
+   <receiver>DEBUGCONSOLEOPTIONSDIALOGUI_C</receiver>
+   <slot>DialogBoxButtonClicked(QAbstractButton*)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>275</x>
+     <y>249</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>284</x>
+     <y>258</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pConsoleAlwaysOnTopCheckBox</sender>
+   <signal>clicked()</signal>
+   <receiver>DEBUGCONSOLEOPTIONSDIALOGUI_C</receiver>
+   <slot>DialogBoxDataChanged()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>92</x>
+     <y>55</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>24</x>
+     <y>290</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pConsoleDisplayOnStartupCheckBox</sender>
+   <signal>clicked()</signal>
+   <receiver>DEBUGCONSOLEOPTIONSDIALOGUI_C</receiver>
+   <slot>DialogBoxDataChanged()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>113</x>
+     <y>83</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>126</x>
+     <y>308</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pConsoleSaveWindowPositionCheckBox</sender>
+   <signal>clicked()</signal>
+   <receiver>DEBUGCONSOLEOPTIONSDIALOGUI_C</receiver>
+   <slot>DialogBoxDataChanged()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>88</x>
+     <y>119</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>97</x>
+     <y>300</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pConsoleClearWindowPositionCheckBox</sender>
+   <signal>clicked()</signal>
+   <receiver>DEBUGCONSOLEOPTIONSDIALOGUI_C</receiver>
+   <slot>DialogBoxDataChanged()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>173</x>
+     <y>139</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>171</x>
+     <y>323</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pConsoleSaveWindowSizeCheckBox</sender>
+   <signal>clicked()</signal>
+   <receiver>DEBUGCONSOLEOPTIONSDIALOGUI_C</receiver>
+   <slot>DialogBoxDataChanged()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>49</x>
+     <y>174</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>63</x>
+     <y>348</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pConsoleClearWindowSizeCheckBox</sender>
+   <signal>clicked()</signal>
+   <receiver>DEBUGCONSOLEOPTIONSDIALOGUI_C</receiver>
+   <slot>DialogBoxDataChanged()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>75</x>
+     <y>196</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>69</x>
+     <y>374</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pDebugLogAutoRefreshCheckBox</sender>
+   <signal>clicked()</signal>
+   <receiver>DEBUGCONSOLEOPTIONSDIALOGUI_C</receiver>
+   <slot>DialogBoxDataChanged()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>71</x>
+     <y>65</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>60</x>
+     <y>294</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pMessageLogAutoRefreshCheckBox</sender>
+   <signal>clicked()</signal>
+   <receiver>DEBUGCONSOLEOPTIONSDIALOGUI_C</receiver>
+   <slot>DialogBoxDataChanged()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>89</x>
+     <y>65</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>82</x>
+     <y>302</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pMessageLogMergeDuplicatesCheckBox</sender>
+   <signal>clicked()</signal>
+   <receiver>DEBUGCONSOLEOPTIONSDIALOGUI_C</receiver>
+   <slot>DialogBoxDataChanged()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>266</x>
+     <y>81</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>142</x>
+     <y>129</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pMessageLogRemovePathsCheckBox</sender>
+   <signal>clicked()</signal>
+   <receiver>DEBUGCONSOLEOPTIONSDIALOGUI_C</receiver>
+   <slot>DialogBoxDataChanged()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>142</x>
+     <y>107</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>142</x>
+     <y>129</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>DialogBoxButtonClicked(QAbstractButton*)</slot>
+  <slot>DialogBoxDataChanged()</slot>
+ </slots>
+</ui>

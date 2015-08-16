@@ -1,6 +1,6 @@
 #
 # This file is part of moonphase.
-# Copyright (C) 2014 by Alan Wise (alanwise@users.sourceforge.net)
+# Copyright (C) 2014-2015 by Alan Wise (alanwise@users.sourceforge.net)
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -26,19 +26,14 @@
 # Include paths
 #
 
-INCLUDE_DIRECTORIES("${CMAKE_CURRENT_LIST_DIR}/sources/")
+INCLUDE_DIRECTORIES("${CMAKE_CURRENT_LIST_DIR}/sources/"
+    "${CMAKE_SOURCE_DIR}/toolbox/generic/sources/")
 
 
 #
 # Sources
 #
 
-# Until toolbox is updated
-#INCLUDE(${CMAKE_SOURCE_DIR}/toolbox/generic/toolboxgeneric.cmake)
-SET(COMMON_FILES 
-    "${CMAKE_CURRENT_LIST_DIR}/sources/debuglog.c"
-    "${CMAKE_CURRENT_LIST_DIR}/sources/messagelog.c")
-# ...
 SET(COMMON_FILES "${COMMON_FILES}"
     "${CMAKE_CURRENT_LIST_DIR}/sources/calcephem.c"
     "${CMAKE_CURRENT_LIST_DIR}/sources/moondata.c")
