@@ -34,6 +34,11 @@
 ****/
 
 #include  "moondata.h"
+#ifdef    DEBUG_MOONDATA_C
+#ifndef   USE_DEBUGLOG
+#define   USE_DEBUGLOG
+#endif    /* USE_DEBUGLOG */
+#endif    /* DEBUG_MOONDATA_C */
 #include  "sysdefs.h"
 #include  <math.h>
 #include  <time.h>

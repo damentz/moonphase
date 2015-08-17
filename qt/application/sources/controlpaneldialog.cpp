@@ -155,7 +155,7 @@
 ***   reading the moon animation file.
 **/
 #define   READANIMATIONWARNING(p) \
-    QMessageBox::warning(p,tr(MOONPHASEQT_DISPLAYNAME_STRING), \
+    QMessageBox::warning(p,tr(MOONPHASEQT_DISPLAYNAME), \
         tr("Unable to read moon animation file. Please select a new file."));
 
 
@@ -437,7 +437,7 @@ class CONTROLPANELDIALOG_C::SETTINGS_C : protected QSettings
 
 CONTROLPANELDIALOG_C::SETTINGS_C::SETTINGS_C(void)
 {
-  DEBUGLOG_Printf0("SETTINGS_C::SETTINGS_C()");
+  DEBUGLOG_Printf0("CONTROLPANELDIALOG_C::SETTINGS_C::SETTINGS_C()");
   DEBUGLOG_LogIn();
 
   m_AllowMultipleInstancesFlag=false;
@@ -456,7 +456,7 @@ CONTROLPANELDIALOG_C::SETTINGS_C::SETTINGS_C(void)
 
 CONTROLPANELDIALOG_C::SETTINGS_C::~SETTINGS_C(void)
 {
-  DEBUGLOG_Printf0("SETTINGS_C::~SETTINGS_C()");
+  DEBUGLOG_Printf0("CONTROLPANELDIALOG_C::SETTINGS_C::~SETTINGS_C()");
   DEBUGLOG_LogIn();
 
   DEBUGLOG_LogOut();
@@ -468,7 +468,7 @@ bool CONTROLPANELDIALOG_C::SETTINGS_C::operator==(SETTINGS_C const &RHS) const
   bool EqualFlag;
 
 
-  DEBUGLOG_Printf1("SETTINGS_C::operator==(%p)",&RHS);
+  DEBUGLOG_Printf1("CONTROLPANELDIALOG_C::SETTINGS_C::operator==(%p)",&RHS);
   DEBUGLOG_LogIn();
 
   EqualFlag=(QString::localeAwareCompare(
@@ -491,7 +491,7 @@ bool CONTROLPANELDIALOG_C::SETTINGS_C::operator!=(SETTINGS_C const &RHS) const
   bool EqualFlag;
 
 
-  DEBUGLOG_Printf1("SETTINGS_C::operator==(%p)",&RHS);
+  DEBUGLOG_Printf1("CONTROLPANELDIALOG_C::SETTINGS_C::operator==(%p)",&RHS);
   DEBUGLOG_LogIn();
 
   EqualFlag=!((*this)==RHS);
@@ -502,7 +502,7 @@ bool CONTROLPANELDIALOG_C::SETTINGS_C::operator!=(SETTINGS_C const &RHS) const
 
 void CONTROLPANELDIALOG_C::SETTINGS_C::Load(void)
 {
-  DEBUGLOG_Printf0("SETTINGS_C::Load()");
+  DEBUGLOG_Printf0("CONTROLPANELDIALOG_C::SETTINGS_C::Load()");
   DEBUGLOG_LogIn();
 
   m_AllowMultipleInstancesFlag=
@@ -530,7 +530,7 @@ void CONTROLPANELDIALOG_C::SETTINGS_C::Load(void)
 
 void CONTROLPANELDIALOG_C::SETTINGS_C::Save(void)
 {
-  DEBUGLOG_Printf0("SETTINGS_C::Save()");
+  DEBUGLOG_Printf0("CONTROLPANELDIALOG_C::SETTINGS_C::Save()");
   DEBUGLOG_LogIn();
 
   setValue(PREFERENCES_ALLOWMULTIPLEINSTANCESFLAG,m_AllowMultipleInstancesFlag);
@@ -549,7 +549,8 @@ void CONTROLPANELDIALOG_C::SETTINGS_C::Save(void)
 
 bool CONTROLPANELDIALOG_C::SETTINGS_C::GetAllowMultipleInstancesFlag(void) const
 {
-  DEBUGLOG_Printf0("SETTINGS_C::GetAllowMultipleInstancesFlag()");
+  DEBUGLOG_Printf0(
+      "CONTROLPANELDIALOG_C::SETTINGS_C::GetAllowMultipleInstancesFlag()");
   DEBUGLOG_LogIn();
 
   DEBUGLOG_LogOut();
@@ -558,7 +559,7 @@ bool CONTROLPANELDIALOG_C::SETTINGS_C::GetAllowMultipleInstancesFlag(void) const
 
 QString CONTROLPANELDIALOG_C::SETTINGS_C::GetAnimationPathname(void) const
 {
-  DEBUGLOG_Printf0("SETTINGS_C::GetAnimationPathname()");
+  DEBUGLOG_Printf0("CONTROLPANELDIALOG_C::SETTINGS_C::GetAnimationPathname()");
   DEBUGLOG_LogIn();
 
   DEBUGLOG_LogOut();
@@ -567,7 +568,7 @@ QString CONTROLPANELDIALOG_C::SETTINGS_C::GetAnimationPathname(void) const
 
 QColor CONTROLPANELDIALOG_C::SETTINGS_C::GetBackgroundColor(void) const
 {
-  DEBUGLOG_Printf0("SETTINGS_C::GetBackgroundColor()");
+  DEBUGLOG_Printf0("CONTROLPANELDIALOG_C::SETTINGS_C::GetBackgroundColor()");
   DEBUGLOG_LogIn();
 
   DEBUGLOG_LogOut();
@@ -576,7 +577,7 @@ QColor CONTROLPANELDIALOG_C::SETTINGS_C::GetBackgroundColor(void) const
 
 bool CONTROLPANELDIALOG_C::SETTINGS_C::GetConfirmDiscardFlag(void) const
 {
-  DEBUGLOG_Printf0("SETTINGS_C::GetConfirmDiscardFlag()");
+  DEBUGLOG_Printf0("CONTROLPANELDIALOG_C::SETTINGS_C::GetConfirmDiscardFlag()");
   DEBUGLOG_LogIn();
 
   DEBUGLOG_LogOut();
@@ -585,7 +586,7 @@ bool CONTROLPANELDIALOG_C::SETTINGS_C::GetConfirmDiscardFlag(void) const
 
 bool CONTROLPANELDIALOG_C::SETTINGS_C::GetConfirmQuitFlag(void) const
 {
-  DEBUGLOG_Printf0("SETTINGS_C::GetConfirmQuitFlag()");
+  DEBUGLOG_Printf0("CONTROLPANELDIALOG_C::SETTINGS_C::GetConfirmQuitFlag()");
   DEBUGLOG_LogIn();
 
   DEBUGLOG_LogOut();
@@ -594,7 +595,8 @@ bool CONTROLPANELDIALOG_C::SETTINGS_C::GetConfirmQuitFlag(void) const
 
 bool CONTROLPANELDIALOG_C::SETTINGS_C::GetRemindOncePerSessionFlag(void) const
 {
-  DEBUGLOG_Printf0("SETTINGS_C::GetRemindOncePerSessionFlag()");
+  DEBUGLOG_Printf0(
+      "CONTROLPANELDIALOG_C::SETTINGS_C::GetRemindOncePerSessionFlag()");
   DEBUGLOG_LogIn();
 
   DEBUGLOG_LogOut();
@@ -603,7 +605,8 @@ bool CONTROLPANELDIALOG_C::SETTINGS_C::GetRemindOncePerSessionFlag(void) const
 
 bool CONTROLPANELDIALOG_C::SETTINGS_C::GetStillRunningReminderFlag(void) const
 {
-  DEBUGLOG_Printf0("SETTINGS_C::GetStillRunningReminderFlag()");
+  DEBUGLOG_Printf0(
+      "CONTROLPANELDIALOG_C::SETTINGS_C::GetStillRunningReminderFlag()");
   DEBUGLOG_LogIn();
 
   DEBUGLOG_LogOut();
@@ -612,7 +615,7 @@ bool CONTROLPANELDIALOG_C::SETTINGS_C::GetStillRunningReminderFlag(void) const
 
 unsigned int CONTROLPANELDIALOG_C::SETTINGS_C::GetUpdateInterval(void) const
 {
-  DEBUGLOG_Printf0("SETTINGS_C::GetUpdateInterval()");
+  DEBUGLOG_Printf0("CONTROLPANELDIALOG_C::SETTINGS_C::GetUpdateInterval()");
   DEBUGLOG_LogIn();
 
   DEBUGLOG_LogOut();
@@ -621,17 +624,19 @@ unsigned int CONTROLPANELDIALOG_C::SETTINGS_C::GetUpdateInterval(void) const
 
 bool CONTROLPANELDIALOG_C::SETTINGS_C::GetUseOpaqueBackgroundFlag(void) const
 {
-  DEBUGLOG_Printf0("SETTINGS_C::GetUseOpaqueBackgroundFlag()");
+  DEBUGLOG_Printf0(
+      "CONTROLPANELDIALOG_C::SETTINGS_C::GetUseOpaqueBackgroundFlag()");
   DEBUGLOG_LogIn();
 
   DEBUGLOG_LogOut();
   return(m_UseOpaqueBackgroundFlag);
 }
 
-void CONTROLPANELDIALOG_C::SETTINGS_C::SetAllowMultipleInstancesFlag(
-    bool const AllowMultipleInstancesFlag)
+void CONTROLPANELDIALOG_C::SETTINGS_C::
+    SetAllowMultipleInstancesFlag(bool const AllowMultipleInstancesFlag)
 {
-  DEBUGLOG_Printf1("SETTINGS_C::SetAllowMultipleInstancesFlag(%u)",
+  DEBUGLOG_Printf1(
+      "CONTROLPANELDIALOG_C::SETTINGS_C::SetAllowMultipleInstancesFlag(%u)",
       AllowMultipleInstancesFlag);
   DEBUGLOG_LogIn();
 
@@ -641,9 +646,11 @@ void CONTROLPANELDIALOG_C::SETTINGS_C::SetAllowMultipleInstancesFlag(
   return;
 }
 
-void CONTROLPANELDIALOG_C::SETTINGS_C::SetAnimationPathname(QString const Pathname)
+void CONTROLPANELDIALOG_C::SETTINGS_C::
+    SetAnimationPathname(QString const Pathname)
 {
-  DEBUGLOG_Printf2("SETTINGS_C::SetAnimationPathname(%p(%s))",
+  DEBUGLOG_Printf2(
+      "CONTROLPANELDIALOG_C::SETTINGS_C::SetAnimationPathname(%p(%s))",
       &Pathname,qPrintable(Pathname));
   DEBUGLOG_LogIn();
 
@@ -656,8 +663,8 @@ void CONTROLPANELDIALOG_C::SETTINGS_C::SetAnimationPathname(QString const Pathna
 void CONTROLPANELDIALOG_C::SETTINGS_C::
     SetBackgroundColor(QColor const BackgroundColor)
 {
-  DEBUGLOG_Printf1(
-      "SETTINGS_C::SetBackgroundColor(%u)",BackgroundColor.value());
+  DEBUGLOG_Printf1("CONTROLPANELDIALOG_C::SETTINGS_C::SetBackgroundColor(%u)",
+      BackgroundColor.value());
   DEBUGLOG_LogIn();
 
   m_BackgroundColor=BackgroundColor;
@@ -669,7 +676,9 @@ void CONTROLPANELDIALOG_C::SETTINGS_C::
 void CONTROLPANELDIALOG_C::SETTINGS_C::
     SetConfirmDiscardFlag(bool const ConfirmDiscardFlag)
 {
-  DEBUGLOG_Printf1("SETTINGS_C::SetConfirmDiscardFlag(%u)",ConfirmDiscardFlag);
+  DEBUGLOG_Printf1(
+      "CONTROLPANELDIALOG_C::SETTINGS_C::SetConfirmDiscardFlag(%u)",
+      ConfirmDiscardFlag);
   DEBUGLOG_LogIn();
 
   m_ConfirmDiscardFlag=ConfirmDiscardFlag;
@@ -681,7 +690,8 @@ void CONTROLPANELDIALOG_C::SETTINGS_C::
 void CONTROLPANELDIALOG_C::SETTINGS_C::
     SetConfirmQuitFlag(bool const ConfirmQuitFlag)
 {
-  DEBUGLOG_Printf1("SETTINGS_C::SetConfirmQuitFlag(%u)",ConfirmQuitFlag);
+  DEBUGLOG_Printf1("CONTROLPANELDIALOG_C::SETTINGS_C::SetConfirmQuitFlag(%u)",
+      ConfirmQuitFlag);
   DEBUGLOG_LogIn();
 
   m_ConfirmQuitFlag=ConfirmQuitFlag;
@@ -693,7 +703,9 @@ void CONTROLPANELDIALOG_C::SETTINGS_C::
 void CONTROLPANELDIALOG_C::SETTINGS_C::
     SetRemindOncePerSessionFlag(bool const OnceFlag)
 {
-  DEBUGLOG_Printf1("SETTINGS_C::SetRemindOncePerSessionFlag(%u)",OnceFlag);
+  DEBUGLOG_Printf1(
+      "CONTROLPANELDIALOG_C::SETTINGS_C::SetRemindOncePerSessionFlag(%u)",
+      OnceFlag);
   DEBUGLOG_LogIn();
 
   m_RemindOncePerSessionFlag=OnceFlag;
@@ -705,7 +717,9 @@ void CONTROLPANELDIALOG_C::SETTINGS_C::
 void CONTROLPANELDIALOG_C::SETTINGS_C::
     SetStillRunningReminderFlag(bool const ReminderFlag)
 {
-  DEBUGLOG_Printf1("SETTINGS_C::SetStillRunningReminderFlag(%u)",ReminderFlag);
+  DEBUGLOG_Printf1(
+      "CONTROLPANELDIALOG_C::SETTINGS_C::SetStillRunningReminderFlag(%u)",
+      ReminderFlag);
   DEBUGLOG_LogIn();
 
   m_StillRunningReminderFlag=ReminderFlag;
@@ -717,7 +731,8 @@ void CONTROLPANELDIALOG_C::SETTINGS_C::
 void CONTROLPANELDIALOG_C::SETTINGS_C::
     SetUpdateInterval(unsigned int const Interval)
 {
-  DEBUGLOG_Printf1("SETTINGS_C::SetUpdateInterval(%u)",Interval);
+  DEBUGLOG_Printf1("CONTROLPANELDIALOG_C::SETTINGS_C::SetUpdateInterval(%u)",
+      Interval);
   DEBUGLOG_LogIn();
 
   m_UpdateInterval=Interval;
@@ -729,7 +744,9 @@ void CONTROLPANELDIALOG_C::SETTINGS_C::
 void CONTROLPANELDIALOG_C::SETTINGS_C::
     SetUseOpaqueBackgroundFlag(bool const UseFlag)
 {
-  DEBUGLOG_Printf1("SETTINGS_C::SetUseOpaqueBackgroundFlag(%u)",UseFlag);
+  DEBUGLOG_Printf1(
+      "CONTROLPANELDIALOG_C::SETTINGS_C::SetUseOpaqueBackgroundFlag(%u)",
+      UseFlag);
   DEBUGLOG_LogIn();
 
   m_UseOpaqueBackgroundFlag=UseFlag;
@@ -791,7 +808,7 @@ CONTROLPANELDIALOG_C::CONTROLPANELDIALOG_C(QWidget *pParent) : QDialog(pParent)
   setupUi(this);
 
   /* Set window title. */
-  setWindowTitle(windowTitle()+tr(" - ")+tr(MOONPHASEQT_DISPLAYNAME_STRING));
+  setWindowTitle(windowTitle()+tr(" - ")+tr(MOONPHASEQT_DISPLAYNAME));
 
   /* Add minimize button. */
   setWindowFlags(Qt::Window);
@@ -985,7 +1002,7 @@ void CONTROLPANELDIALOG_C::CheckSavePreferences(void)
   if ( (m_pButtonBox->button(QDialogButtonBox::Apply)->isEnabled()==true) &&
       (m_pSettings->GetConfirmDiscardFlag()==true) )
   {
-    if (QMessageBox::question(this,MOONPHASEQT_DISPLAYNAME_STRING,
+    if (QMessageBox::question(this,MOONPHASEQT_DISPLAYNAME,
         tr("Your preferences have changed. Do you want to save them?"),
         QMessageBox::Yes|QMessageBox::No,QMessageBox::Yes)==QMessageBox::Yes)
     {
@@ -1017,7 +1034,7 @@ void CONTROLPANELDIALOG_C::closeEvent(QCloseEvent *pEvent)
       ((m_pSettings->GetRemindOncePerSessionFlag()==true) &&
       (m_CloseReminderIssued==false))) )
   {
-    QMessageBox::information(this,MOONPHASEQT_DISPLAYNAME_STRING,
+    QMessageBox::information(this,MOONPHASEQT_DISPLAYNAME,
         tr("This program will continue to run in the system tray. To stop it, "
         "right click the system tray icon and select <b>Quit</b>."));
     if (m_pSettings->GetRemindOncePerSessionFlag()==true)
@@ -1140,23 +1157,22 @@ void CONTROLPANELDIALOG_C::InitializeAboutTab(void)
   DEBUGLOG_LogIn();
 
   /* Set the data in the various widgets. */
-  m_pProgramNameLabel->setText(MOONPHASEQT_DISPLAYNAME_STRING);
-  m_pExecutableNameVersionLabel->setText(MOONPHASEQT_EXECUTABLENAME_STRING
-      " (Version "MOONPHASEQT_VERSION_STRING")");
-  m_pProgramInformationEdit->setText(MOONPHASEQT_DESCRIPTION_STRING"\n");
-  m_pProgramInformationEdit->append(MOONPHASEQT_COPYRIGHTNOTICE_STRING"\n");
-  m_pProgramInformationEdit->append("<a href=\""MOONPHASEQT_WEBSITE_STRING"\">"
-      MOONPHASEQT_DISPLAYNAME_STRING" Web Site</a>\n");
-
+  m_pProgramNameLabel->setText(MOONPHASEQT_DISPLAYNAME);
+  m_pExecutableNameVersionLabel->setText(MOONPHASEQT_EXECUTABLENAME
+      " (Version "MOONPHASEQT_VERSION")");
+  m_pProgramInformationEdit->setText(MOONPHASEQT_DESCRIPTION"\n");
+  m_pProgramInformationEdit->append(MOONPHASEQT_COPYRIGHTNOTICE"\n");
 #ifdef    _WIN32
   {
     QString Buffer;
 
-    Buffer=QString(tr("\nStatically linked with Qt (Version "))
-        +qVersion()+QString(tr(")"));
+    Buffer=QString(tr("Statically linked with Qt (Version "))
+        +qVersion()+QString(tr(")\n"));
     m_pProgramInformationEdit->append(Buffer);
   }
 #endif    /* _WIN32 */
+  m_pProgramInformationEdit->append("<a href=\""MOONPHASEQT_WEBSITE"\">"
+      MOONPHASEQT_DISPLAYNAME" Web Site</a>\n");
 
   m_pLicenseAgreementEdit->setPlainText(f_pLicenseAgreement);
 
@@ -1395,8 +1411,8 @@ void CONTROLPANELDIALOG_C::CheckButtonClickedSlot(void)
   return;
 }
 
-void CONTROLPANELDIALOG_C::ControlPanelActivatedSlot(
-    QSystemTrayIcon::ActivationReason Reason)
+void CONTROLPANELDIALOG_C::
+    ControlPanelActivatedSlot(QSystemTrayIcon::ActivationReason Reason)
 {
   DEBUGLOG_Printf1(
       "CONTROLPANELDIALOG_C::ControlPanelActivatedSlot(%d)",Reason);
@@ -1415,8 +1431,8 @@ void CONTROLPANELDIALOG_C::ControlPanelActivatedSlot(
   return;
 }
 
-void CONTROLPANELDIALOG_C::CurrentVersionDownloadCompleteSlot(
-    QNetworkReply *pReply)
+void CONTROLPANELDIALOG_C::
+    CurrentVersionDownloadCompleteSlot(QNetworkReply *pReply)
 {
   QVariant RedirectURL;
   QNetworkRequest Request;
@@ -1464,13 +1480,13 @@ void CONTROLPANELDIALOG_C::CurrentVersionDownloadCompleteSlot(
         switch(Field)
         {
           case 0:
-            Delta=100*(MOONPHASEQT_MAJORVERSION_NUMBER-Value);
+            Delta=100*(MOONPHASEQT_MAJORVERSION-Value);
             break;
           case 1:
-            Delta=10*(MOONPHASEQT_MINORVERSION_NUMBER-Value);
+            Delta=10*(MOONPHASEQT_MINORVERSION-Value);
             break;
           case 2:
-            Delta=1*(MOONPHASEQT_PATCHVERSION_NUMBER-Value);
+            Delta=1*(MOONPHASEQT_PATCHVERSION-Value);
             break;
           default:
             SuccessFlag=false;
@@ -1491,12 +1507,12 @@ void CONTROLPANELDIALOG_C::CurrentVersionDownloadCompleteSlot(
         {
           QMessageBox UpdateMessageBox(this);
 
-          UpdateMessageBox.setWindowTitle(MOONPHASEQT_DISPLAYNAME_STRING);
+          UpdateMessageBox.setWindowTitle(MOONPHASEQT_DISPLAYNAME);
           UpdateMessageBox.setTextFormat(Qt::RichText); // Makes links clickable
           UpdateMessageBox.setText("An update to this program is available!"
               "<br><br>"
-              "Visit the <a href='"MOONPHASEQT_WEBSITE_STRING"'>"
-              MOONPHASEQT_DISPLAYNAME_STRING" Web Site</a>");
+              "Visit the <a href='"MOONPHASEQT_WEBSITE"'>"
+              MOONPHASEQT_DISPLAYNAME" Web Site</a>");
           UpdateMessageBox.exec();
         }
       }
@@ -1573,7 +1589,7 @@ void CONTROLPANELDIALOG_C::QuitSlot(void)
   {
     /* Yes. */
     QuitFlag=false;
-    if (QMessageBox::question(this,MOONPHASEQT_DISPLAYNAME_STRING,
+    if (QMessageBox::question(this,MOONPHASEQT_DISPLAYNAME,
         tr("Are you sure you want to quit?"),
         QMessageBox::Yes|QMessageBox::No,QMessageBox::No)==QMessageBox::Yes)
       QuitFlag=true;
@@ -1622,6 +1638,7 @@ void CONTROLPANELDIALOG_C::UpdateTimerTriggeredSlot(void)
 {
   QString PercentString;
   QPixmap Pixmap;
+  float Percent;
 
 
   DEBUGLOG_Printf0("CONTROLPANELDIALOG_C::UpdateTimerTriggeredSlot()");
@@ -1656,11 +1673,15 @@ void CONTROLPANELDIALOG_C::UpdateTimerTriggeredSlot(void)
     MoonData_Recalculate(&m_MoonData);
 
     /* Update the icon. */
-    Pixmap=DrawFrame(&m_MoonTrayImages,
-        MoonData_GetMoonPhasePercent(&m_MoonData),
+    Percent=MoonData_GetMoonPhasePercent(&m_MoonData);
+    Pixmap=DrawFrame(&m_MoonTrayImages,Percent,
         m_pSettings->GetUseOpaqueBackgroundFlag(),
         m_pSettings->GetBackgroundColor());
     m_pTrayIcon->setIcon(Pixmap);
+
+    /* Update the tool tip */
+    m_pTrayIcon->setToolTip(
+        MOONPHASEQT_DISPLAYNAME+QString(" - %1%").arg((int)(Percent+0.5)));
 
     /* Reset the counter. */
     m_UpdateIntervalCounter=0;

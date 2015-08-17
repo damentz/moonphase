@@ -15,7 +15,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="../resources/moonphaseqt.qrc">
-    <normaloff>:/MoonPhaseIcon</normaloff>:/MoonPhaseIcon</iconset>
+    <normaloff>:/MoonPhaseQtIcon</normaloff>:/MoonPhaseQtIcon</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <property name="sizeConstraint">
@@ -401,7 +401,7 @@
               <string/>
              </property>
              <property name="pixmap">
-              <pixmap resource="../resources/moonphaseqt.qrc">:/MoonPhaseIcon</pixmap>
+              <pixmap resource="../resources/moonphaseqt.qrc">:/MoonPhaseQtIcon</pixmap>
              </property>
              <property name="scaledContents">
               <bool>false</bool>

@@ -28,19 +28,20 @@ DOXYFILE_ENCODING      = UTF-8
 # identify the project. Note that if you do not use Doxywizard you need
 # to put quotes around the project name if it contains spaces.
 
-PROJECT_NAME           = "@DISPLAYNAME_STRING@"
+PROJECT_NAME           = "@MOONPHASE_DISPLAYNAME@"
 
 # The PROJECT_NUMBER tag can be used to enter a project or revision number.
 # This could be handy for archiving the generated documentation or
 # if some version control system is used.
 
-PROJECT_NUMBER         = "@MAJORVERSION_NUMBER@.@MINORVERSION_NUMBER@.@PATCHVERSION_NUMBER@"
+PROJECT_NUMBER         = \
+    "@MOONPHASE_MAJORVERSION@.@MOONPHASE_MINORVERSION@.@MOONPHASE_PATCHVERSION@"
 
 # Using the PROJECT_BRIEF tag one can provide an optional one line description
 # for a project that appears at the top of each page and should give viewer
 # a quick idea about the purpose of the project. Keep the description short.
 
-PROJECT_BRIEF          = "@DESCRIPTION_STRING@"
+PROJECT_BRIEF          = "@MOONPHASE_DESCRIPTION@"
 
 # With the PROJECT_LOGO tag one can specify an logo or icon that is
 # included in the documentation. The maximum height of the logo should not
@@ -1613,12 +1614,12 @@ PREDEFINED             = @DOXYGEN_PREDEFINED@
 # overrules the definition found in the source code.
 
 EXPAND_AS_DEFINED      = STRUCTURE_PROTOTYPE_INITIALIZE \
-                         STRUCTURE_PROTOTYPE_INITIALIZEMEMBERS \
                          STRUCTURE_FUNCTION_INITIALIZE \
+                         STRUCTURE_PROTOTYPE_INITIALIZEMEMBERS \
                          STRUCTURE_FUNCTION_INITIALIZEMEMBERS \
                          STRUCTURE_PROTOTYPE_UNINITIALIZE \
-                         STRUCTURE_PROTOTYPE_UNINITIALIZEMEMBERS \
                          STRUCTURE_FUNCTION_UNINITIALIZE \
+                         STRUCTURE_PROTOTYPE_UNINITIALIZEMEMBERS \
                          STRUCTURE_FUNCTION_UNINITIALIZEMEMBERS
 
 # If the SKIP_FUNCTION_MACROS tag is set to YES (the default) then

@@ -3,4 +3,4 @@
   section="Applications/Science/Astronomy"\
   title="Moon Phase"\
   command="moonphase-qt"\
-  icon="/usr/share/icons/moonphase.xpm"
+  icon="/usr/share/icons/moonphase-qt.xpm"

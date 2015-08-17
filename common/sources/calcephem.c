@@ -1,6 +1,3 @@
-#ifdef    __GNUC__
-#define   _GNU_SOURCE
-#endif    /* __GNUC__ */
 #ifdef    _MSC_VER
 #define   _USE_MATH_DEFINES
 #endif    /* _MSC_VER */

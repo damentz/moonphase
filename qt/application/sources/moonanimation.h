@@ -104,8 +104,8 @@ STRUCTURE_PROTOTYPE_UNINITIALIZEMEMBERS(MoonAnimation,MOONANIMATION_T);
 *** \retval >0 Success.
 *** \retval <0 Failure.
 **/
-ERRORCODE_T MoonAnimation_GetPathName(
-    MOONANIMATION_T const *pMoonAnimation,QString *pPathName);
+ERRORCODE_T MoonAnimation_GetPathname(
+    MOONANIMATION_T const *pMoonAnimation,QString *pPathname);
 /**
 *** \brief Returns a frame.
 *** \details Returns a frame from the image.

@@ -26,7 +26,8 @@
 # Include paths
 #
 
-INCLUDE_DIRECTORIES("${CMAKE_CURRENT_LIST_DIR}/sources/"
+INCLUDE_DIRECTORIES(
+    "${CMAKE_CURRENT_LIST_DIR}/sources/"
     "${CMAKE_SOURCE_DIR}/toolbox/generic/sources/")
 
 
@@ -34,9 +35,11 @@ INCLUDE_DIRECTORIES("${CMAKE_CURRENT_LIST_DIR}/sources/"
 # Sources
 #
 
-SET(COMMON_FILES "${COMMON_FILES}"
+SET(COMMON_SOURCES
     "${CMAKE_CURRENT_LIST_DIR}/sources/calcephem.c"
     "${CMAKE_CURRENT_LIST_DIR}/sources/moondata.c")
+SET(COMMON_FILES
+    ${COMMON_SOURCES})
 
 
 #

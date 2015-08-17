@@ -127,9 +127,9 @@ int main(int ArgC, char *ppArgV[])
     pApplication=new QtSingleApplication(ArgC,ppArgV);
 
     /* Set up settings keys. */
-    QCoreApplication::setApplicationName(MOONPHASEQT_EXECUTABLENAME_STRING);
-    QCoreApplication::setOrganizationName(MOONPHASEQT_OWNER_STRING);
-    QCoreApplication::setOrganizationDomain(MOONPHASEQT_WEBSITE_STRING);
+    QCoreApplication::setApplicationName(MOONPHASEQT_EXECUTABLENAME);
+    QCoreApplication::setOrganizationName(MOONPHASEQT_OWNER);
+    QCoreApplication::setOrganizationDomain(MOONPHASEQT_WEBSITE);
 
     /* Create the main window. */
     pDialog=new CONTROLPANELDIALOG_C();
@@ -137,7 +137,7 @@ int main(int ArgC, char *ppArgV[])
     Return=EXIT_SUCCESS;
     if (QSystemTrayIcon::isSystemTrayAvailable()==false)
     {
-      QMessageBox::critical(pDialog,MOONPHASEQT_DISPLAYNAME_STRING,
+      QMessageBox::critical(pDialog,MOONPHASEQT_DISPLAYNAME,
           "The system tray was not detected.\nThis program will quit now.");
     }
     else
@@ -150,7 +150,7 @@ int main(int ArgC, char *ppArgV[])
           (pDialog->GetAllowMultipleInstancesFlag()==false) )
       {
         /* Not allowed by configuration. */
-        QMessageBox::warning(pDialog,QObject::tr(MOONPHASEQT_DISPLAYNAME_STRING),
+        QMessageBox::warning(pDialog,QObject::tr(MOONPHASEQT_DISPLAYNAME),
             QObject::tr("Another instance of this program is already running. "
             "This instance will be stopped and the other instance will be activated."));
         pApplication->sendMessage("Activate");

@@ -204,7 +204,7 @@ ERRORCODE_T MoonAnimation_GetFrameCount(MOONANIMATION_T const *pMoonAnimation)
 }
 
 ERRORCODE_T MoonAnimation_ReadFile(
-    MOONANIMATION_T *pMoonAnimation,char const *pPathName)
+    MOONANIMATION_T *pMoonAnimation,char const *pPathname)
 {
   ERRORCODE_T ErrorCode;
   QPixmap Image;
@@ -216,11 +216,11 @@ ERRORCODE_T MoonAnimation_ReadFile(
 
 
   DEBUGLOG_Printf3(
-      "MoonAnimation_ReadFile(%p,%p(%s))",pMoonAnimation,pPathName,pPathName);
+      "MoonAnimation_ReadFile(%p,%p(%s))",pMoonAnimation,pPathname,pPathname);
   DEBUGLOG_LogIn();
 
   /* Parameter checking. */
-  if ( (pMoonAnimation==NULL) || (pPathName==NULL) )
+  if ( (pMoonAnimation==NULL) || (pPathname==NULL) )
   {
     ErrorCode=ERRORCODE_NULLPARAMETER;
     MESSAGELOG_LogError(ErrorCode);
@@ -229,7 +229,7 @@ ERRORCODE_T MoonAnimation_ReadFile(
   {
     pMoonAnimation->pImages->clear();
     ErrorCode=ERRORCODE_INVALIDDATA;
-    if (Image.load(pPathName)==false)
+    if (Image.load(pPathname)==false)
       ErrorCode=ERRORCODE_LIBRARYFAILURE;
     else
     {

@@ -13,8 +13,13 @@ Displays the phase of the moon in the system tray. Additionally, a window
  can be displayed that shows user selectable data about the moon
  (rise/set times, percent illumination, etc).
 
-BuildRequires:  
-Requires:       
+%files
+%defattr(-,root,root,-)
+%{_bindir}/%{name}-qt
+%{_datadir}/%{name}/moon_56frames.png
+%{_datadir}/icons/%{name}-qt.xpm
+%{_datadir}/applications/%{name}-qt.desktop
+%doc COPYING
 
 %changelog
 * Sun Aug 16 2015 Alan Wise <alanwise@users.sourceforge.net> - 0.3.1-1
@@ -47,14 +52,3 @@ make
 
 %install
 %make_install
-
-%files
-%defattr(-,root,root,-)
-%{_bindir}/%{name}-qt
-%{_datadir}/%{name}/moon_56frames.png
-%{_datadir}/icons/%{name}.xpm
-%{_datadir}/applications/%{name}-qt.desktop
-%doc COPYING
-
-#ExcludeArch:
-#Excludeos:

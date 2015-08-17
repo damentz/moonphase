@@ -1,7 +1,7 @@
 <RCC>
   <qresource prefix="/">
+    <file alias="MoonPhaseQtIcon">moonphase-qt.xpm</file>
     <file alias="ErrorIcon">error.xpm</file>
-    <file alias="MoonPhaseIcon">moonphase.xpm</file>
   </qresource>
   <qresource prefix="ActionIcons">
     <file alias="ControlPanelIcon">controlpanel.xpm</file>
