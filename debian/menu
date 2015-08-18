@@ -1,4 +1,4 @@
-?package(moonphase):\
+?package(moonphase-qt):\
   needs="X11"\
   section="Applications/Science/Astronomy"\
   title="Moon Phase"\

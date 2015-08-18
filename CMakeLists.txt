@@ -43,7 +43,6 @@ SET(MOONPHASE_COPYRIGHTNOTICE
 SET(MOONPHASE_WEBSITE "http://sourceforge.net/projects/moonphase/")
 SET(MOONPHASE_LICENSE
     "License GPLv3: GNU GPL version 3 or later <http://gnu.org/licenses/>.")
-SET(PACKAGE_NAME "moonphase")
 
 # Convert license agreement to include file.
 FILE(READ "${PROJECT_SOURCE_DIR}/COPYING" COPYING)
@@ -81,20 +80,6 @@ IF(NOT CMAKE_BUILD_TYPE)
       FORCE)
 ENDIF()
 
-# Install information.
-IF(UNIX)
-  SET(INSTALL_BINARYDIRECTORY "bin")
-  SET(INSTALL_ICONDIRECTORY "share/icons")
-  SET(INSTALL_IMAGEDIRECTORY "share/${PROJECT_NAME}")
-ELSEIF(WIN32 AND MSVC)
-  SET(INSTALL_BINARYDIRECTORY ".")
-  SET(INSTALL_ICONDIRECTORY ".")
-  SET(INSTALL_IMAGEDIRECTORY ".")
-ELSE()
-  MESSAGE(FATAL_ERROR
-      "Unknown build configuration. CMakeLists.txt needs to be updated!")
-ENDIF()
-
 
 #
 # Include paths
@@ -122,11 +107,6 @@ ADD_SUBDIRECTORY(toolbox)
 #
 # Installation
 #
-
-IF(BUILD_EXECUTABLE)
-  FILE(GLOB MOONPHASE_IMAGES "${CMAKE_SOURCE_DIR}/images/*")
-  INSTALL(FILES ${MOONPHASE_IMAGES} DESTINATION ${INSTALL_IMAGEDIRECTORY})
-ENDIF()
 
 
 #

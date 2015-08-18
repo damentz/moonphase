@@ -1,22 +1,27 @@
 %define MmVersion 0.3
 Name:           moonphase
-Version:        %{MmVersion}.1
+Version:        %{MmVersion}.2
 Release:        1
-Summary:        Displays the phase of the moon in the system tray
-
+Summary:        No summary
 License:        GPLv3+
 URL:            http://sourceforge.net/projects/moonphase/
 Source0:        http://sourceforge.net/projects/moonphase/files/%{MmVersion}/moonphase-%{version}.tar.gz
 
 %description
+No description.
+
+%package qt
+Summary: Qt version of moonphase
+
+%description qt
 Displays the phase of the moon in the system tray. Additionally, a window
  can be displayed that shows user selectable data about the moon
  (rise/set times, percent illumination, etc).
 
-%files
+%files qt
 %defattr(-,root,root,-)
 %{_bindir}/%{name}-qt
-%{_datadir}/%{name}/moon_56frames.png
+%{_datadir}/%{name}-qt/moon_56frames.png
 %{_datadir}/icons/%{name}-qt.xpm
 %{_datadir}/applications/%{name}-qt.desktop
 %doc COPYING
@@ -41,7 +46,7 @@ Displays the phase of the moon in the system tray. Additionally, a window
 
 Group: Applications/Engineering
 Prefix: /usr
-Provides: moonphase
+Provides: moonphase-qt
 
 %prep
 %setup -q

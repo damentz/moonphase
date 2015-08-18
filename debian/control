@@ -8,7 +8,7 @@ Homepage: http://moonphase.sourceforge.net/
 Vcs-Git: git://git.code.sf.net/p/moonphase/code
 #Vcs-Browser: http://sourceforge.net/p/moonphase/code/ci/master/tree/
 
-Package: moonphase
+Package: moonphase-qt
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: Displays the phase of the moon in the system tray.

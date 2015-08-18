@@ -141,7 +141,7 @@
 *** \brief Image subdirectory.
 *** \details Subdirectory containing the moonphase images.
 **/
-#define   DIRECTORY_IMAGES  "/share/moonphase"
+#define   DIRECTORY_IMAGES  "/share/moonphase-qt"
 
 /**
 *** \brief Default animation.
