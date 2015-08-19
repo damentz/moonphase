@@ -27,6 +27,9 @@ Displays the phase of the moon in the system tray. Additionally, a window
 %doc COPYING
 
 %changelog
+* Wed Aug 19 2015 Alan Wise <alanwise@users.sourceforge.net> - 0.3.2-1
+- New upstream version.
+
 * Sun Aug 16 2015 Alan Wise <alanwise@users.sourceforge.net> - 0.3.1-1
 - New upstream version.
 
