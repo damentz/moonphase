@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>410</width>
-    <height>548</height>
+    <width>433</width>
+    <height>477</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -102,147 +102,169 @@
          <property name="title">
           <string>Image</string>
          </property>
-         <layout class="QFormLayout" name="formLayout">
+         <layout class="QGridLayout" name="gridLayout">
+          <item row="0" column="1" rowspan="2">
+           <widget class="QFrame" name="m_pPreviewFrame">
+            <property name="frameShape">
+             <enum>QFrame::StyledPanel</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Sunken</enum>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout_6">
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
+             <item>
+              <widget class="QLabel" name="m_pPreviewViewLabel">
+               <property name="minimumSize">
+                <size>
+                 <width>64</width>
+                 <height>64</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>64</width>
+                 <height>64</height>
+                </size>
+               </property>
+               <property name="frameShape">
+                <enum>QFrame::Box</enum>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="m_pPreviewPercentLabel">
+               <property name="text">
+                <string>0%</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="m_pPreviewVSpacer">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>40</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
+           </widget>
+          </item>
           <item row="0" column="0">
-           <widget class="QLabel" name="m_pAnimationPathnameLabel">
-            <property name="text">
-             <string>Path&amp;name</string>
-            </property>
-            <property name="buddy">
-             <cstring>m_pAnimationFilenameChooser</cstring>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="0">
-           <widget class="QLabel" name="m_pAnimationPreviewLabel">
-            <property name="text">
-             <string>Preview</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="1">
-           <layout class="QHBoxLayout" name="m_pPreviewHLayout">
-            <item>
-             <widget class="QLabel" name="m_pPreviewViewLabel">
-              <property name="minimumSize">
-               <size>
-                <width>64</width>
-                <height>64</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>64</width>
-                <height>64</height>
-               </size>
-              </property>
-              <property name="frameShape">
-               <enum>QFrame::Box</enum>
-              </property>
-              <property name="text">
-               <string/>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QLabel" name="m_pPreviewPercentLabel">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>120</width>
-                <height>16777215</height>
-               </size>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-          <item row="0" column="1">
-           <widget class="QwwFileChooser" name="m_pAnimationFilenameChooser"/>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item>
-        <widget class="QGroupBox" name="m_pUseOpaqueBackgroundGroupBox">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="title">
-          <string>Use opaque &amp;background</string>
-         </property>
-         <property name="checkable">
-          <bool>true</bool>
-         </property>
-         <property name="checked">
-          <bool>false</bool>
-         </property>
-         <layout class="QFormLayout" name="formLayout_4">
-          <property name="horizontalSpacing">
-           <number>0</number>
-          </property>
-          <item row="1" column="1">
-           <layout class="QFormLayout" name="m_pBackgroundColorFLayout">
+           <layout class="QFormLayout" name="m_pAnimationPathnameFLayout">
             <property name="fieldGrowthPolicy">
              <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
             </property>
-            <property name="leftMargin">
-             <number>9</number>
-            </property>
-            <property name="topMargin">
-             <number>0</number>
-            </property>
-            <property name="rightMargin">
-             <number>9</number>
-            </property>
-            <property name="bottomMargin">
-             <number>0</number>
-            </property>
+            <item row="0" column="1">
+             <widget class="QwwFileChooser" name="m_pAnimationFilenameChooser"/>
+            </item>
             <item row="0" column="0">
-             <widget class="QLabel" name="m_pBackgroundColorLabel">
+             <widget class="QLabel" name="m_pAnimationPathnameLabel">
               <property name="text">
-               <string>Colo&amp;r  </string>
+               <string>Path&amp;name</string>
               </property>
               <property name="buddy">
-               <cstring>m_pBackgroundColorButton</cstring>
+               <cstring>m_pAnimationFilenameChooser</cstring>
               </property>
              </widget>
             </item>
-            <item row="0" column="1">
-             <layout class="QHBoxLayout" name="m_pBackgroundColorButtonHLayout">
-              <item>
-               <widget class="QwwColorButton" name="m_pBackgroundColorButton">
-                <property name="showName">
-                 <bool>false</bool>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <spacer name="m_pBackgroundColorButtonHSpacer">
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>40</width>
-                  <height>20</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-             </layout>
-            </item>
            </layout>
           </item>
+          <item row="1" column="0">
+           <widget class="QGroupBox" name="m_pUseOpaqueBackgroundGroupBox">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="title">
+             <string>Use opaque &amp;background</string>
+            </property>
+            <property name="checkable">
+             <bool>true</bool>
+            </property>
+            <property name="checked">
+             <bool>false</bool>
+            </property>
+            <layout class="QFormLayout" name="formLayout_4">
+             <property name="horizontalSpacing">
+              <number>0</number>
+             </property>
+             <item row="1" column="1">
+              <layout class="QFormLayout" name="m_pBackgroundColorFLayout">
+               <property name="fieldGrowthPolicy">
+                <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+               </property>
+               <property name="leftMargin">
+                <number>9</number>
+               </property>
+               <property name="topMargin">
+                <number>0</number>
+               </property>
+               <property name="rightMargin">
+                <number>9</number>
+               </property>
+               <property name="bottomMargin">
+                <number>0</number>
+               </property>
+               <item row="0" column="0">
+                <widget class="QLabel" name="m_pBackgroundColorLabel">
+                 <property name="text">
+                  <string>Colo&amp;r  </string>
+                 </property>
+                 <property name="buddy">
+                  <cstring>m_pBackgroundColorButton</cstring>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="1">
+                <layout class="QHBoxLayout" name="m_pBackgroundColorButtonHLayout">
+                 <item>
+                  <widget class="QwwColorButton" name="m_pBackgroundColorButton">
+                   <property name="showName">
+                    <bool>false</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <spacer name="m_pBackgroundColorButtonHSpacer">
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>40</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                </layout>
+               </item>
+              </layout>
+             </item>
+            </layout>
+           </widget>
+          </item>
          </layout>
+         <zorder>formLayoutWidget</zorder>
+         <zorder>m_pPreviewFrame</zorder>
+         <zorder>m_pAnimationPathnameLabel</zorder>
+         <zorder>m_pUseOpaqueBackgroundGroupBox</zorder>
         </widget>
        </item>
        <item>

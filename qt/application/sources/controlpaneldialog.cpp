@@ -141,7 +141,7 @@
 *** \brief Image subdirectory.
 *** \details Subdirectory containing the moonphase images.
 **/
-#define   DIRECTORY_IMAGES  "/share/moonphase-qt"
+#define   DIRECTORY_IMAGES  "/share/"MOONPHASEQT_EXECUTABLENAME
 
 /**
 *** \brief Default animation.
@@ -934,6 +934,9 @@ CONTROLPANELDIALOG_C::CONTROLPANELDIALOG_C(QWidget *pParent) : QDialog(pParent)
     READANIMATIONWARNING(this);
     ErrorCode=ERRORCODE_SUCCESS;  /* "Error" handled. */
   }
+
+  /* Resize the control panel to minimum size. */
+  resize(minimumSizeHint());
 
   m_StartUpFlag=false;
 
