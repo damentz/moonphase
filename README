@@ -1,0 +1,10 @@
+Upgrading
+---------
+Follow the recommendations for uninstall, and then install as normal.
+
+Uninstall
+---------
+Stop the program before uninstalling. Under Windows, if the program is still
+running during the uninstall process, the executable and installation
+directory will not be removed. Under Linux, the program will remain in the
+system tray until the next logout/reboot.
