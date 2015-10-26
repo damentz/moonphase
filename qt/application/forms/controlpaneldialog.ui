@@ -261,10 +261,6 @@
            </widget>
           </item>
          </layout>
-         <zorder>formLayoutWidget</zorder>
-         <zorder>m_pPreviewFrame</zorder>
-         <zorder>m_pAnimationPathnameLabel</zorder>
-         <zorder>m_pUseOpaqueBackgroundGroupBox</zorder>
         </widget>
        </item>
        <item>
@@ -389,6 +385,339 @@
           </size>
          </property>
         </spacer>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="m_pInformationPanelTab">
+      <attribute name="icon">
+       <iconset resource="../resources/moonphaseqt.qrc">
+        <normaloff>:/WidgetIcons/MoonDataIcon</normaloff>:/WidgetIcons/MoonDataIcon</iconset>
+      </attribute>
+      <attribute name="title">
+       <string>&amp;Information Panel</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_5">
+       <item>
+        <widget class="QGroupBox" name="m_pCoordinatesGroupBox">
+         <property name="title">
+          <string>Coordinates</string>
+         </property>
+         <layout class="QFormLayout" name="formLayout">
+          <item row="0" column="0">
+           <widget class="QLabel" name="m_pLatitudeLabel">
+            <property name="text">
+             <string>&amp;Latitude, longitude</string>
+            </property>
+            <property name="buddy">
+             <cstring>m_pLatitudeSpinBox</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <layout class="QHBoxLayout" name="m_pLatitudeLongitudeHLayout">
+            <property name="spacing">
+             <number>2</number>
+            </property>
+            <item>
+             <widget class="QDoubleSpinBox" name="m_pLatitudeSpinBox">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
+              <property name="decimals">
+               <number>6</number>
+              </property>
+              <property name="minimum">
+               <double>-90.000000000000000</double>
+              </property>
+              <property name="maximum">
+               <double>90.000000000000000</double>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="m_pCommaLabel">
+              <property name="text">
+               <string>,</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QDoubleSpinBox" name="m_pLongitudeSpinBox">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
+              <property name="decimals">
+               <number>6</number>
+              </property>
+              <property name="minimum">
+               <double>-180.000000000000000</double>
+              </property>
+              <property name="maximum">
+               <double>180.000000000000000</double>
+              </property>
+              <property name="singleStep">
+               <double>1.000000000000000</double>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="m_pLatLongHSpacer">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>32768</width>
+                <height>1</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="m_pInfoPanelGroupBox">
+         <property name="title">
+          <string>Information panel</string>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_4">
+          <item>
+           <layout class="QVBoxLayout" name="m_pDataVLayout">
+            <property name="spacing">
+             <number>0</number>
+            </property>
+            <item>
+             <widget class="QLabel" name="m_pDataLabelText">
+              <property name="frameShape">
+               <enum>QFrame::Box</enum>
+              </property>
+              <property name="text">
+               <string>&amp;Data</string>
+              </property>
+              <property name="textInteractionFlags">
+               <set>Qt::NoTextInteraction</set>
+              </property>
+              <property name="buddy">
+               <cstring>m_pDataListWidget</cstring>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QListWidget" name="m_pDataListWidget">
+              <property name="selectionMode">
+               <enum>QAbstractItemView::ExtendedSelection</enum>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QVBoxLayout" name="m_pControlsVLayout">
+            <item>
+             <spacer name="m_pControlsTopVSpacer">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>20</width>
+                <height>40</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <layout class="QGridLayout" name="m_ControlsGLayout">
+              <property name="spacing">
+               <number>2</number>
+              </property>
+              <item row="1" column="0">
+               <widget class="QToolButton" name="m_pAddDisplayItemToolButton">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>32</width>
+                  <height>32</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>...</string>
+                </property>
+                <property name="icon">
+                 <iconset resource="../resources/moonphaseqt.qrc">
+                  <normaloff>:/ActionIcons/AddIcon</normaloff>:/ActionIcons/AddIcon</iconset>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="1">
+               <widget class="QToolButton" name="m_pOptionsDisplayItemToolButton">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>32</width>
+                  <height>32</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>...</string>
+                </property>
+                <property name="icon">
+                 <iconset resource="../resources/moonphaseqt.qrc">
+                  <normaloff>:/ActionIcons/OptionsIcon</normaloff>:/ActionIcons/OptionsIcon</iconset>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="2">
+               <widget class="QToolButton" name="m_pRemoveDisplayItemToolButton">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>32</width>
+                  <height>32</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>...</string>
+                </property>
+                <property name="icon">
+                 <iconset resource="../resources/moonphaseqt.qrc">
+                  <normaloff>:/ActionIcons/RemoveIcon</normaloff>:/ActionIcons/RemoveIcon</iconset>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="1">
+               <widget class="QToolButton" name="m_pMoveUpDisplayItemToolButton">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>32</width>
+                  <height>32</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>...</string>
+                </property>
+                <property name="icon">
+                 <iconset resource="../resources/moonphaseqt.qrc">
+                  <normaloff>:/ActionIcons/UpIcon</normaloff>:/ActionIcons/UpIcon</iconset>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="1">
+               <widget class="QToolButton" name="m_pMoveDownDisplayItemToolButton">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>32</width>
+                  <height>32</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>...</string>
+                </property>
+                <property name="icon">
+                 <iconset resource="../resources/moonphaseqt.qrc">
+                  <normaloff>:/ActionIcons/DownIcon</normaloff>:/ActionIcons/DownIcon</iconset>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <spacer name="m_pControlsBottomVSpacer">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>20</width>
+                <height>40</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QVBoxLayout" name="m_pDisplayVLayout">
+            <property name="spacing">
+             <number>0</number>
+            </property>
+            <item>
+             <widget class="QLabel" name="m_pDisplayLabelText">
+              <property name="frameShape">
+               <enum>QFrame::Box</enum>
+              </property>
+              <property name="text">
+               <string>Dis&amp;play</string>
+              </property>
+              <property name="buddy">
+               <cstring>m_pDisplayListWidget</cstring>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QListWidget" name="m_pDisplayListWidget">
+              <property name="selectionMode">
+               <enum>QAbstractItemView::SingleSelection</enum>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="m_pDefaultUnitsGroupBox">
+         <property name="title">
+          <string>Default units</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_11">
+          <item>
+           <widget class="QRadioButton" name="m_pMetricUnitsRadioButton">
+            <property name="text">
+             <string>&amp;Metric</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QRadioButton" name="m_pImperialUnitsRadioButton">
+            <property name="text">
+             <string>&amp;Standard</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
        </item>
       </layout>
      </widget>
@@ -597,6 +926,18 @@
    </property>
    <property name="toolTip">
     <string>Show control panel</string>
+   </property>
+  </action>
+  <action name="m_pShowInformationPanelAction">
+   <property name="icon">
+    <iconset resource="../resources/moonphaseqt.qrc">
+     <normaloff>:/ActionIcons/InformationPanel</normaloff>:/ActionIcons/InformationPanel</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Information Panel</string>
+   </property>
+   <property name="toolTip">
+    <string>Show information panel</string>
    </property>
   </action>
  </widget>
@@ -836,12 +1177,204 @@
    <slot>CheckButtonClickedSlot()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>370</x>
-     <y>475</y>
+     <x>128</x>
+     <y>96</y>
     </hint>
     <hint type="destinationlabel">
      <x>204</x>
      <y>273</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pDataListWidget</sender>
+   <signal>itemSelectionChanged()</signal>
+   <receiver>CONTROLPANELDIALOGUI_C</receiver>
+   <slot>DataItemSelectionChangedSlot()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>93</x>
+     <y>275</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>204</x>
+     <y>261</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pDisplayListWidget</sender>
+   <signal>itemSelectionChanged()</signal>
+   <receiver>CONTROLPANELDIALOGUI_C</receiver>
+   <slot>DisplayItemSelectionChangedSlot()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>323</x>
+     <y>275</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>204</x>
+     <y>261</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pAddDisplayItemToolButton</sender>
+   <signal>clicked()</signal>
+   <receiver>CONTROLPANELDIALOGUI_C</receiver>
+   <slot>AddDataItemButtonClickedSlot()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>190</x>
+     <y>299</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>204</x>
+     <y>261</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pRemoveDisplayItemToolButton</sender>
+   <signal>clicked()</signal>
+   <receiver>CONTROLPANELDIALOGUI_C</receiver>
+   <slot>RemoveDataItemButtonClickedSlot()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>258</x>
+     <y>299</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>204</x>
+     <y>261</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pMoveUpDisplayItemToolButton</sender>
+   <signal>clicked()</signal>
+   <receiver>CONTROLPANELDIALOGUI_C</receiver>
+   <slot>MoveUpDisplayItemButtonClickedSlot()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>224</x>
+     <y>265</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>204</x>
+     <y>261</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pMoveDownDisplayItemToolButton</sender>
+   <signal>clicked()</signal>
+   <receiver>CONTROLPANELDIALOGUI_C</receiver>
+   <slot>MoveDownDisplayItemButtonClickedSlot()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>224</x>
+     <y>333</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>204</x>
+     <y>261</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pOptionsDisplayItemToolButton</sender>
+   <signal>clicked()</signal>
+   <receiver>CONTROLPANELDIALOGUI_C</receiver>
+   <slot>OptionsDisplayItemButtonClickedSlot()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>224</x>
+     <y>299</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>204</x>
+     <y>261</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pShowInformationPanelAction</sender>
+   <signal>triggered()</signal>
+   <receiver>CONTROLPANELDIALOGUI_C</receiver>
+   <slot>ShowInformationPanelSlot()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>204</x>
+     <y>273</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pMetricUnitsRadioButton</sender>
+   <signal>clicked()</signal>
+   <receiver>CONTROLPANELDIALOGUI_C</receiver>
+   <slot>PreferencesChangedSlot()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>208</x>
+     <y>444</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>204</x>
+     <y>273</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pImperialUnitsRadioButton</sender>
+   <signal>clicked()</signal>
+   <receiver>CONTROLPANELDIALOGUI_C</receiver>
+   <slot>PreferencesChangedSlot()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>208</x>
+     <y>472</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>204</x>
+     <y>273</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pLatitudeSpinBox</sender>
+   <signal>valueChanged(double)</signal>
+   <receiver>CONTROLPANELDIALOGUI_C</receiver>
+   <slot>LatitudeChangedSlot(double)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>169</x>
+     <y>86</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>511</x>
+     <y>87</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pLongitudeSpinBox</sender>
+   <signal>valueChanged(double)</signal>
+   <receiver>CONTROLPANELDIALOGUI_C</receiver>
+   <slot>LongitudeChangedSlot(double)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>155</x>
+     <y>117</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>537</x>
+     <y>161</y>
     </hint>
    </hints>
   </connection>
@@ -867,5 +1400,8 @@
   <slot>ShowControlPanelSlot()</slot>
   <slot>AnimationPathnameChangedSlot()</slot>
   <slot>CheckButtonClickedSlot()</slot>
+  <slot>ShowInformationPanelSlot()</slot>
+  <slot>LatitudeChangedSlot(double)</slot>
+  <slot>LongitudeChangedSlot(double)</slot>
  </slots>
 </ui>
