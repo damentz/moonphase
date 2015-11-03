@@ -93,15 +93,22 @@ IF(OPTION_MOONPHASE_BUILDQTAPPLICATION)
   SET(MOONPHASEQT_SOURCES
       "${CMAKE_CURRENT_SOURCE_DIR}/sources/${PROJECT_NAME}qt.cpp"
       "${CMAKE_CURRENT_SOURCE_DIR}/sources/controlpaneldialog.cpp"
+      "${CMAKE_CURRENT_SOURCE_DIR}/sources/informationoptionsdialog.cpp"
+      "${CMAKE_CURRENT_SOURCE_DIR}/sources/informationpaneldialog.cpp"
       "${CMAKE_CURRENT_SOURCE_DIR}/sources/moonanimation.cpp"
+      "${CMAKE_CURRENT_SOURCE_DIR}/sources/options.cpp"
       "${CMAKE_CURRENT_SOURCE_DIR}/../qt-solutions/qtsingleapplication/src/qtlocalpeer.cpp"
       "${CMAKE_CURRENT_SOURCE_DIR}/../qt-solutions/qtsingleapplication/src/qtsingleapplication.cpp")
   SET(MOONPHASEQT_HEADERS
       "${CMAKE_CURRENT_SOURCE_DIR}/sources/controlpaneldialog.h"
+      "${CMAKE_CURRENT_SOURCE_DIR}/sources/informationoptionsdialog.h"
+      "${CMAKE_CURRENT_SOURCE_DIR}/sources/informationpaneldialog.h"
       "${CMAKE_CURRENT_SOURCE_DIR}/../qt-solutions/qtsingleapplication/src/qtlocalpeer.h"
       "${CMAKE_CURRENT_SOURCE_DIR}/../qt-solutions/qtsingleapplication/src/qtsingleapplication.h")
   SET(MOONPHASEQT_FORMS
       "${CMAKE_CURRENT_SOURCE_DIR}/forms/controlpaneldialog.ui"
+      "${CMAKE_CURRENT_SOURCE_DIR}/forms/informationoptionsdialog.ui"
+      "${CMAKE_CURRENT_SOURCE_DIR}/forms/informationpaneldialog.ui"
       "${CMAKE_CURRENT_SOURCE_DIR}/forms/testwidget.ui")
   SET(MOONPHASEQT_RESOURCES
       "${CMAKE_CURRENT_SOURCE_DIR}/resources/${PROJECT_NAME}qt.qrc")

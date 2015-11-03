@@ -37,6 +37,8 @@
 #include  "calcephem.h"
 #include  "structure.h"
 
+#include  <time.h>
+
 
 /****
 *****
@@ -84,7 +86,7 @@ extern "C" {
 STRUCTURE_PROTOTYPE_INITIALIZE(MoonData,MOONDATA_T);
 STRUCTURE_PROTOTYPE_UNINITIALIZE(MoonData,MOONDATA_T);
 float MoonData_GetMoonPhasePercent(MOONDATA_T const *pMoon);
-void MoonData_Recalculate(MOONDATA_T *pMoon);
+void MoonData_Recalculate(MOONDATA_T *pMoon,time_t UTC);
 
 #ifdef  __cplusplus
 }

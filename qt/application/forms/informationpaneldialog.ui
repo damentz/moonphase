@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>INFORMATIONPANELDIALOGUI_C</class>
+ <widget class="QDialog" name="INFORMATIONPANELDIALOGUI_C">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>108</width>
+    <height>71</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Information Panel</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="../resources/moonphaseqt.qrc">
+    <normaloff>:/MoonPhaseQtIcon</normaloff>:/MoonPhaseQtIcon</iconset>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="margin">
+    <number>2</number>
+   </property>
+   <item>
+    <layout class="QVBoxLayout" name="m_pLabelVLayout">
+     <property name="spacing">
+      <number>0</number>
+     </property>
+    </layout>
+   </item>
+   <item>
+    <spacer name="m_pVSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>0</width>
+       <height>0</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item>
+    <widget class="QDialogButtonBox" name="m_pButtonBox">
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Close</set>
+     </property>
+     <property name="centerButtons">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources>
+  <include location="../resources/moonphaseqt.qrc"/>
+ </resources>
+ <connections>
+  <connection>
+   <sender>m_pButtonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>INFORMATIONPANELDIALOGUI_C</receiver>
+   <slot>CloseButtonClickedSlot()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>98</x>
+     <y>61</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>202</x>
+     <y>329</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>CloseButtonClickedSlot()</slot>
+ </slots>
+</ui>

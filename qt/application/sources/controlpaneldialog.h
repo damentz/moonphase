@@ -54,9 +54,12 @@
 *****
 ****/
 
-class QNetworkAccessManager;
 class QNetworkReply;
+class OPTIONS_C;
+class QNetworkAccessManager;
+class INFORMATIONPANELDIALOG_C;
 
+#ifdef    DEBUG
 /**
 *** \brief Test widget.
 *** \details A widget containing other widgets to be used for testing.
@@ -79,6 +82,7 @@ class TESTWIDGET_C : public QWidget, public Ui::TESTWIDGETUI_C
     **/
     ~TESTWIDGET_C(void);
 };
+#endif    /* DEBUG */
 
 /**
 *** \brief Application main window.
@@ -165,6 +169,12 @@ class CONTROLPANELDIALOG_C : public QDialog, public Ui::CONTROLPANELDIALOGUI_C
     void InitializeAboutTab(void);
 
     /**
+    *** \brief Item selection changed.
+    *** \details The
+    **/
+//    void ItemSelectionChanged(void);
+
+    /**
     *** \brief Preferences tab initializer.
     *** \details Initializes the Preferences tab.
     **/
@@ -177,6 +187,13 @@ class CONTROLPANELDIALOG_C : public QDialog, public Ui::CONTROLPANELDIALOGUI_C
     void LoadSettings(void);
 
     /**
+    *** \brief Move a display item.
+    *** \details Moves a display item up or down in the display list.
+    *** \param Direction - 1 to move the item up\n - -1 to move the item down.
+    **/
+    void MoveItem(int Direction);
+
+    /**
     *** \brief Reads preferences from widgets.
     *** \details Reads the preferences from the various widgets in the
     ***   preferences tab.
@@ -184,6 +201,19 @@ class CONTROLPANELDIALOG_C : public QDialog, public Ui::CONTROLPANELDIALOGUI_C
     *** \return Preferences as set in the widgets.
     **/
     void ReadPreferences(SETTINGS_C *pSettings);
+
+    /**
+    *** \brief Recalculates moon data.
+    *** \details Recalculates the moon data for a specific time.
+    *** \param Time Time to use for calculations.
+    **/
+    void RecalculateMoonData(time_t Time);
+
+    /**
+    *** \brief
+    *** \details
+    **/
+//    void RemoveItem(void);
 
     /**
     *** \brief Write settings.
@@ -199,7 +229,26 @@ class CONTROLPANELDIALOG_C : public QDialog, public Ui::CONTROLPANELDIALOGUI_C
     **/
     void SetVisible(bool VisibleFlag);
 
+    /**
+    *** \brief Update information panel tab controls.
+    *** \details Enables/disables the add/remove/up/down/options buttons in the
+    ***   information panel tab.
+    **/
+    void UpdateControls(void);
+
+    /**
+    *** \brief Updates tray icon.
+    *** \details Updates the moon phase icon in the system tray.
+    **/
+    void UpdateTrayIcon(void);
+
   private slots:
+    /**
+    *** \brief Data item added to display.
+    *** \details Adds an item from the data list to the display list.
+    **/
+    void AddDataItemButtonClickedSlot(void);
+
     /**
     *** \brief Animation pathname changed.
     *** \details The animation pathname has changed, attempt to read the file.
@@ -223,7 +272,6 @@ class CONTROLPANELDIALOG_C : public QDialog, public Ui::CONTROLPANELDIALOGUI_C
     /**
     *** \brief Check button clicked.
     *** \details The Check button was clicked.
-    *** \param pButton
     **/
     void CheckButtonClickedSlot(void);
 
@@ -242,16 +290,75 @@ class CONTROLPANELDIALOG_C : public QDialog, public Ui::CONTROLPANELDIALOGUI_C
     void CurrentVersionDownloadCompleteSlot(QNetworkReply *pReply);
 
     /**
+    *** \brief Data item selected.
+    *** \details An item in the data list was selected.
+    **/
+    void DataItemSelectionChangedSlot(void);
+
+    /**
     *** \brief Date and/or time changed.
     *** \details The date and/or time changed in the test widget.
+    *** \param DateTime
     **/
     void DateTimeChanged(QDateTime DateTime);
 
     /**
+    *** \brief Display item selected.
+    *** \details An item in the display list was selected.
+    **/
+    void DisplayItemSelectionChangedSlot(void);
+
+    /**
+    *** \brief Update panel timer triggered.
+    *** \details The timer to update the information panel triggered.
+    **/
+    void InformationPanelTimerTriggeredSlot(void);
+
+    /**
     *** \brief Message from another instance was received.
     *** \details A messsage from another instance was received.
+    *** \param Message
     **/
     void InstanceMessageSlot(QString const &Message);
+
+    /**
+    *** \brief Latitude changed.
+    *** \details The data in the latitude widget changed.
+    *** \param Latitude Users latitude.
+    **/
+    void LatitudeChangedSlot(double Latitude);
+
+    /**
+    *** \brief Longitude changed.
+    *** \details The data in the longitude widget changed.
+    *** \param Longitude Users longitude.
+    **/
+    void LongitudeChangedSlot(double Longitude);
+
+    /**
+    *** \brief Move display item down.
+    *** \details Moves a display item down in the list.
+    **/
+    void MoveDownDisplayItemButtonClickedSlot(void);
+
+    /**
+    *** \brief Move display item up.
+    *** \details Moves a display item up in the list.
+    **/
+    void MoveUpDisplayItemButtonClickedSlot(void);
+
+    /**
+    *** \brief Apply button clicked.
+    *** \details The Apply button in the options dialog box was clicked.
+    *** \param Options Options to be applied.
+    **/
+    void OptionsAppliedSlot(OPTIONS_C const &Options);
+
+    /**
+    *** \brief Options button was clicked.
+    *** \details The options button in the information panel tab was clicked.
+    **/
+    void OptionsDisplayItemButtonClickedSlot(void);
 
     /**
     *** \brief Preferences changed.
@@ -266,10 +373,22 @@ class CONTROLPANELDIALOG_C : public QDialog, public Ui::CONTROLPANELDIALOGUI_C
     void QuitSlot(void);
 
     /**
+    *** \brief Remove button was clicked.
+    *** \details The remove button in the information panel tab was clicked.
+    **/
+    void RemoveDataItemButtonClickedSlot(void);
+
+    /**
     *** \brief Show control panel.
     *** \details The control panel needs to be shown.
     **/
     void ShowControlPanelSlot(void);
+
+    /**
+    *** \brief Show the information panel.
+    *** \details User request that the information panel be shown.
+    **/
+    void ShowInformationPanelSlot(void);
 
     /**
     *** \brief Still Running Reminder widget clicked.
@@ -328,6 +447,12 @@ class CONTROLPANELDIALOG_C : public QDialog, public Ui::CONTROLPANELDIALOGUI_C
     QTimer *m_pAnimationTimer;
 
     /**
+    *** \brief Information panel timer.
+    *** \details Timer used to update the information panel display.
+    **/
+    QTimer *m_pInformationPanelTimer;
+
+    /**
     *** \brief Update timer.
     *** \details Timer used to update the moon data and (possibly) the tray
     ***   icon.
@@ -383,10 +508,24 @@ class CONTROLPANELDIALOG_C : public QDialog, public Ui::CONTROLPANELDIALOGUI_C
     bool m_CloseReminderIssued;
 
     /**
+    *** \brief Information panel dialog box.
+    *** \details Dialog box for the information panel.
+    **/
+    INFORMATIONPANELDIALOG_C *m_pInformationPanelDialog;
+
+    /**
+    *** \brief Next update check.
+    *** \details Date to next check for a program update.
+    **/
+    QDate m_NextUpdateCheck;
+
+#ifdef    DEBUG
+    /**
     *** \brief Test widget.
     *** \details A test widget used for testing/debugging.
     **/
     TESTWIDGET_C *m_pTestWidget;
+#endif    /* DEBUG */
 };
 
 

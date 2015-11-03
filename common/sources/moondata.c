@@ -41,7 +41,6 @@
 #endif    /* DEBUG_MOONDATA_C */
 #include  "sysdefs.h"
 #include  <math.h>
-#include  <time.h>
 
 
 /****
@@ -136,9 +135,8 @@ float MoonData_GetMoonPhasePercent(MOONDATA_T const *pMoon)
   return(Percent);
 }
 
-void MoonData_Recalculate(MOONDATA_T *pMoon)
+void MoonData_Recalculate(MOONDATA_T *pMoon,time_t UTC)
 {
-  time_t UTC;
   struct tm *pUTC;
   double Time;
   long /*time_t*/ Date;
@@ -147,10 +145,7 @@ void MoonData_Recalculate(MOONDATA_T *pMoon)
   DEBUGLOG_Printf1("MoonData_Recalculate(%p)",pMoon);
   DEBUGLOG_LogIn();
 
-  /* Get the current time (in seconds). */
-  UTC=time(NULL);
-
-  /* Break it apart (day, month, etc.). */
+  /* Break the time apart (day, month, etc.). */
   pUTC=gmtime(&UTC);
 
   /* Convert time to hours. */

@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>INFORMATIONOPTIONSDIALOGUI_C</class>
+ <widget class="QDialog" name="INFORMATIONOPTIONSDIALOGUI_C">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>285</width>
+    <height>322</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="windowTitle">
+   <string>Information Options</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="../resources/moonphaseqt.qrc">
+    <normaloff>:/MoonPhaseQtIcon</normaloff>:/MoonPhaseQtIcon</iconset>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout_3">
+   <item>
+    <widget class="QGroupBox" name="m_pUnitsGroupBox">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="title">
+      <string>&amp;Units</string>
+     </property>
+     <layout class="QVBoxLayout" name="m_pUnitsVLayout">
+      <property name="spacing">
+       <number>6</number>
+      </property>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="m_pDisplayGroupBox">
+     <property name="title">
+      <string>Display</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_4">
+      <item>
+       <widget class="QFrame" name="m_pSampleTextFrame">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <layout class="QGridLayout" name="gridLayout_2">
+         <item row="0" column="0">
+          <widget class="QLabel" name="m_pSampleTextLabel">
+           <property name="text">
+            <string>Sample text</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <layout class="QFormLayout" name="m_pColorFLayout">
+        <property name="fieldGrowthPolicy">
+         <enum>QFormLayout::FieldsStayAtSizeHint</enum>
+        </property>
+        <item row="2" column="1">
+         <widget class="QwwColorButton" name="m_pTextColorButton">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="showName">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="1">
+         <widget class="QwwColorButton" name="m_pBackgroundColorButton">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="showName">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QCheckBox" name="m_pUseSystemTextColorCheckBox">
+          <property name="text">
+           <string>Use system &amp;text
+color</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="0">
+         <widget class="QCheckBox" name="m_pUseSystemBackgroundColorCheckBox">
+          <property name="text">
+           <string>Use system
+&amp;background color</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QCheckBox" name="m_pUseSystemFontCheckBox">
+          <property name="text">
+           <string>Use system &amp;font</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QPushButton" name="m_pChangeFontButton">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text">
+           <string>&amp;Change...</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0">
+         <widget class="QLabel" name="label">
+          <property name="text">
+           <string>&amp;Margin</string>
+          </property>
+          <property name="buddy">
+           <cstring>m_pMarginSpinBox</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QSpinBox" name="m_pMarginSpinBox">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QDialogButtonBox" name="m_pButtonBox">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Apply|QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QwwColorButton</class>
+   <extends>QPushButton</extends>
+   <header>qwwcolorbutton.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources>
+  <include location="../resources/moonphaseqt.qrc"/>
+ </resources>
+ <connections>
+  <connection>
+   <sender>m_pChangeFontButton</sender>
+   <signal>clicked()</signal>
+   <receiver>INFORMATIONOPTIONSDIALOGUI_C</receiver>
+   <slot>ChangeFontButtonClickedSlot()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>253</x>
+     <y>173</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>251</x>
+     <y>281</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pTextColorButton</sender>
+   <signal>colorPicked(QColor)</signal>
+   <receiver>INFORMATIONOPTIONSDIALOGUI_C</receiver>
+   <slot>TextColorPickedSlot(QColor)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>212</x>
+     <y>203</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>264</x>
+     <y>288</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pBackgroundColorButton</sender>
+   <signal>colorPicked(QColor)</signal>
+   <receiver>INFORMATIONOPTIONSDIALOGUI_C</receiver>
+   <slot>BackgroundColorPickedSlot(QColor)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>212</x>
+     <y>234</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>242</x>
+     <y>288</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pUseSystemTextColorCheckBox</sender>
+   <signal>clicked()</signal>
+   <receiver>INFORMATIONOPTIONSDIALOGUI_C</receiver>
+   <slot>CheckBoxChangedSlot()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>116</x>
+     <y>203</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>136</x>
+     <y>219</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pUseSystemBackgroundColorCheckBox</sender>
+   <signal>clicked()</signal>
+   <receiver>INFORMATIONOPTIONSDIALOGUI_C</receiver>
+   <slot>CheckBoxChangedSlot()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>121</x>
+     <y>234</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>136</x>
+     <y>219</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pUseSystemFontCheckBox</sender>
+   <signal>clicked()</signal>
+   <receiver>INFORMATIONOPTIONSDIALOGUI_C</receiver>
+   <slot>CheckBoxChangedSlot()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>116</x>
+     <y>171</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>136</x>
+     <y>219</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pMarginSpinBox</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>INFORMATIONOPTIONSDIALOGUI_C</receiver>
+   <slot>MarginChangedSlot(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>194</x>
+     <y>131</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>142</x>
+     <y>144</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pButtonBox</sender>
+   <signal>clicked(QAbstractButton*)</signal>
+   <receiver>INFORMATIONOPTIONSDIALOGUI_C</receiver>
+   <slot>ButtonBoxButtonClickedSlot(QAbstractButton*)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>142</x>
+     <y>299</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>142</x>
+     <y>160</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>ChangeFontButtonClickedSlot()</slot>
+  <slot>BackgroundColorPickedSlot(QColor)</slot>
+  <slot>TextColorPickedSlot(QColor)</slot>
+  <slot>CheckBoxChangedSlot()</slot>
+  <slot>MarginChangedSlot(int)</slot>
+  <slot>ButtonBoxButtonClickedSlot(QAbstractButton*)</slot>
+ </slots>
+</ui>
