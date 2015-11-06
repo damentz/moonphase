@@ -60,3 +60,6 @@ make
 
 %install
 %make_install
+
+%preun
+killall moonphase-qt

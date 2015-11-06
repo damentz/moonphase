@@ -47,11 +47,29 @@ SET(CPACK_NSIS_DELETE_ICONS_EXTRA "
     Delete '$SMSTARTUP\\\\${MOONPHASEQT_EXECUTABLENAME}.lnk'
     Delete '$SMPROGRAMS\\\\$MUI_TEMP\\\\README.lnk'
     ")
+
+# Show a README after installation, but before program run/installer quit.
 SET(CPACK_NSIS_EXTRA_INSTALL_COMMANDS "Exec 'notepad.exe README.txt'")
 
 # Run the executable after the install.
 SET(CPACK_NSIS_MUI_FINISHPAGE_RUN
     "..\\\\${MOONPHASEQT_EXECUTABLENAME}${CMAKE_EXECUTABLE_SUFFIX}")
+
+# Prompt to uninstall any existing versions.
+SET(CPACK_NSIS_ENABLE_UNINSTALL_BEFORE_INSTALL ON)
+
+# Stop any running instances on uninstall.
+SET(CPACK_NSIS_EXTRA_UNINSTALL_COMMANDS 
+    "!include \\\"nsProcess.nsh\\\""
+    "\\\${nsProcess::CloseProcess} \\\"moonphase-qt.exe\\\" $R0"
+    "sleep 500")
+STRING(REPLACE ";" "\n" CPACK_NSIS_EXTRA_UNINSTALL_COMMANDS "${CPACK_NSIS_EXTRA_UNINSTALL_COMMANDS}")
+
+# "Add or Remove Programs" information.
+SET(CPACK_PACKAGE_VENDOR "${MOONPHASE_OWNER}")
+SET(CPACK_NSIS_CONTACT "alanwise@users.sourceforge.net")
+SET(CPACK_NSIS_HELP_LINK "${MOONPHASE_WEBSITE}")
+SET(CPACK_NSIS_INSTALLED_ICON_NAME "moonphase-qt.exe")
 
 
 #
