@@ -78,15 +78,15 @@ ENDIF()
 IF(OPTION_TOOLBOX_BUILDQTDESIGNERPLUGIN)
   INCLUDE("${CMAKE_CURRENT_LIST_DIR}/../widgets/toolboxqtwidgets.cmake")
   SET(TOOLBOXQTDESIGNERPLUGIN_SOURCES
+      "${CMAKE_CURRENT_LIST_DIR}/sources/aboutwidgetplugin.cpp"
       "${CMAKE_CURRENT_LIST_DIR}/sources/debuglogviewerwidgetplugin.cpp"
       "${CMAKE_CURRENT_LIST_DIR}/sources/messagelogviewerwidgetplugin.cpp"
       "${CMAKE_CURRENT_LIST_DIR}/sources/toolboxwidgetsinterface.cpp")
   SET(TOOLBOXQTDESIGNERPLUGIN_HEADERS
+      "${CMAKE_CURRENT_LIST_DIR}/sources/aboutwidgetplugin.h"
       "${CMAKE_CURRENT_LIST_DIR}/sources/debuglogviewerwidgetplugin.h"
       "${CMAKE_CURRENT_LIST_DIR}/sources/messagelogviewerwidgetplugin.h"
       "${CMAKE_CURRENT_LIST_DIR}/sources/toolboxwidgetsinterface.h")
-
-
   SET(TOOLBOXQTDESIGNERPLUGIN_FORMS )
   SET(TOOLBOXQTDESIGNERPLUGIN_RESOURCES )
   QT4_WRAP_CPP(TOOLBOXQTDESIGNERPLUGIN_MOC ${TOOLBOXQTDESIGNERPLUGIN_HEADERS})

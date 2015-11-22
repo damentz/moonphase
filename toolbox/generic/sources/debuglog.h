@@ -59,7 +59,9 @@
 *****
 ****/
 
-#if       defined(USE_DEBUGLOG) && !defined(DEBUGLOG_NOWRAPPERMACROS)
+#ifndef   DEBUGLOG_NOWRAPPERMACROS
+
+#ifdef    USE_DEBUGLOG
 
 /**
 *** \hideinitializer
@@ -290,7 +292,7 @@
 #define   DEBUGLOG_SetEnabledFlag(enabledflag) \
               DebugLog_SetEnabledFlag(enabledflag)
 
-#else     /* defined(USE_DEBUGLOG) && !defined(DEBUGLOG_NOWRAPPERMACROS) */
+#else     /* USE_DEBUGLOG */
 
 /**
 *** \hideinitializer
@@ -510,7 +512,9 @@
 #define   DEBUGLOG_SetEnabledFlag(enabledflag) \
               DebugLog_SetEnabledFlag(enabledflag)
 
-#endif    /* defined(USE_DEBUGLOG) && !defined(DEBUGLOG_NOWRAPPERMACROS) */
+#endif    /* USE_DEBUGLOG */
+
+#endif    /* DEBUGLOG_NOWRAPPERMACROS */
 
 
 /****

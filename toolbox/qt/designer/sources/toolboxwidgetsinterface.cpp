@@ -34,6 +34,7 @@
 ****/
 
 #include  "toolboxwidgetsinterface.h"
+#include  "aboutwidgetplugin.h"
 #include  "debuglogviewerwidgetplugin.h"
 #include  "messagelogviewerwidgetplugin.h"
 
@@ -82,6 +83,7 @@
 TOOLBOXWIDGETSINTERFACE_C::TOOLBOXWIDGETSINTERFACE_C(QObject *parent)
     : QObject(parent)
 {
+  m_Widgets.append(new ABOUTWIDGETPLUGIN_C(this));
   m_Widgets.append(new DEBUGLOGVIEWERWIDGETPLUGIN_C(this));
   m_Widgets.append(new MESSAGELOGVIEWERWIDGETPLUGIN_C(this));
 

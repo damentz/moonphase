@@ -78,7 +78,9 @@
 **/
 #define   MESSAGELOGTYPE_TEMPORARY     (5)
 
-#if       defined(USE_MESSAGELOG) && !defined(MESSAGELOG_NOWRAPPERMACROS)
+#ifndef   MESSAGELOG_NOWRAPPERMACROS
+
+#ifdef    USE_MESSAGELOG
 
 /**
 *** \hideinitializer
@@ -216,7 +218,7 @@
 #define   MESSAGELOG_Printf5(format,v1,v2,v3,v4,v5)  \
     MessageLog_Printf( f "\n",v1,v2,v3,v4,v5)
 
-#else     /* defined(USE_MESSAGELOG) && !defined(MESSAGELOG_NOWRAPPERMACROS) */
+#else     /* USE_MESSAGELOG */
 
 /**
 *** \brief Does nothing.
@@ -265,9 +267,8 @@
 /**
 *** \brief Does nothing.
 *** \details Does nothing. MessageLog is disabled.
-*** \param enableflag Ignored.
 **/
-#define   MESSAGELOG_Initialize(enableflag)
+#define   MESSAGELOG_Initialize()
 /**
 *** \brief Does nothing.
 *** \details Does nothing. MessageLog is disabled.
@@ -320,7 +321,9 @@
 **/
 #define   MESSAGELOG_Printf5(format,v1,v2,v3,v4,v5)
 
-#endif    /* defined(USE_MESSAGELOG) && !defined(MESSAGELOG_NOWRAPPERMACROS) */
+#endif    /* USE_MESSAGELOG */
+
+#endif    /* MESSAGELOG_NOWRAPPERMACROS */
 
 
 /****

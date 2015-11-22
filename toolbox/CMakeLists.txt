@@ -88,6 +88,7 @@ ENDIF()
 #
 
 ADD_SUBDIRECTORY(generic)
+ADD_SUBDIRECTORY(qt/utilities)
 ADD_SUBDIRECTORY(qt/widgets)
 ADD_SUBDIRECTORY(qt/designer)
 

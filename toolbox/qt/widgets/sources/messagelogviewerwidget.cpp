@@ -112,9 +112,12 @@ MESSAGELOGVIEWERWIDGET_C::MESSAGELOGVIEWERWIDGET_C(QWidget *pParent)
   }
 
   /* Add/create a "Refresh" button. */
-  pRefreshButton=m_pButtonBox->addButton(QDialogButtonBox::Apply);
-  pRefreshButton->setText("&Refresh");
-  pRefreshButton->setIcon(QIcon(":/DebugConsole/RefreshIcon"));
+  pRefreshButton=m_pButtonBox->button(QDialogButtonBox::Apply);
+  if (pRefreshButton!=NULL)
+  {
+    pRefreshButton->setText("&Refresh");
+    pRefreshButton->setIcon(QIcon(":/DebugConsole/RefreshIcon"));
+  }
 
   /* Initialize members. */
   m_Pathname=QString();
