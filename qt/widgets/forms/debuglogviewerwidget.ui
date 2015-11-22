@@ -42,7 +42,7 @@
      <item>
       <widget class="QDialogButtonBox" name="m_pButtonBox">
        <property name="standardButtons">
-        <set>QDialogButtonBox::NoButton</set>
+        <set>QDialogButtonBox::Apply</set>
        </property>
       </widget>
      </item>

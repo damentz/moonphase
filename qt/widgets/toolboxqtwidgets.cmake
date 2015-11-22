@@ -43,15 +43,18 @@ INCLUDE_DIRECTORIES(
 #
 
 SET(TOOLBOXQTWIDGETS_SOURCES
+    "${CMAKE_CURRENT_LIST_DIR}/sources/aboutwidget.cpp"
     "${CMAKE_CURRENT_LIST_DIR}/sources/debugtools.cpp"
     "${CMAKE_CURRENT_LIST_DIR}/sources/debuglogviewerwidget.cpp"
     "${CMAKE_CURRENT_LIST_DIR}/sources/messagelogviewerwidget.cpp")
 SET(TOOLBOXQTWIDGETS_HEADERS
+    "${CMAKE_CURRENT_LIST_DIR}/sources/aboutwidget.h"
     "${CMAKE_CURRENT_LIST_DIR}/sources/debugtools.h"
     "${CMAKE_CURRENT_LIST_DIR}/sources/debugtools_private.h"
     "${CMAKE_CURRENT_LIST_DIR}/sources/debuglogviewerwidget.h"
     "${CMAKE_CURRENT_LIST_DIR}/sources/messagelogviewerwidget.h")
 SET(TOOLBOXQTWIDGETS_FORMS
+    "${CMAKE_CURRENT_LIST_DIR}/forms/aboutwidget.ui"
     "${CMAKE_CURRENT_LIST_DIR}/forms/debugconsoledialog.ui"
     "${CMAKE_CURRENT_LIST_DIR}/forms/debugconsoleoptionsdialog.ui"
     "${CMAKE_CURRENT_LIST_DIR}/forms/debuglogviewerwidget.ui"

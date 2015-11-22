@@ -90,15 +90,18 @@ DEBUGLOGVIEWERWIDGET_C::DEBUGLOGVIEWERWIDGET_C(QWidget *pParent)
   setupUi(this);
 
   /* Add/create a "Refresh" button. */
-  pRefreshButton=m_pButtonBox->addButton(QDialogButtonBox::Apply);
-  pRefreshButton->setText("&Refresh");
-  pRefreshButton->setIcon(QIcon(":/DebugConsole/RefreshIcon"));
+  pRefreshButton=m_pButtonBox->button(QDialogButtonBox::Apply);
+  if (pRefreshButton!=NULL)
+  {
+    pRefreshButton->setText("&Refresh");
+    pRefreshButton->setIcon(QIcon(":/DebugConsole/RefreshIcon"));
+  }
 
   /* Initialize members. */
   m_Pathname=QString();
   m_AutoRefreshFlag=0;
 
-#if       BUILD_PLUGIN
+#ifdef    BUILD_PLUGIN
   /* Provide some dummy text for the plugin. */
   m_pTextEdit->setPlainText("Sample text.\nThis is more sample text.\n"
       "Still more sample text.");

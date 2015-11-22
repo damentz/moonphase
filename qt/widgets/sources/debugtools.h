@@ -139,6 +139,8 @@ class DEBUGTOOLS_C : private QWidget
     *** \param pSignal Signal.
     *** \param pObject Receiver object.
     *** \param pSlot Receiver slot.
+    *** \retval 0 Failure.
+    *** \retval !0 Success.
     **/
     bool Connect(char const *pSignal,QObject *pObject,char const *pSlot);
 
@@ -227,6 +229,8 @@ extern "C" {
 *** \param pSignal Signal.
 *** \param pObject Receiver object.
 *** \param pSlot Receiver slot.
+*** \retval 0 Failure.
+*** \retval !0 Success.
 ***/
 bool DebugTools_Connect(char const *pSignal,QObject *pObject,char const *pSlot);
 /**

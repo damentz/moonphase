@@ -35,8 +35,16 @@
 
 #include  "debugtools.h"
 #include  "debugtools_private.h"
+/**
+*** \brief Don't use wrapper macros.
+*** \details Don't use wrapper macros, use function prototypes only.
+**/
 #define   DEBUGLOG_NOWRAPPERMACROS
 #include  "debuglog.h"
+/**
+*** \brief Don't use wrapper macros.
+*** \details Don't use wrapper macros, use function prototypes only.
+**/
 #define   MESSAGELOG_NOWRAPPERMACROS
 #include  "messagelog.h"
 
@@ -937,7 +945,6 @@ DEBUGCONSOLEDIALOG_C::DEBUGCONSOLEDIALOG_C(
   CONSOLEOPTIONS_C ConsoleOptions;
   QPushButton *pOptionsButton;
   QString Pathname;
-  char const *pPathname;
 
 
   /* Set up the user interface. */
@@ -955,16 +962,26 @@ DEBUGCONSOLEDIALOG_C::DEBUGCONSOLEDIALOG_C(
   /* Set up options. */
   ApplyOptions(!0);
 
+#ifdef    USE_DEBUGLOG
   if (m_DebugLogFlag!=0)
   {
-    pPathname=DEBUGLOG_GetFilenamePointer();
+    char const *pPathname;
+
+
+    pPathname=DebugLog_GetFilenamePointer();
     m_pDebugLogViewerWidget->SetDebugLogPathname(pPathname);
   }
+#endif    /* USE_DEBUGLOG */
+#ifdef    USE_MESSAGELOG
   if (m_MessageLogFlag!=0)
   {
-    pPathname=MESSAGELOG_GetFilenamePointer();
+    char const *pPathname;
+
+
+    pPathname=MessageLog_GetFilenamePointer();
     m_pMessageLogViewerWidget->SetMessageLogPathname(pPathname);
   }
+#endif    /* USE_MESSAGELOG */
 
   /* Start a timer to periodically check the modified time/date. */
   connect(&m_Timer,SIGNAL(timeout()),
