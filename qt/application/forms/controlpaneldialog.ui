@@ -731,163 +731,17 @@
       </attribute>
       <layout class="QGridLayout" name="gridLayout_7">
        <item row="0" column="0">
-        <layout class="QVBoxLayout" name="m_pAboutVLayout">
-         <item>
-          <layout class="QHBoxLayout" name="m_pInfoHLayout">
-           <item>
-            <widget class="QLabel" name="m_pProgramIcon">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>32</width>
-               <height>32</height>
-              </size>
-             </property>
-             <property name="text">
-              <string/>
-             </property>
-             <property name="pixmap">
-              <pixmap resource="../resources/moonphaseqt.qrc">:/MoonPhaseQtIcon</pixmap>
-             </property>
-             <property name="scaledContents">
-              <bool>false</bool>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignCenter</set>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <layout class="QVBoxLayout" name="m_pNameVLayout">
-             <property name="spacing">
-              <number>0</number>
-             </property>
-             <item>
-              <widget class="QLabel" name="m_pProgramNameLabel">
-               <property name="font">
-                <font>
-                 <pointsize>14</pointsize>
-                 <weight>75</weight>
-                 <bold>true</bold>
-                </font>
-               </property>
-               <property name="text">
-                <string/>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLabel" name="m_pExecutableNameVersionLabel">
-               <property name="text">
-                <string/>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-          </layout>
-         </item>
-         <item>
-          <widget class="QTabWidget" name="m_pAboutTabWidget">
-           <property name="tabPosition">
-            <enum>QTabWidget::North</enum>
-           </property>
-           <property name="tabShape">
-            <enum>QTabWidget::Rounded</enum>
-           </property>
-           <property name="currentIndex">
-            <number>0</number>
-           </property>
-           <widget class="QWidget" name="m_pProgramInformationTab">
-            <attribute name="title">
-             <string>&amp;Information</string>
-            </attribute>
-            <layout class="QGridLayout" name="gridLayout_5">
-             <item row="0" column="0">
-              <widget class="QTextBrowser" name="m_pProgramInformationEdit">
-               <property name="acceptDrops">
-                <bool>false</bool>
-               </property>
-               <property name="lineWrapMode">
-                <enum>QTextEdit::WidgetWidth</enum>
-               </property>
-               <property name="textInteractionFlags">
-                <set>Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse</set>
-               </property>
-               <property name="openExternalLinks">
-                <bool>true</bool>
-               </property>
-              </widget>
-             </item>
-             <item row="1" column="0">
-              <layout class="QVBoxLayout" name="m_pCheckVLayout">
-               <item>
-                <widget class="QFrame" name="m_pCheckFrame">
-                 <property name="frameShape">
-                  <enum>QFrame::StyledPanel</enum>
-                 </property>
-                 <property name="frameShadow">
-                  <enum>QFrame::Raised</enum>
-                 </property>
-                 <layout class="QHBoxLayout" name="horizontalLayout_2">
-                  <property name="margin">
-                   <number>5</number>
-                  </property>
-                  <item>
-                   <widget class="QLabel" name="m_pCheckLabel">
-                    <property name="text">
-                     <string>Check for an update!</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QPushButton" name="m_pCheckButton">
-                    <property name="sizePolicy">
-                     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                      <horstretch>0</horstretch>
-                      <verstretch>0</verstretch>
-                     </sizepolicy>
-                    </property>
-                    <property name="text">
-                     <string>C&amp;heck</string>
-                    </property>
-                   </widget>
-                  </item>
-                 </layout>
-                </widget>
-               </item>
-              </layout>
-             </item>
-            </layout>
-           </widget>
-           <widget class="QWidget" name="m_pLicenseAgreementTab">
-            <attribute name="title">
-             <string>&amp;License Agreement</string>
-            </attribute>
-            <layout class="QGridLayout" name="gridLayout_6">
-             <item row="0" column="0">
-              <widget class="QPlainTextEdit" name="m_pLicenseAgreementEdit">
-               <property name="lineWrapMode">
-                <enum>QPlainTextEdit::NoWrap</enum>
-               </property>
-               <property name="readOnly">
-                <bool>true</bool>
-               </property>
-               <property name="textInteractionFlags">
-                <set>Qt::NoTextInteraction</set>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </widget>
-          </widget>
-         </item>
-        </layout>
+        <widget class="ABOUTWIDGET_C" name="m_pAboutWidget">
+         <property name="toolTip">
+          <string>Tool tip</string>
+         </property>
+         <property name="whatsThis">
+          <string>What's this?</string>
+         </property>
+         <property name="Pixmap" stdset="0">
+          <pixmap resource="../resources/moonphaseqt.qrc">:/MoonPhaseQtIcon</pixmap>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>
@@ -942,6 +796,11 @@
   </action>
  </widget>
  <customwidgets>
+  <customwidget>
+   <class>ABOUTWIDGET_C</class>
+   <extends>QWidget</extends>
+   <header>aboutwidget.h</header>
+  </customwidget>
   <customwidget>
    <class>QwwColorButton</class>
    <extends>QPushButton</extends>
@@ -1163,22 +1022,6 @@
     <hint type="sourcelabel">
      <x>288</x>
      <y>92</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>204</x>
-     <y>273</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>m_pCheckButton</sender>
-   <signal>clicked()</signal>
-   <receiver>CONTROLPANELDIALOGUI_C</receiver>
-   <slot>CheckButtonClickedSlot()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>128</x>
-     <y>96</y>
     </hint>
     <hint type="destinationlabel">
      <x>204</x>

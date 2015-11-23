@@ -96,11 +96,10 @@ STRUCTURE_PROTOTYPE_INITIALIZEMEMBERS(MoonAnimation,MOONANIMATION_T);
 STRUCTURE_PROTOTYPE_UNINITIALIZE(MoonAnimation,MOONANIMATION_T);
 STRUCTURE_PROTOTYPE_UNINITIALIZEMEMBERS(MoonAnimation,MOONANIMATION_T);
 /**
-*** \brief Returns the image path name.
-*** \details Returns the path name of the image.
+*** \brief Returns the image pathname.
+*** \details Returns the pathname of the image.
 *** \param pMoonAnimation Pointer to moon animation structure.
-*** \param Index Frame index.
-*** \param ppFrame Storage for frame data pointer.
+*** \param pPathname Pointer to storage for the pathname.
 *** \retval >0 Success.
 *** \retval <0 Failure.
 **/

@@ -46,16 +46,15 @@
 #include  "licenseagreement.h"
 #include  "informationpaneldialog.h"
 #include  "informationoptionsdialog.h"
+#include  "versionstring.h"
 
 #include  <QSettings>
 #include  <QDesktopWidget>
 #include  <QMenu>
 #include  <QTimer>
-#include  <QNetworkAccessManager>
 #include  <QMessageBox>
 #include  <QPainter>
-#include  <QNetworkRequest>
-#include  <QNetworkReply>
+#define   _USE_MATH_DEFINES   // Needed by windows.
 #include  <math.h>
 
 
@@ -697,9 +696,9 @@ static QString PrintDistance2(MOONDATA_T *pMoonData,double Scale,int Precision);
 **/
 static const UNIT_T f_pAngleUnits[]=
 {
-  { QString::fromUtf8("\u00B0"),QObject::tr("Degrees"),
+  { QString::fromWCharArray(L"\u00B0"),QObject::tr("Degrees"),
       1.0,2,(UNITFLAGS_F)(DEFAULTMETRIC|DEFAULTIMPERIAL) },
-  { QString::fromUtf8("\u33AD"),QObject::tr("Radians"),
+  { QString::fromWCharArray(L"\u33AD"),QObject::tr("Radians"),
       M_PI/180.0,5,NONE },
   { QString() }
 };
@@ -1232,13 +1231,13 @@ CONTROLPANELDIALOG_C::CONTROLPANELDIALOG_C(QWidget *pParent) : QDialog(pParent)
   m_pUpdateTimer=NULL;
   m_pInformationPanelTimer=NULL;
   m_pSettings=NULL;
-  m_pNetworkAccess=NULL;
   m_PreviewPercentCounter=0;
   m_UpdateIntervalCounter=0;
   m_CloseReminderIssued=false;
   m_StartUpFlag=true;
   m_FirstUpdateFlag=true;
   m_NextUpdateCheck=QDate::currentDate();
+  m_pDoubleClickTimeoutTimer=NULL;
 
 
   /* Set up the user interface. */
@@ -1286,6 +1285,7 @@ CONTROLPANELDIALOG_C::CONTROLPANELDIALOG_C(QWidget *pParent) : QDialog(pParent)
   connect(m_pUpdateTimer,SIGNAL(timeout()),
       this,SLOT(UpdateTimerTriggeredSlot()));
   m_pUpdateTimer->start(UPDATETIMER_RATE);
+  m_pAboutWidget->ShowCheckForUpdateWidget(true);
 
   /* Create and set up the animation timer. */
   m_pAnimationTimer=new QTimer(this);
@@ -1297,9 +1297,10 @@ CONTROLPANELDIALOG_C::CONTROLPANELDIALOG_C(QWidget *pParent) : QDialog(pParent)
   connect(m_pInformationPanelTimer,SIGNAL(timeout()),
       this,SLOT(InformationPanelTimerTriggeredSlot()));
 
-  m_pNetworkAccess=new QNetworkAccessManager;
-  connect(m_pNetworkAccess,SIGNAL(finished(QNetworkReply*)),
-      this,SLOT(CurrentVersionDownloadCompleteSlot(QNetworkReply*)));
+  m_pDoubleClickTimeoutTimer=new QTimer(this);
+  m_pDoubleClickTimeoutTimer->setSingleShot(true);
+  connect(m_pDoubleClickTimeoutTimer,SIGNAL(timeout()),
+      this,SLOT(DoubleClickTimeoutTimerTriggered()));
 
   /* Initialize member variables. */
   ErrorCode=MoonData_Initialize(&m_MoonData);
@@ -1389,6 +1390,10 @@ CONTROLPANELDIALOG_C::CONTROLPANELDIALOG_C(QWidget *pParent) : QDialog(pParent)
   /* Resize the control panel to minimum size. */
   resize(minimumSizeHint());
 
+  connect(&m_UpdateNotifier,SIGNAL(VersionSignal(QString)),this,SLOT(VersionSlot(QString)));
+  m_UpdateNotifier.SetURL(
+      "http://downloads.sourceforge.net/project/moonphase/current_release");
+
   m_StartUpFlag=false;
 
   /* TEMP */
@@ -1413,11 +1418,6 @@ CONTROLPANELDIALOG_C::~CONTROLPANELDIALOG_C(void)
   DEBUGLOG_Printf0("CONTROLPANELDIALOG_C::~CONTROLPANELDIALOG_C()");
   DEBUGLOG_LogIn();
 
-  if (m_pNetworkAccess==NULL)
-  {
-    MESSAGELOG_Warning("m_pNetworkAccess==NULL");
-  }
-  delete m_pNetworkAccess;
   if (m_pSettings==NULL)
   {
     MESSAGELOG_Warning("m_pSettings==NULL");
@@ -1615,28 +1615,27 @@ bool CONTROLPANELDIALOG_C::GetAllowMultipleInstancesFlag(void)
 
 void CONTROLPANELDIALOG_C::InitializeAboutTab(void)
 {
+  QString Information;
+
+
   DEBUGLOG_Printf0("CONTROLPANELDIALOG_C::InitializeAboutTab()");
   DEBUGLOG_LogIn();
 
   /* Set the data in the various widgets. */
-  m_pProgramNameLabel->setText(MOONPHASEQT_DISPLAYNAME);
-  m_pExecutableNameVersionLabel->setText(MOONPHASEQT_EXECUTABLENAME
-      " (Version "MOONPHASEQT_VERSION")");
-  m_pProgramInformationEdit->setText(MOONPHASEQT_DESCRIPTION"\n");
-  m_pProgramInformationEdit->append(MOONPHASEQT_COPYRIGHTNOTICE"\n");
+  m_pAboutWidget->SetDisplayName(MOONPHASEQT_DISPLAYNAME);
+  m_pAboutWidget->SetExecutableName(MOONPHASEQT_EXECUTABLENAME);
+  m_pAboutWidget->SetVersion(MOONPHASEQT_VERSION);
+  Information=MOONPHASEQT_DESCRIPTION;
+  Information+="<br><br>"MOONPHASEQT_COPYRIGHTNOTICE;
 #ifdef    _WIN32
-  {
-    QString Buffer;
-
-    Buffer=QString(tr("Statically linked with Qt (Version "))
-        +qVersion()+QString(tr(")\n"));
-    m_pProgramInformationEdit->append(Buffer);
-  }
+  Information+="<br><br>"+QString(tr("Statically linked with Qt (Version "))
+      +qVersion()+QString(tr(")\n"));
 #endif    /* _WIN32 */
-  m_pProgramInformationEdit->append("<a href=\""MOONPHASEQT_WEBSITE"\">"
-      MOONPHASEQT_DISPLAYNAME" Web Site</a>\n");
+  Information+="<br><br><a href=\""MOONPHASEQT_WEBSITE"\">"" \
+    "MOONPHASEQT_DISPLAYNAME" "+tr("Web Site")+QString("</a>\n");
+  m_pAboutWidget->SetInformation(Information);
 
-  m_pLicenseAgreementEdit->setPlainText(f_pLicenseAgreement);
+  m_pAboutWidget->SetLicense(f_pLicenseAgreement);
 
   DEBUGLOG_LogOut();
   return;
@@ -2056,25 +2055,11 @@ void CONTROLPANELDIALOG_C::ButtonBoxButtonClickedSlot(QAbstractButton *pButton)
 
 void CONTROLPANELDIALOG_C::CheckButtonClickedSlot(void)
 {
-  QNetworkRequest Request;
-
-
   DEBUGLOG_Printf0("CONTROLPANELDIALOG_C::CheckButtonClickedSlot()");
   DEBUGLOG_LogIn();
 
-  /* In the process of checking? */
-  if (m_pCheckButton->isEnabled()==true)
-  {
-    /* No, start the check. */
-    m_pCheckButton->setEnabled(false);
-    m_pCheckLabel->setText(tr("Checking for an update!"));
-    Request.setUrl(QString(
-        "http://downloads.sourceforge.net/project/moonphase/current_release"));
-    Request.setRawHeader("User-Agent","Mozilla Firefox");
-        // QNetworkRequest seems to default to "Mozilla" for the user agent
-        //   and sourceforge has implemented blocking for certain user agents.
-    m_pNetworkAccess->get(Request);
-  }
+  m_pAboutWidget->SetUpdateText(tr("Checking for an update!"));
+  m_UpdateNotifier.CheckForUpdate();
 
   DEBUGLOG_LogOut();
   return;
@@ -2090,114 +2075,19 @@ void CONTROLPANELDIALOG_C::
   switch(Reason)
   {
     case QSystemTrayIcon::DoubleClick:
+      m_pDoubleClickTimeoutTimer->stop();
       SetVisible(true);
       break;
-//    case QSystemTrayIcon::Trigger:
-//      if (m_pInformationPanelDialog->isVisible()==false)
-//        m_pInformationPanelTimer->start(INFORMATIONPANELTIMER_RATE);
-//      m_pInformationPanelDialog->show();
-//      m_pInformationPanelDialog->raise();
-//      m_pInformationPanelDialog->activateWindow();
-//      break;
+    case QSystemTrayIcon::Trigger:
+      if (m_pDoubleClickTimeoutTimer->isActive()==true)
+        return;
+      m_pDoubleClickTimeoutTimer->setInterval(
+          QApplication::doubleClickInterval());
+      m_pDoubleClickTimeoutTimer->start();
+      break;
     default:
       break;
   }
-
-  DEBUGLOG_LogOut();
-  return;
-}
-
-void CONTROLPANELDIALOG_C::
-    CurrentVersionDownloadCompleteSlot(QNetworkReply *pReply)
-{
-  QVariant RedirectURL;
-  QNetworkRequest Request;
-  QByteArray Data;
-  bool SuccessFlag;
-  QString ValueString;
-  bool OKFlag;
-  int Value;
-  int Delta;
-
-
-  DEBUGLOG_Printf1(
-      "CONTROLPANELDIALOG_C::CurrentVersionDownloadCompleteSlot(%p)",pReply);
-  DEBUGLOG_LogIn();
-
-  /* Being redirected? */
-  RedirectURL=pReply->attribute(QNetworkRequest::RedirectionTargetAttribute);
-  if (RedirectURL!=QVariant())
-  {
-    Request.setUrl(RedirectURL.toString());
-    Request.setRawHeader("User-Agent","Mozilla Firefox");
-        // See previous comment about user agent.
-    m_pNetworkAccess->get(Request);
-  }
-  else
-  {
-    Data=pReply->readAll();
-    if (Data==QByteArray())
-      m_pCheckLabel->setText(tr("Error accessing the internet!"));
-    else
-    {
-      QString DataString(Data);
-
-      /* Expecting the data to be in the format "[M]M.[m]m.[p]p". []=optional. */
-      SuccessFlag=true;
-      Delta=0;
-      for(int Field=0;Field<3;Field++)
-      {
-        ValueString=DataString.section('.',Field,Field);
-        if (ValueString.isEmpty()==true)
-          SuccessFlag=false;
-        Value=ValueString.toInt(&OKFlag);
-        if (OKFlag==false)
-          SuccessFlag=false;
-        switch(Field)
-        {
-          case 0:
-            Delta=100*(MOONPHASEQT_MAJORVERSION-Value);
-            break;
-          case 1:
-            Delta=10*(MOONPHASEQT_MINORVERSION-Value);
-            break;
-          case 2:
-            Delta=1*(MOONPHASEQT_PATCHVERSION-Value);
-            break;
-          default:
-            SuccessFlag=false;
-        }
-        if (Delta!=0)
-          break;
-      }
-      if (SuccessFlag==false)
-        m_pCheckLabel->setText(tr("Error calculating version numbers!"));
-      else if (Delta>0)
-        m_pCheckLabel->setText(tr("You have a pre-release version!"));
-      else if (Delta==0)
-        m_pCheckLabel->setText(tr("This program is up to date!"));
-      else
-      {
-        m_pCheckLabel->setText(tr("An update is available!"));
-        if (m_FirstUpdateFlag==true)
-        {
-          QMessageBox UpdateMessageBox(this);
-
-          UpdateMessageBox.setWindowTitle(MOONPHASEQT_DISPLAYNAME);
-          UpdateMessageBox.setTextFormat(Qt::RichText); // Makes links clickable
-          UpdateMessageBox.setText("An update to this program is available!"
-              "<br><br>"
-              "Visit the <a href='"MOONPHASEQT_WEBSITE"'>"
-              MOONPHASEQT_DISPLAYNAME" Web Site</a>");
-          UpdateMessageBox.exec();
-        }
-      }
-    }
-    m_pCheckButton->setEnabled(true);
-    m_FirstUpdateFlag=false;
-  }
-
-  pReply->deleteLater();
 
   DEBUGLOG_LogOut();
   return;
@@ -2248,6 +2138,22 @@ void CONTROLPANELDIALOG_C::DisplayItemSelectionChangedSlot(void)
     m_pDataListWidget->clearSelection();
 
   UpdateControls();
+
+  DEBUGLOG_LogOut();
+  return;
+}
+
+void CONTROLPANELDIALOG_C::
+    DoubleClickTimeoutTimerTriggered(void)
+{
+  DEBUGLOG_Printf0("CONTROLPANELDIALOG_C::DoubleClickTimeoutTimerTriggered()");
+  DEBUGLOG_LogIn();
+
+  if (m_pInformationPanelDialog->isVisible()==false)
+    m_pInformationPanelTimer->start(INFORMATIONPANELTIMER_RATE);
+  m_pInformationPanelDialog->show();
+  m_pInformationPanelDialog->raise();
+  m_pInformationPanelDialog->activateWindow();
 
   DEBUGLOG_LogOut();
   return;
@@ -2658,7 +2564,7 @@ void CONTROLPANELDIALOG_C::UpdateTimerTriggeredSlot(void)
     /* Force a check for an update. */
     CheckButtonClickedSlot();
 #endif    /* DEBUG */
-    m_NextUpdateCheck.addDays(7);
+    m_NextUpdateCheck=m_NextUpdateCheck.addDays(7);
   }
 
   /* Check if calculations need to be run, and (possibly) the icon updated. */
@@ -2737,65 +2643,54 @@ void CONTROLPANELDIALOG_C::UseOpaqueBackgroundClickedSlot(void)
   return;
 }
 
+void CONTROLPANELDIALOG_C::VersionSlot(QString Version)
+{
+  VERSIONSTRING_C Current(MOONPHASEQT_VERSION);
+  VERSIONSTRING_C Internet;//(qPrintable(Version));
 
 
+  DEBUGLOG_Printf2(
+      "CONTROLPANELDIALOG_C::VersionSlot(%p(%s))",&Version,qPrintable(Version));
+  DEBUGLOG_LogIn();
+
+  if (Version.isEmpty()==true)
+    m_pAboutWidget->SetUpdateText(tr("Error accessing the internet!"));
+  else
+  {
+    Internet.Set(qPrintable(Version));
+    if (Current>Internet)
+      m_pAboutWidget->SetUpdateText(tr("You have a pre-release version!"));
+    else if (Current==Internet)
+      m_pAboutWidget->SetUpdateText(tr("This program is up to date!"));
+    else
+    {
+      m_pAboutWidget->SetUpdateText(tr("An update is available!"));
+
+      if (m_FirstUpdateFlag==true)
+      {
+        QMessageBox UpdateMessageBox(this);
 
 
+        UpdateMessageBox.setWindowTitle(MOONPHASEQT_DISPLAYNAME);
+        UpdateMessageBox.setTextFormat(Qt::RichText); // Makes links clickable
+        UpdateMessageBox.setText("An update to this program is available!"
+            "<br><br>"
+            "Visit the <a href='"MOONPHASEQT_WEBSITE"'>"
+            MOONPHASEQT_DISPLAYNAME" Web Site</a>");
+        UpdateMessageBox.exec();
+      }
+    }
+    m_FirstUpdateFlag=false;
+  }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  DEBUGLOG_LogOut();
+  return;
+}
 
 
 /****
 *****
-***** FUNCTIONS
+***** TEST FUNCTIONS
 *****
 ****/
 

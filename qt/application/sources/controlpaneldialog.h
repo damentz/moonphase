@@ -37,6 +37,7 @@
 #include  "ui_testwidget.h"
 #include  "moonanimation.h"
 #include  "moondata.h"
+#include  "updatenotifier.h"
 
 #include  <QSystemTrayIcon>
 
@@ -54,9 +55,7 @@
 *****
 ****/
 
-class QNetworkReply;
 class OPTIONS_C;
-class QNetworkAccessManager;
 class INFORMATIONPANELDIALOG_C;
 
 #ifdef    DEBUG
@@ -169,12 +168,6 @@ class CONTROLPANELDIALOG_C : public QDialog, public Ui::CONTROLPANELDIALOGUI_C
     void InitializeAboutTab(void);
 
     /**
-    *** \brief Item selection changed.
-    *** \details The
-    **/
-//    void ItemSelectionChanged(void);
-
-    /**
     *** \brief Preferences tab initializer.
     *** \details Initializes the Preferences tab.
     **/
@@ -208,12 +201,6 @@ class CONTROLPANELDIALOG_C : public QDialog, public Ui::CONTROLPANELDIALOGUI_C
     *** \param Time Time to use for calculations.
     **/
     void RecalculateMoonData(time_t Time);
-
-    /**
-    *** \brief
-    *** \details
-    **/
-//    void RemoveItem(void);
 
     /**
     *** \brief Write settings.
@@ -283,13 +270,6 @@ class CONTROLPANELDIALOG_C : public QDialog, public Ui::CONTROLPANELDIALOGUI_C
     void ControlPanelActivatedSlot(QSystemTrayIcon::ActivationReason Reason);
 
     /**
-    *** \brief Current version download complete.
-    *** \details The downloading of the current version file is complete.
-    *** \param pReply Network reply.
-    **/
-    void CurrentVersionDownloadCompleteSlot(QNetworkReply *pReply);
-
-    /**
     *** \brief Data item selected.
     *** \details An item in the data list was selected.
     **/
@@ -307,6 +287,13 @@ class CONTROLPANELDIALOG_C : public QDialog, public Ui::CONTROLPANELDIALOGUI_C
     *** \details An item in the display list was selected.
     **/
     void DisplayItemSelectionChangedSlot(void);
+
+    /**
+    *** \brief Double click timed out.
+    *** \details The delay used to determine if two clicks are actually a
+    ***   double click.
+    **/
+    void DoubleClickTimeoutTimerTriggered(void);
 
     /**
     *** \brief Update panel timer triggered.
@@ -409,6 +396,13 @@ class CONTROLPANELDIALOG_C : public QDialog, public Ui::CONTROLPANELDIALOGUI_C
     **/
     void UseOpaqueBackgroundClickedSlot(void);
 
+    /**
+    *** \brief Newest version number was downloaded.
+    *** \details The number of the newest program version was downloaded.
+    *** \param Version Version string.
+    **/
+    void VersionSlot(QString Version);
+
   private:
     /**
     *** \brief Moon data.
@@ -467,13 +461,6 @@ class CONTROLPANELDIALOG_C : public QDialog, public Ui::CONTROLPANELDIALOGUI_C
     SETTINGS_C *m_pSettings;
 
     /**
-    *** \brief Network access manager.
-    *** \details Allows the application to send network request and receive
-    ***   replies.
-    **/
-    QNetworkAccessManager *m_pNetworkAccess;
-
-    /**
     *** \brief Start up flag.
     *** \details If true, the control panel dialog has not completed
     ***   initialization.
@@ -518,6 +505,19 @@ class CONTROLPANELDIALOG_C : public QDialog, public Ui::CONTROLPANELDIALOGUI_C
     *** \details Date to next check for a program update.
     **/
     QDate m_NextUpdateCheck;
+
+    /**
+    *** \brief Program update checker.
+    *** \details Checks for program updates.
+    **/
+    UPDATENOTIFIER_C m_UpdateNotifier;
+
+    /**
+    *** \brief Double click timout timer.
+    *** \details Timer used to differentiate between one or two clicks and a
+    ***   double click.
+    **/
+    QTimer *m_pDoubleClickTimeoutTimer;
 
 #ifdef    DEBUG
     /**

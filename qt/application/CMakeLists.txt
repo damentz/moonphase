@@ -74,8 +74,12 @@ ENDIF()
 
 IF(OPTION_MOONPHASE_BUILDQTAPPLICATION)
   INCLUDE_DIRECTORIES(
-      "${CMAKE_BINARY_DIR}"
-      "${CMAKE_CURRENT_BINARY_DIR}"
+      "${CMAKE_BINARY_DIR}/"
+      "${CMAKE_CURRENT_BINARY_DIR}/"
+      "${CMAKE_BINARY_DIR}/toolbox/qt/widgets/"
+      "${CMAKE_BINARY_DIR}/toolbox/qt/utilities/sources/"
+      "${CMAKE_SOURCE_DIR}/toolbox/qt/widgets/sources/"
+      "${CMAKE_SOURCE_DIR}/toolbox/qt/utilities/sources/"
       "${CMAKE_SOURCE_DIR}/qt/qt-solutions/qtsingleapplication/src/"
       "${CMAKE_BINARY_DIR}/wwwidgets/widgets/"
       "${CMAKE_BINARY_DIR}/wwwidgets/widgets/qwwbuttonlineedit/"
@@ -179,6 +183,7 @@ IF(OPTION_MOONPHASE_BUILDQTAPPLICATION)
   TARGET_LINK_LIBRARIES(
       ${MOONPHASEQT_EXECUTABLENAME}
       toolboxgeneric
+      toolboxqtutilities
       toolboxqtwidgets
       "${CMAKE_BINARY_DIR}/wwwidgets/widgets/${WWWIDGETS_LIBRARYPATHNAME}"
       ${OS_LIBRARIES}
