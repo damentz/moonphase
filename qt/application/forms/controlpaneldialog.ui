@@ -507,7 +507,7 @@
                <enum>QFrame::Box</enum>
               </property>
               <property name="text">
-               <string>&amp;Data</string>
+               <string>Da&amp;ta</string>
               </property>
               <property name="textInteractionFlags">
                <set>Qt::NoTextInteraction</set>
@@ -684,7 +684,7 @@
             <item>
              <widget class="QListWidget" name="m_pDisplayListWidget">
               <property name="selectionMode">
-               <enum>QAbstractItemView::SingleSelection</enum>
+               <enum>QAbstractItemView::ExtendedSelection</enum>
               </property>
              </widget>
             </item>
@@ -753,7 +753,7 @@
       <enum>Qt::Horizontal</enum>
      </property>
      <property name="standardButtons">
-      <set>QDialogButtonBox::Apply|QDialogButtonBox::Close|QDialogButtonBox::Help</set>
+      <set>QDialogButtonBox::Apply|QDialogButtonBox::Close</set>
      </property>
     </widget>
    </item>
@@ -1081,7 +1081,7 @@
    <sender>m_pRemoveDisplayItemToolButton</sender>
    <signal>clicked()</signal>
    <receiver>CONTROLPANELDIALOGUI_C</receiver>
-   <slot>RemoveDataItemButtonClickedSlot()</slot>
+   <slot>RemoveDisplayItemButtonClickedSlot()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>258</x>
@@ -1227,22 +1227,16 @@
   <slot>PreferencesChangedSlot()</slot>
   <slot>ButtonBoxButtonClickedSlot(QAbstractButton*)</slot>
   <slot>UseOpaqueBackgroundClickedSlot()</slot>
-  <slot>AddMessageBoxItemButtonClickedSlot()</slot>
-  <slot>OptionsMessageBoxItemButtonClickedSlot()</slot>
-  <slot>MoveUpMessageBoxItemButtonClickedSlot()</slot>
-  <slot>MoveDownMessageBoxItemButtonClickedSlot()</slot>
-  <slot>RemoveMessageBoxItemButtonClickedSlot()</slot>
-  <slot>MessageBoxItemSelectionChangedSlot()</slot>
-  <slot>AddToolTipItemButtonClickedSlot()</slot>
-  <slot>OptionsToolTipItemButtonClickedSlot()</slot>
-  <slot>MoveUpToolTipItemButtonClickedSlot()</slot>
-  <slot>MoveDownToolTipItemButtonClickedSlot()</slot>
-  <slot>RemoveToolTipItemButtonClickedSlot()</slot>
-  <slot>ToolTipItemSelectionChangedSlot()</slot>
+  <slot>AddDataItemButtonClickedSlot()</slot>
+  <slot>OptionsDisplayItemButtonClickedSlot()</slot>
+  <slot>MoveUpDisplayItemButtonClickedSlot()</slot>
+  <slot>MoveDownDisplayItemButtonClickedSlot()</slot>
+  <slot>RemoveDisplayItemButtonClickedSlot()</slot>
+  <slot>DataItemSelectionChangedSlot()</slot>
+  <slot>DisplayItemSelectionChangedSlot()</slot>
   <slot>StillRunningReminderClickedSlot()</slot>
   <slot>ShowControlPanelSlot()</slot>
   <slot>AnimationPathnameChangedSlot()</slot>
-  <slot>CheckButtonClickedSlot()</slot>
   <slot>ShowInformationPanelSlot()</slot>
   <slot>LatitudeChangedSlot(double)</slot>
   <slot>LongitudeChangedSlot(double)</slot>

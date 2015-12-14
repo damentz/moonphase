@@ -37,6 +37,8 @@ INCLUDE_DIRECTORIES(
 
 SET(COMMON_SOURCES
     "${CMAKE_CURRENT_LIST_DIR}/sources/calcephem.c"
+    "${CMAKE_CURRENT_LIST_DIR}/sources/datetime.c"
+    "${CMAKE_CURRENT_LIST_DIR}/sources/information.c"
     "${CMAKE_CURRENT_LIST_DIR}/sources/moondata.c")
 SET(COMMON_FILES
     ${COMMON_SOURCES})

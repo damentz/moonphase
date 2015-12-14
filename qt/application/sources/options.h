@@ -33,6 +33,8 @@
 *****
 ****/
 
+#include  "datetime.h"
+
 #include  <QColor>
 #include  <QFont>
 
@@ -83,6 +85,30 @@ class OPTIONS_C
     QString BuildStyleSheetString(void) const;
 
     /**
+    *** \brief Convert to DATETIMEOPTIONS_T format.
+    *** \details COnverts from the OPTIONS_C format to the DATETIMEOPTIONS_T
+    ***   format.
+    *** \param pDateTimeOptions Storage for the DATETIMEOPTIONS_T data.
+    **/
+    void Convert(DATETIMEOPTIONS_T *pDateTimeOptions);
+
+    /**
+    *** \brief Returns the 24 hour format flag.
+    *** \details Returns the 24 hour format flag.
+    *** \retval 0 Use 12 hour (am/pm) format.
+    *** \retval !0 Use 24 hour format.
+    **/
+    bool Get24HourFormatFlag(void) const;
+
+    /**
+    *** \brief Returns the 4 digit year format flag.
+    *** \details Returns the 4 digit year format flag.
+    *** \retval 0 Use 2 digit year format.
+    *** \retval !0 Use 4 digit year format.
+    **/
+    bool Get4DigitYearFlag(void) const;
+
+    /**
     *** \brief Returns the background color.
     *** \details Returns the color of the background.
     *** \returns Color of the background.
@@ -97,11 +123,43 @@ class OPTIONS_C
     QFont GetFont(void) const;
 
     /**
+    *** \brief Returns the long day of the week format flag.
+    *** \details Returns the long day of the week format flag.
+    *** \retval 0 Use short day of the week format (Sun.).
+    *** \retval !0 Use long day of the week format (Sunday).
+    **/
+    bool GetLongDayOfWeekFormatFlag(void) const;
+
+    /**
+    *** \brief Returns the month format flag.
+    *** \details Returns the month format flag.
+    *** \retval 0 Use short month format (Jan.).
+    *** \retval !0 Use long month format (January).
+    **/
+    bool GetLongMonthFormatFlag(void) const;
+
+    /**
     *** \brief Returns the margin.
     *** \details Returns the margin.
     *** \returns Margin.
     **/
     int GetMargin(void) const;
+
+    /**
+    *** \brief Returns the show the day of the week flag.
+    *** \details Returns the show the day of the week flag.
+    *** \retval 0 Don't show the day of the week.
+    *** \retval !0 Show the day of the week.
+    **/
+    bool GetShowDayOfWeekFlag(void) const;
+
+    /**
+    *** \brief Returns the show the seconds flag.
+    *** \details Returns the show the seconds flag.
+    *** \retval 0 Don't show the seconds.
+    *** \retval !0 Show the seconds.
+    **/
+    bool GetShowSecondsFlag(void) const;
 
     /**
     *** \brief Returns the text color.
@@ -111,11 +169,12 @@ class OPTIONS_C
     QColor GetTextColor(void) const;
 
     /**
-    *** \brief Returns the unit index.
-    *** \details Returns the index of the display unit.
-    *** \returns Unit index.
+    *** \brief Returns the unit or format index.
+    *** \details Returns the index of the display unit or the date/time format
+    ***   index.
+    *** \returns Unit or format index.
     **/
-    int GetUnitIndex(void) const;
+    int GetUnitFormatIndex(void) const;
 
     /**
     *** \brief Returns the use system background color flag.
@@ -142,6 +201,22 @@ class OPTIONS_C
     bool GetUseSystemTextColorFlag(void) const;
 
     /**
+    *** \brief Sets the 24 hour format flag.
+    *** \details Sets the 24 hour format flag.
+    *** \param Flag 0=Use 12 hour (am/pm) format,\n
+    ***   !0=Use 24 hour format.
+    **/
+    void Set24HourFormatFlag(bool Flag);
+
+    /**
+    *** \brief Sets the 4 digit year format flag.
+    *** \details Sets the 4 digit year format flag.
+    *** \param Flag 0=Use 2 digit year format,\n
+    ***   !0=Use 4 digit year format.
+    **/
+    void Set4DigitYearFlag(bool Flag);
+
+    /**
     *** \brief Sets the background color.
     *** \details Sets the color of the background.
     *** \param Color Color of the background.
@@ -156,11 +231,43 @@ class OPTIONS_C
     void SetFont(QFont Font);
 
     /**
+    *** \brief Sets the long day of the week format flag.
+    *** \details Sets the long day of the week format flag.
+    *** \param Flag 0=Use short day of the week format (Sun.),\n
+    ***   !0=Use long day of the week format (Sunday).
+    **/
+    void SetLongDayOfWeekFormatFlag(bool Flag);
+
+    /**
+    *** \brief Sets the long month format flag.
+    *** \details Sets the long month format flag.
+    *** \param Flag 0=Use short month format (Jan.),\n
+    ***   !0=Use long month format (January).
+    **/
+    void SetLongMonthFormatFlag(bool Flag);
+
+    /**
     *** \brief Sets the margin.
     *** \details Sets the margin.
     *** \param Margin Margin.
     **/
     void SetMargin(int Margin);
+
+    /**
+    *** \brief Sets the show the day of the week flag.
+    *** \details Sets the show the day of the week flag.
+    *** \param Flag 0=Don't show the day of the week,\n
+    ***   !0=Show the day of the week.
+    **/
+    void SetShowDayOfWeekFlag(bool Flag);
+
+    /**
+    *** \brief Sets the show the seconds flag.
+    *** \details Sets the show the seconds.
+    *** \param Flag 0=Don't show the seconds,\n
+    ***   !0=Show the seconds.
+    **/
+    void SetShowSecondsFlag(bool Flag);
 
     /**
     *** \brief Sets the text color.
@@ -170,34 +277,51 @@ class OPTIONS_C
     void SetTextColor(QColor Color);
 
     /**
-    *** \brief Sets the unit index.
-    *** \details Sets the index of the display unit.
-    *** \param Index Unit index.
+    *** \brief Sets the unit or format index.
+    *** \details Sets the index of the display unit or the index of the
+    ***   date/time format index.
+    *** \param Index Unit or format index.
     **/
-    void SetUnitIndex(int Index);
+    void SetUnitFormatIndex(int Index);
 
     /**
     *** \brief Sets the use system background color flag.
     *** \details Sets the use system background color flag.
-    *** \param SystemFlag 0=Use user defined color,\n
+    *** \param Flag 0=Use user defined color,\n
     ***   !0=Use system background color.
     **/
-    void SetUseSystemBackgroundColorFlag(bool SystemFlag);
+    void SetUseSystemBackgroundColorFlag(bool Flag);
 
     /**
     *** \brief Sets the use system font flag.
     *** \details Sets the use system font flag.
-    *** \param SystemFlag 0=Use user defined font,\n
+    *** \param Flag 0=Use user defined font,\n
     ***   !0=Use system background font.
     **/
-    void SetUseSystemFontFlag(bool SystemFlag);
+    void SetUseSystemFontFlag(bool Flag);
 
     /**
     *** \brief Sets the use system text color flag.
     *** \details Sets the use system text color flag.
-    *** \param SystemFlag 0=Use user defined color,\n!0=Use system text color.
+    *** \param Flag 0=Use user defined color,\n!0=Use system text color.
     **/
-    void SetUseSystemTextColorFlag(bool SystemFlag);
+    void SetUseSystemTextColorFlag(bool Flag);
+
+    /**
+    *** \brief Assignment operator (const) (=)
+    *** \details Assignment operator (const) (=)
+    *** \param RHS Object on right hand side of operator.
+    *** \return Copy of data.
+    **/
+    OPTIONS_C & operator=(OPTIONS_C const &RHS);
+
+    /**
+    *** \brief Assignment operator (=)
+    *** \details Assignment operator (=)
+    *** \param RHS Object on right hand side of operator.
+    *** \return Copy of data.
+    **/
+    OPTIONS_C & operator=(OPTIONS_C &RHS);
 
     /**
     *** \brief Comparison operator (==).
@@ -219,22 +343,16 @@ class OPTIONS_C
 
   private:
     /**
-    *** \brief Unit index.
-    *** \details Index of the display unit.
+    *** \brief Background color.
+    *** \details Background color.
     **/
-    int m_UnitIndex;
+    QColor m_BackgroundColor;
 
     /**
-    *** \brief Margin.
-    *** \details Pad area around text.
+    *** \brief Date/time options.
+    *** \details Options for the date/time print functions.
     **/
-    int m_Margin;
-
-    /**
-    *** \brief Use system font flag.
-    *** \details Use system font flag.
-    **/
-    bool m_UseSystemFontFlag;
+    DATETIMEOPTIONS_T m_DateTimeOptions;
 
     /**
     *** \brief Font.
@@ -243,10 +361,10 @@ class OPTIONS_C
     QFont m_Font;
 
     /**
-    *** \brief Use system text color flag.
-    *** \details Use system text color flag.
+    *** \brief Margin.
+    *** \details Pad area around text.
     **/
-    bool m_UseSystemTextColorFlag;
+    int m_Margin;
 
     /**
     *** \brief Text color.
@@ -255,16 +373,28 @@ class OPTIONS_C
     QColor m_TextColor;
 
     /**
+    *** \brief Unit or format index.
+    *** \details Index of the display unit or index of the date/time format.
+    **/
+    int m_UnitFormatIndex;
+
+    /**
     *** \brief Use system background color flag.
     *** \details Use system background color flag.
     **/
     bool m_UseSystemBackgroundColorFlag;
 
     /**
-    *** \brief Background color.
-    *** \details Background color.
+    *** \brief Use system font flag.
+    *** \details Use system font flag.
     **/
-    QColor m_BackgroundColor;
+    bool m_UseSystemFontFlag;
+
+    /**
+    *** \brief Use system text color flag.
+    *** \details Use system text color flag.
+    **/
+    bool m_UseSystemTextColorFlag;
 };
 
 

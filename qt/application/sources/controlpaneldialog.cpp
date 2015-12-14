@@ -44,18 +44,18 @@
 
 #include  "config.h"
 #include  "licenseagreement.h"
+#include  "options.h"
 #include  "informationpaneldialog.h"
+#include  "settings.h"
+#include  "information.h"
 #include  "informationoptionsdialog.h"
 #include  "versionstring.h"
 
-#include  <QSettings>
 #include  <QDesktopWidget>
 #include  <QMenu>
 #include  <QTimer>
 #include  <QMessageBox>
 #include  <QPainter>
-#define   _USE_MATH_DEFINES   // Needed by windows.
-#include  <math.h>
 
 
 /****
@@ -65,82 +65,22 @@
 ****/
 
 /**
-*** \brief Allow multiple instances flag key.
-*** \details Key to access allow multiple instances flag in configuration file.
-**/
-#define   PREFERENCES_ALLOWMULTIPLEINSTANCESFLAG    "AllowMultipleInstancesFlag"
-
-/**
-*** \brief Animation pathname key.
-*** \details Key to access animation pathname in configuration file.
-**/
-#define   PREFERENCES_ANIMATIONPATHNAME             "AnimationPathname"
-
-/**
-*** \brief Background color key.
-*** \details Key to access background color in configuration file.
-**/
-#define   PREFERENCES_BACKGROUNDCOLOR               "BackgroundColor"
-
-/**
-*** \brief Confirm discard changes flag key.
-*** \details Key to access confirm discard changes flag in configuration file.
-**/
-#define   PREFERENCES_CONFIRMDISCARDCHANGESFLAG     "ConfirmDiscardChangesFlag"
-
-/**
-*** \brief Confirm quit flag key.
-*** \details Key to access confirm quit flag in configuration file.
-**/
-#define   PREFERENCES_CONFIRMQUITFLAG               "ConfirmQuitFlag"
-
-/**
-*** \brief Default to metric units key.
-*** \details Key to access default to metric flag in configuration file.
-**/
-#define   PREFERENCES_DEFAULTTOMETRICUNITSFLAG      "DefaultToMetricUnitsFlag"
-
-/**
-*** \brief Use opaque background flag key.
-*** \details Key to access use opaque background flag in configuration file.
-**/
-#define   PREFERENCES_USEOPAQUEBACKGROUNDFLAG       "UseOpaqueBackgroundFlag"
-
-/**
-*** \brief Remind once per session flag key.
-*** \details Key to access remind once per session flag in configuration file.
-**/
-#define   PREFERENCES_REMINDONCEPERSESSIONFLAG      "RemindOncePerSessionFlag"
-
-/**
-*** \brief Still running reminder flag key.
-*** \details Key to access still running reminder flag in configuration file.
-**/
-#define   PREFERENCES_STILLRUNNINGREMINDERFLAG      "StillRunningReminderFlag"
-
-/**
-*** \brief Update interval key.
-*** \details Key to access update interval in configuration file.
-**/
-#define   PREFERENCES_UPDATEINTERVAL                "UpdateInterval"
-
-/**
 *** \brief Animation update rate.
 *** \details Time between animation updates.
 **/
-#define   ANIMATIONTIMER_RATE     (200)           /* in milliseconds */
+#define   ANIMATIONTIMER_RATE     (200)         /* in milliseconds */
 
 /**
 *** \brief Icon update rate.
 *** \details Time between checks for any icon updates.
 **/
-#define   UPDATETIMER_RATE        (60*60*1000)    /* 1 hour, in milliseconds */
+#define   UPDATETIMER_RATE        (60*60*1000)  /* 1 hour, in milliseconds */
 
 /**
 *** \brief Information panel update rate.
 *** \details Time between checks for information panel updates.
 **/
-#define   INFORMATIONPANELTIMER_RATE  (1000)      /* 1 second, in milliseconds */
+#define   INFORMATIONPANELTIMER_RATE  (1000)    /* 1 second, in milliseconds */
 
 /**
 *** \brief Binary subdirectory.
@@ -184,356 +124,12 @@
 #define   LWI2II(lwi)   \
               (lwi)->data(ROLE_INFORMATIONTYPE).value<INFORMATIONITEM_C*>()
 
-/**
-*** \brief Number of array elements.
-*** \details Returns the number of elements in an array.
-**/
-#define   ARRAY_ELEMENTCOUNT(a)   (sizeof(a)/sizeof(*a))
-
-/**
-*** \brief Earth radius.
-*** \details The radius of the earth (in miles).
-**/
-#define   EARTH_RADIUS    (3959.0)
-
 
 /****
 *****
 ***** DATA TYPES
 *****
 ****/
-
-/**
-*** \brief Change/save/load settings.
-*** \details Allows changing, saving, and loading of settings.
-**/
-class CONTROLPANELDIALOG_C::SETTINGS_C : protected QSettings
-{
-  public:
-    /**
-    *** \brief Constructor.
-    *** \details Constructor.
-    **/
-    SETTINGS_C(void);
-
-    /**
-    *** \brief Destructor.
-    *** \details Destructor.
-    **/
-    ~SETTINGS_C(void);
-
-    /**
-    *** \brief Comparison operator (==).
-    *** \details Comparison operator (==).
-    *** \param RHS Object on right hand side of operator.
-    *** \retval 0 Objects are not equivalent.
-    *** \retval !0 Objects are equivalent.
-    **/
-    bool operator==(SETTINGS_C const &RHS) const;
-
-    /**
-    *** \brief Comparison operator (!=).
-    *** \details Comparison operator (!=).
-    *** \param RHS Object on right hand side of operator.
-    *** \retval 0 Objects are equivalent.
-    *** \retval !0 Objects are not equivalent.
-    **/
-    bool operator!=(SETTINGS_C const &RHS) const;
-
-    /**
-    *** \brief Load settings.
-    *** \details Reads the settings from the configuration file.
-    **/
-    void Load(void);
-
-    /**
-    *** \brief Save settings.
-    *** \details Writes the settings to the configuration file.
-    **/
-    void Save(void);
-
-    /**
-    *** \brief Returns the allow multiple instance flag.
-    *** \details Returns the allow multiple instance flag.
-    *** \retval 0 Allow only one instance.
-    *** \retval !0 Allow multiple instances.
-    **/
-    bool GetAllowMultipleInstancesFlag(void) const;
-
-    /**
-    *** \brief Returns the animation pathname.
-    *** \details Returns the pathname of the animation image.
-    *** \returns Pathname of the animation image.
-    **/
-    QString GetAnimationPathname(void) const;
-
-    /**
-    *** \brief Returns the background color.
-    *** \details Returns the color of the background.
-    *** \returns Color of the background.
-    **/
-    QColor GetBackgroundColor(void) const;
-
-    /**
-    *** \brief Returns the confirm discard flag.
-    *** \details Returns the confirm discarding of changes flag.
-    *** \retval 0 Discard changes without confirming.
-    *** \retval !0 Prompt for confirmation.
-    **/
-    bool GetConfirmDiscardFlag(void) const;
-
-    /**
-    *** \brief Returns the confirm quit flag.
-    *** \details Returns the confirm quit flag.
-    *** \retval 0 Quit without confirming.
-    *** \retval !0 Prompt for confirmation.
-    **/
-    bool GetConfirmQuitFlag(void) const;
-
-    /**
-    *** \brief Returns the default to metric units flag.
-    *** \details Returns the default to metric units flag.
-    *** \retval 0 - Default to imperial units.
-    *** \retval !0 - Default to metric units.
-    **/
-    bool GetDefaultToMetricUnitsFlag(void) const;
-
-    /**
-    *** \brief Returns the remind once per session flag.
-    *** \details Returns the still running reminder once per session flag.
-    *** \retval 0 Remind every time.
-    *** \retval !0 Remind only once per session.
-    **/
-    bool GetRemindOncePerSessionFlag(void) const;
-
-    /**
-    *** \brief Returns the still running reminder flag.
-    *** \details Returns the still running reminder flag.
-    *** \retval 0 No reminder on close.
-    *** \retval !0 Remind on every close.
-    **/
-    bool GetStillRunningReminderFlag(void) const;
-
-    /**
-    *** \brief Returns the update interval.
-    *** \details Returns the interval between icon updates.
-    *** \returns Interval (in hours).
-    **/
-    unsigned int GetUpdateInterval(void) const;
-
-    /**
-    *** \brief Returns the use opaque background flag.
-    *** \details Returns the use opaque background flag.
-    *** \retval 0 Draw transparent background.
-    *** \retval !0 Draw background using a color.
-    **/
-    bool GetUseOpaqueBackgroundFlag(void) const;
-
-    /**
-    *** \brief Sets the allow multiple instances flag.
-    *** \details Sets the allow multiple instances flag.
-    *** \param AllowMultipleInstancesFlag 0=Allow only one instance,\n
-    ***   !0=Allow multiple instances.
-    **/
-    void SetAllowMultipleInstancesFlag(bool AllowMultipleInstancesFlag);
-
-    /**
-    *** \brief Sets the animation pathname.
-    *** \details Sets the pathname of the animation image.
-    *** \param Pathname Pathname of the animation image.
-    **/
-    void SetAnimationPathname(QString Pathname);
-
-    /**
-    *** \brief Sets the background color.
-    *** \details Sets the color of the background.
-    *** \param Color Color of the background.
-    **/
-    void SetBackgroundColor(QColor Color);
-
-    /**
-    *** \brief Sets the confirm discard flag.
-    *** \details Sets the confirm discarding of changes flag.
-    *** \param ConfirmDiscardFlag 0=Discard changes without confirming,\n
-    ***   !0=Prompt for confirmation.
-    **/
-    void SetConfirmDiscardFlag(bool ConfirmDiscardFlag);
-
-    /**
-    *** \brief Sets the confirm quit flag.
-    *** \details Sets the confirm quit flag.
-    *** \param ConfirmQuitFlag 0=Quit without confirming,\n
-    ***   !0=Prompt for confirmation.
-    **/
-    void SetConfirmQuitFlag(bool ConfirmQuitFlag);
-
-    /**
-    *** \brief Sets the default to metric units flag.
-    *** \details Sets the default to metric units flag.
-    *** \param DefaultToMetricUnitsFlag 0=Default to imperial units,\n
-    ***   !0=Default to metric units.
-    **/
-    void SetDefaultToMetricUnitsFlag(bool DefaultToMetricUnitsFlag);
-
-    /**
-    *** \brief Sets the remind once per session flag.
-    *** \details Sets the still running reminder once per session flag.
-    *** \param OnceFlag 0=Remind every time,\n!0 Remind only once per session.
-    **/
-    void SetRemindOncePerSessionFlag(bool OnceFlag);
-
-    /**
-    *** \brief Sets the still running reminder flag.
-    *** \details Sets the still running reminder flag.
-    *** \param ReminderFlag 0=No reminder on close,\n!0=Remind on every close.
-    **/
-    void SetStillRunningReminderFlag(bool ReminderFlag);
-
-    /**
-    *** \brief Sets the update interval.
-    *** \details Sets the interval between icon updates.
-    *** \param Interval Interval (in hours).
-    **/
-    void SetUpdateInterval(unsigned int Interval);
-
-    /**
-    *** \brief Sets the use opaque background flag.
-    *** \details Sets the use opaque background flag.
-    *** \param UseFlag 0=Draw transparent background,\n
-    ***   !0=Draw background using a color.
-    **/
-    void SetUseOpaqueBackgroundFlag(bool UseFlag);
-
-  private:
-    /**
-    *** \brief Sets the allow multiple instances flag.
-    *** \details Sets the allow multiple instances flag.
-    **/
-    bool m_AllowMultipleInstancesFlag;
-
-    /**
-    *** \brief Animation pathname.
-    *** \details Pathname of the animation image.
-    **/
-    QString m_AnimationPathname;
-
-    /**
-    *** \brief Background color.
-    *** \details Color of the background.
-    **/
-    QColor m_BackgroundColor;
-
-    /**
-    *** \brief Confirm discard flag.
-    *** \details Confirm discarding of changes flag.
-    **/
-    bool m_ConfirmDiscardFlag;
-
-    /**
-    *** \brief Confirm quit flag.
-    *** \details Confirm quit flag.
-    **/
-    bool m_ConfirmQuitFlag;
-
-    /**
-    *** \brief Default to metric units flag.
-    *** \details Default to metric units flag.
-    **/
-    bool m_DefaultToMetricUnitsFlag;
-
-    /**
-    *** \brief Remind once per session flag.
-    *** \details Still running reminder once per session flag.
-    **/
-    bool m_RemindOncePerSessionFlag;
-
-    /**
-    *** \brief Still running reminder flag.
-    *** \details Still running reminder flag.
-    **/
-    bool m_StillRunningReminderFlag;
-
-    /**
-    *** \brief Update interval.
-    *** \details Interval between icon updates.
-    **/
-    unsigned int m_UpdateInterval;
-
-    /**
-    *** \brief Use opaque background flag.
-    *** \details Use opaque background flag.
-    **/
-    bool m_UseOpaqueBackgroundFlag;
-};
-
-/**
-*** \brief Unit flags.
-*** \details Determines the unit type.
-**/
-typedef enum enumUNITFLAGS
-{
-  NONE=0,
-  DEFAULTMETRIC=1,
-  DEFAULTIMPERIAL=2,
-} UNITFLAGS_F;
-
-/**
-*** \brief Unit data.
-*** \details Defines various data about a measurement unit.
-**/
-typedef struct structUNIT
-{
-  /**
-  *** \brief Short name.
-  *** \details Short name (abbreviation) for the unit.
-  **/
-  QString ShortName;
-  /**
-  *** \brief Long name.
-  *** \details Long name for the unit.
-  **/
-  QString LongName;
-  /**
-  *** \brief Scale factor.
-  *** \details Scale factor used to convert between internal units and user
-  ***   units.
-  **/
-  double Scale;
-  /**
-  *** \brief Precision.
-  *** \details How many digits to print after the decimal point.
-  **/
-  int Precision;
-  /**
-  *** \brief Unit flags.
-  *** \details Default unit flags (metric, imperial, none).
-  **/
-  UNITFLAGS_F UnitFlags;
-} UNIT_T;
-
-/**
-*** \brief Moon data item.
-*** \details Defines a label, possible unit list and a print function for each
-***   item in the data list.
-**/
-typedef struct structDATAITEM
-{
-  /**
-  *** \brief Data label.
-  *** \details Label for the displayed data.
-  **/
-  QString Label;
-  /**
-  *** \brief Unit list.
-  *** \details List of units that this item can use to display.
-  **/
-  UNIT_T const *pUnitList;
-  /**
-  *** \brief Print data function.
-  *** \details Function used to print the data.
-  **/
-  QString (*PrintDataFunction)(MOONDATA_T *pMoonData,double Scale,int Precision);
-} DATAITEM_T;
 
 /**
 *** \brief Moon data and options.
@@ -555,32 +151,33 @@ class INFORMATIONITEM_C
     ~INFORMATIONITEM_C(void);
 
     /**
-    *** \brief Return data index.
-    *** \details Returns the index into the data table.
-    *** \returns Index into the data table.
+    *** \brief Return information index.
+    *** \details Returns the index into the information table.
+    *** \returns Index into the information table.
     **/
-    int GetDataIndex(void);
+    int GetInformationIndex(void);
 
     /**
     *** \brief Return item options.
     *** \details Returns the options for this item.
     *** \returns Options for this line.
     **/
-    OPTIONS_C * GetOptions(void);
+    void GetOptions(OPTIONS_C &Options);
 
     /**
-    *** \brief Return unit index.
-    *** \details Returns the index into the unit table.
+    *** \brief Return unit or format index.
+    *** \details Returns the index into the unit table or the index of the
+    ***   date/time format.
     *** \returns Index into the unit table.
     **/
-    int GetUnitIndex(void);
+    int GetUnitFormatIndex(void);
 
     /**
-    *** \brief Set data index.
-    *** \details Sets the index into the data table.
-    *** \param Index Index into the data table.
+    *** \brief Set information index.
+    *** \details Sets the index into the information table.
+    *** \param Index Index into the information table.
     **/
-    void SetDataIndex(int Index);
+    void SetInformationIndex(int Index);
 
     /**
     *** \brief Set item options.
@@ -590,18 +187,19 @@ class INFORMATIONITEM_C
     void SetOptions(OPTIONS_C const &Options);
 
     /**
-    *** \brief Set unit index.
-    *** \details Sets the index into the unit table.
+    *** \brief Set unit or format index.
+    *** \details Sets the index into the unit table or the index of the
+    ***   date/time format.
     *** \param Index into the unit table.
     **/
-    void SetUnitIndex(int Index);
+    void SetUnitFormatIndex(int Index);
 
   private:
     /**
-    *** \brief Data index.
-    *** \details The index into the data table.
+    *** \brief Information index.
+    *** \details The index into the information table.
     **/
-    int m_DataIndex;
+    int m_InformationIndex;
 
     /**
     *** \brief Item options.
@@ -623,124 +221,12 @@ Q_DECLARE_METATYPE(INFORMATIONITEM_C*);
 *****
 ****/
 
-/**
-*** \brief Test function.
-*** \details Test function, will be removed.
-*** \param pMoonData Param #1.
-*** \param Scale Param #2.
-*** \param Precision Param #3.
-*** \returns Return.
-**/
-static QString PrintAngle0(MOONDATA_T *pMoonData,double Scale,int Precision);
-
-/**
-*** \brief Test function.
-*** \details Test function, will be removed.
-*** \param pMoonData Param #1.
-*** \param Scale Param #2.
-*** \param Precision Param #3.
-*** \returns Return.
-**/
-static QString PrintAngle1(MOONDATA_T *pMoonData,double Scale,int Precision);
-
-/**
-*** \brief Test function.
-*** \details Test function, will be removed.
-*** \param pMoonData Param #1.
-*** \param Scale Param #2.
-*** \param Precision Param #3.
-*** \returns Return.
-**/
-static QString PrintAngle2(MOONDATA_T *pMoonData,double Scale,int Precision);
-
-/**
-*** \brief Test function.
-*** \details Test function, will be removed.
-*** \param pMoonData Param #1.
-*** \param Scale Param #2.
-*** \param Precision Param #3.
-*** \returns Return.
-**/
-static QString PrintDistance0(MOONDATA_T *pMoonData,double Scale,int Precision);
-
-/**
-*** \brief Test function.
-*** \details Test function, will be removed.
-*** \param pMoonData Param #1.
-*** \param Scale Param #2.
-*** \param Precision Param #3.
-*** \returns Return.
-**/
-static QString PrintDistance1(MOONDATA_T *pMoonData,double Scale,int Precision);
-
-/**
-*** \brief Test function.
-*** \details Test function, will be removed.
-*** \param pMoonData Param #1.
-*** \param Scale Param #2.
-*** \param Precision Param #3.
-*** \returns Return.
-**/
-static QString PrintDistance2(MOONDATA_T *pMoonData,double Scale,int Precision);
-
 
 /****
 *****
 ***** DATA
 *****
 ****/
-
-/**
-*** \brief Angle units.
-*** \details Units used by data items that are angles.
-**/
-static const UNIT_T f_pAngleUnits[]=
-{
-  { QString::fromWCharArray(L"\u00B0"),QObject::tr("Degrees"),
-      1.0,2,(UNITFLAGS_F)(DEFAULTMETRIC|DEFAULTIMPERIAL) },
-  { QString::fromWCharArray(L"\u33AD"),QObject::tr("Radians"),
-      M_PI/180.0,5,NONE },
-  { QString() }
-};
-
-/**
-*** \brief Distance units.
-*** \details Units used by data items that are distances.
-**/
-static const UNIT_T f_pDistanceUnits[]=
-{
-  { QObject::tr("m"),QObject::tr("Meters"),1609.344,0,NONE },
-  { QObject::tr("'"),QObject::tr("Feet"),5280.0,0,NONE },
-  { QObject::tr("km"),QObject::tr("Kilometers"),1.609344,2,DEFAULTMETRIC },
-  { QObject::tr("mi"),QObject::tr("Miles"),1.0,2,DEFAULTIMPERIAL },
-  { QObject::tr("au"),QObject::tr("Astronomical units"),1.0758e-8,3,NONE },
-  { QString() }
-};
-
-/**
-*** \brief Time units.
-*** \details Units used by data items that are times.
-**/
-static const UNIT_T f_pTimeUnits[]=
-{
-  { QObject::tr("days"),QObject::tr("Days"),
-      1.0,0,(UNITFLAGS_F)(DEFAULTMETRIC|DEFAULTIMPERIAL) },
-  { QString() }
-};
-
-/**
-*** \brief Test structure.
-*** \details Test structure, will be modified.
-**/
-static const DATAITEM_T f_pInformation[]=
-{
-  { QObject::tr("Angle0"),f_pAngleUnits,PrintAngle0 },
-  { QObject::tr("Angle1"),f_pAngleUnits,PrintAngle1 },
-  { QObject::tr("Angle2"),f_pAngleUnits,PrintAngle2 },
-  { QObject::tr("Distance0"),f_pDistanceUnits,PrintDistance0 },
-  { QObject::tr("Distance1"),f_pDistanceUnits,PrintDistance1 },
-  { QObject::tr("Distance2"),f_pDistanceUnits,PrintDistance2 }
-};
 
 
 /****
@@ -756,361 +242,12 @@ static const DATAITEM_T f_pInformation[]=
 *****
 ****/
 
-CONTROLPANELDIALOG_C::SETTINGS_C::SETTINGS_C(void)
-{
-  DEBUGLOG_Printf0("CONTROLPANELDIALOG_C::SETTINGS_C::SETTINGS_C()");
-  DEBUGLOG_LogIn();
-
-  m_AllowMultipleInstancesFlag=false;
-  m_AnimationPathname="";
-  m_BackgroundColor=QColor(0,0,0);
-  m_ConfirmDiscardFlag=true;
-  m_ConfirmQuitFlag=true;
-  m_DefaultToMetricUnitsFlag=true;
-  m_RemindOncePerSessionFlag=true;
-  m_StillRunningReminderFlag=true;
-  m_UpdateInterval=4;
-  m_UseOpaqueBackgroundFlag=false;
-
-  DEBUGLOG_LogOut();
-  return;
-}
-
-CONTROLPANELDIALOG_C::SETTINGS_C::~SETTINGS_C(void)
-{
-  DEBUGLOG_Printf0("CONTROLPANELDIALOG_C::SETTINGS_C::~SETTINGS_C()");
-  DEBUGLOG_LogIn();
-
-  DEBUGLOG_LogOut();
-  return;
-}
-
-bool CONTROLPANELDIALOG_C::SETTINGS_C::operator==(SETTINGS_C const &RHS) const
-{
-  bool EqualFlag;
-
-
-  DEBUGLOG_Printf1("CONTROLPANELDIALOG_C::SETTINGS_C::operator==(%p)",&RHS);
-  DEBUGLOG_LogIn();
-
-  EqualFlag=(QString::localeAwareCompare(
-      m_AnimationPathname,RHS.m_AnimationPathname)==0) &&
-      (m_AllowMultipleInstancesFlag==RHS.m_AllowMultipleInstancesFlag) &&
-      (m_BackgroundColor==RHS.m_BackgroundColor) &&
-      (m_ConfirmDiscardFlag==RHS.m_ConfirmDiscardFlag) &&
-      (m_ConfirmQuitFlag==RHS.m_ConfirmQuitFlag) &&
-      (m_DefaultToMetricUnitsFlag==RHS.m_DefaultToMetricUnitsFlag) &&
-      (m_RemindOncePerSessionFlag==RHS.m_RemindOncePerSessionFlag) &&
-      (m_StillRunningReminderFlag==RHS.m_StillRunningReminderFlag) &&
-      (m_UpdateInterval==RHS.m_UpdateInterval) &&
-      (m_UseOpaqueBackgroundFlag==RHS.m_UseOpaqueBackgroundFlag);
-
-  DEBUGLOG_LogOut();
-  return(EqualFlag);
-}
-
-bool CONTROLPANELDIALOG_C::SETTINGS_C::operator!=(SETTINGS_C const &RHS) const
-{
-  bool EqualFlag;
-
-
-  DEBUGLOG_Printf1("CONTROLPANELDIALOG_C::SETTINGS_C::operator==(%p)",&RHS);
-  DEBUGLOG_LogIn();
-
-  EqualFlag=!((*this)==RHS);
-
-  DEBUGLOG_LogOut();
-  return(EqualFlag);
-}
-
-void CONTROLPANELDIALOG_C::SETTINGS_C::Load(void)
-{
-  DEBUGLOG_Printf0("CONTROLPANELDIALOG_C::SETTINGS_C::Load()");
-  DEBUGLOG_LogIn();
-
-  m_AllowMultipleInstancesFlag=
-      value(PREFERENCES_ALLOWMULTIPLEINSTANCESFLAG,m_AllowMultipleInstancesFlag)
-      .toBool();
-  m_AnimationPathname=
-      value(PREFERENCES_ANIMATIONPATHNAME,m_AnimationPathname).toString();
-  m_BackgroundColor=
-      value(PREFERENCES_BACKGROUNDCOLOR,m_BackgroundColor).value<QColor>();
-  m_ConfirmDiscardFlag=value(
-      PREFERENCES_CONFIRMDISCARDCHANGESFLAG,m_ConfirmDiscardFlag).toBool();
-  m_ConfirmQuitFlag=
-      value(PREFERENCES_CONFIRMQUITFLAG,m_ConfirmQuitFlag).toBool();
-  m_DefaultToMetricUnitsFlag=
-      value(PREFERENCES_DEFAULTTOMETRICUNITSFLAG,m_DefaultToMetricUnitsFlag).toBool();
-  m_UseOpaqueBackgroundFlag=value(PREFERENCES_USEOPAQUEBACKGROUNDFLAG,
-      m_UseOpaqueBackgroundFlag).toBool();
-  m_RemindOncePerSessionFlag=value(PREFERENCES_REMINDONCEPERSESSIONFLAG,
-      m_RemindOncePerSessionFlag).toBool();
-  m_StillRunningReminderFlag=value(
-      PREFERENCES_STILLRUNNINGREMINDERFLAG,m_StillRunningReminderFlag).toBool();
-  m_UpdateInterval=value(PREFERENCES_UPDATEINTERVAL,m_UpdateInterval).toUInt();
-
-  DEBUGLOG_LogOut();
-  return;
-}
-
-void CONTROLPANELDIALOG_C::SETTINGS_C::Save(void)
-{
-  DEBUGLOG_Printf0("CONTROLPANELDIALOG_C::SETTINGS_C::Save()");
-  DEBUGLOG_LogIn();
-
-  setValue(PREFERENCES_ALLOWMULTIPLEINSTANCESFLAG,m_AllowMultipleInstancesFlag);
-  setValue(PREFERENCES_ANIMATIONPATHNAME,m_AnimationPathname);
-  setValue(PREFERENCES_BACKGROUNDCOLOR,m_BackgroundColor);
-  setValue(PREFERENCES_CONFIRMDISCARDCHANGESFLAG,m_ConfirmDiscardFlag);
-  setValue(PREFERENCES_CONFIRMQUITFLAG,m_ConfirmQuitFlag);
-  setValue(PREFERENCES_DEFAULTTOMETRICUNITSFLAG,m_DefaultToMetricUnitsFlag);
-  setValue(PREFERENCES_USEOPAQUEBACKGROUNDFLAG,m_UseOpaqueBackgroundFlag);
-  setValue(PREFERENCES_REMINDONCEPERSESSIONFLAG,m_RemindOncePerSessionFlag);
-  setValue(PREFERENCES_STILLRUNNINGREMINDERFLAG,m_StillRunningReminderFlag);
-  setValue(PREFERENCES_UPDATEINTERVAL,m_UpdateInterval);
-
-  DEBUGLOG_LogOut();
-  return;
-}
-
-bool CONTROLPANELDIALOG_C::SETTINGS_C::GetAllowMultipleInstancesFlag(void) const
-{
-  DEBUGLOG_Printf0(
-      "CONTROLPANELDIALOG_C::SETTINGS_C::GetAllowMultipleInstancesFlag()");
-  DEBUGLOG_LogIn();
-
-  DEBUGLOG_LogOut();
-  return(m_AllowMultipleInstancesFlag);
-}
-
-QString CONTROLPANELDIALOG_C::SETTINGS_C::GetAnimationPathname(void) const
-{
-  DEBUGLOG_Printf0("CONTROLPANELDIALOG_C::SETTINGS_C::GetAnimationPathname()");
-  DEBUGLOG_LogIn();
-
-  DEBUGLOG_LogOut();
-  return(m_AnimationPathname);
-}
-
-QColor CONTROLPANELDIALOG_C::SETTINGS_C::GetBackgroundColor(void) const
-{
-  DEBUGLOG_Printf0("CONTROLPANELDIALOG_C::SETTINGS_C::GetBackgroundColor()");
-  DEBUGLOG_LogIn();
-
-  DEBUGLOG_LogOut();
-  return(m_BackgroundColor);
-}
-
-bool CONTROLPANELDIALOG_C::SETTINGS_C::GetConfirmDiscardFlag(void) const
-{
-  DEBUGLOG_Printf0("CONTROLPANELDIALOG_C::SETTINGS_C::GetConfirmDiscardFlag()");
-  DEBUGLOG_LogIn();
-
-  DEBUGLOG_LogOut();
-  return(m_ConfirmDiscardFlag);
-}
-
-bool CONTROLPANELDIALOG_C::SETTINGS_C::GetConfirmQuitFlag(void) const
-{
-  DEBUGLOG_Printf0("CONTROLPANELDIALOG_C::SETTINGS_C::GetConfirmQuitFlag()");
-  DEBUGLOG_LogIn();
-
-  DEBUGLOG_LogOut();
-  return(m_ConfirmQuitFlag);
-}
-
-bool CONTROLPANELDIALOG_C::SETTINGS_C::GetDefaultToMetricUnitsFlag(void) const
-{
-  DEBUGLOG_Printf0(
-      "CONTROLPANELDIALOG_C::SETTINGS_C::GetDefaultToMetricUnitsFlag()");
-  DEBUGLOG_LogIn();
-
-  DEBUGLOG_LogOut();
-  return(m_DefaultToMetricUnitsFlag);
-}
-
-bool CONTROLPANELDIALOG_C::SETTINGS_C::GetRemindOncePerSessionFlag(void) const
-{
-  DEBUGLOG_Printf0(
-      "CONTROLPANELDIALOG_C::SETTINGS_C::GetRemindOncePerSessionFlag()");
-  DEBUGLOG_LogIn();
-
-  DEBUGLOG_LogOut();
-  return(m_RemindOncePerSessionFlag);
-}
-
-bool CONTROLPANELDIALOG_C::SETTINGS_C::GetStillRunningReminderFlag(void) const
-{
-  DEBUGLOG_Printf0(
-      "CONTROLPANELDIALOG_C::SETTINGS_C::GetStillRunningReminderFlag()");
-  DEBUGLOG_LogIn();
-
-  DEBUGLOG_LogOut();
-  return(m_StillRunningReminderFlag);
-}
-
-unsigned int CONTROLPANELDIALOG_C::SETTINGS_C::GetUpdateInterval(void) const
-{
-  DEBUGLOG_Printf0("CONTROLPANELDIALOG_C::SETTINGS_C::GetUpdateInterval()");
-  DEBUGLOG_LogIn();
-
-  DEBUGLOG_LogOut();
-  return(m_UpdateInterval);
-}
-
-bool CONTROLPANELDIALOG_C::SETTINGS_C::GetUseOpaqueBackgroundFlag(void) const
-{
-  DEBUGLOG_Printf0(
-      "CONTROLPANELDIALOG_C::SETTINGS_C::GetUseOpaqueBackgroundFlag()");
-  DEBUGLOG_LogIn();
-
-  DEBUGLOG_LogOut();
-  return(m_UseOpaqueBackgroundFlag);
-}
-
-void CONTROLPANELDIALOG_C::SETTINGS_C::
-    SetAllowMultipleInstancesFlag(bool const AllowMultipleInstancesFlag)
-{
-  DEBUGLOG_Printf1(
-      "CONTROLPANELDIALOG_C::SETTINGS_C::SetAllowMultipleInstancesFlag(%u)",
-      AllowMultipleInstancesFlag);
-  DEBUGLOG_LogIn();
-
-  m_AllowMultipleInstancesFlag=AllowMultipleInstancesFlag;
-
-  DEBUGLOG_LogOut();
-  return;
-}
-
-void CONTROLPANELDIALOG_C::SETTINGS_C::
-    SetAnimationPathname(QString const Pathname)
-{
-  DEBUGLOG_Printf2(
-      "CONTROLPANELDIALOG_C::SETTINGS_C::SetAnimationPathname(%p(%s))",
-      &Pathname,qPrintable(Pathname));
-  DEBUGLOG_LogIn();
-
-  m_AnimationPathname=Pathname;
-
-  DEBUGLOG_LogOut();
-  return;
-}
-
-void CONTROLPANELDIALOG_C::SETTINGS_C::
-    SetBackgroundColor(QColor const BackgroundColor)
-{
-  DEBUGLOG_Printf1("CONTROLPANELDIALOG_C::SETTINGS_C::SetBackgroundColor(%u)",
-      BackgroundColor.value());
-  DEBUGLOG_LogIn();
-
-  m_BackgroundColor=BackgroundColor;
-
-  DEBUGLOG_LogOut();
-  return;
-}
-
-void CONTROLPANELDIALOG_C::SETTINGS_C::
-    SetConfirmDiscardFlag(bool const ConfirmDiscardFlag)
-{
-  DEBUGLOG_Printf1(
-      "CONTROLPANELDIALOG_C::SETTINGS_C::SetConfirmDiscardFlag(%u)",
-      ConfirmDiscardFlag);
-  DEBUGLOG_LogIn();
-
-  m_ConfirmDiscardFlag=ConfirmDiscardFlag;
-
-  DEBUGLOG_LogOut();
-  return;
-}
-
-void CONTROLPANELDIALOG_C::SETTINGS_C::
-    SetConfirmQuitFlag(bool const ConfirmQuitFlag)
-{
-  DEBUGLOG_Printf1("CONTROLPANELDIALOG_C::SETTINGS_C::SetConfirmQuitFlag(%u)",
-      ConfirmQuitFlag);
-  DEBUGLOG_LogIn();
-
-  m_ConfirmQuitFlag=ConfirmQuitFlag;
-
-  DEBUGLOG_LogOut();
-  return;
-}
-
-void CONTROLPANELDIALOG_C::SETTINGS_C::
-    SetDefaultToMetricUnitsFlag(bool const DefaultToMetricUnitsFlag)
-{
-  DEBUGLOG_Printf1(
-      "CONTROLPANELDIALOG_C::SETTINGS_C::SetDefaultToMetricUnitsFlag(%u)",
-      DefaultToMetricUnitsFlag);
-  DEBUGLOG_LogIn();
-
-  m_DefaultToMetricUnitsFlag=DefaultToMetricUnitsFlag;
-
-  DEBUGLOG_LogOut();
-  return;
-}
-
-void CONTROLPANELDIALOG_C::SETTINGS_C::
-    SetRemindOncePerSessionFlag(bool const OnceFlag)
-{
-  DEBUGLOG_Printf1(
-      "CONTROLPANELDIALOG_C::SETTINGS_C::SetRemindOncePerSessionFlag(%u)",
-      OnceFlag);
-  DEBUGLOG_LogIn();
-
-  m_RemindOncePerSessionFlag=OnceFlag;
-
-  DEBUGLOG_LogOut();
-  return;
-}
-
-void CONTROLPANELDIALOG_C::SETTINGS_C::
-    SetStillRunningReminderFlag(bool const ReminderFlag)
-{
-  DEBUGLOG_Printf1(
-      "CONTROLPANELDIALOG_C::SETTINGS_C::SetStillRunningReminderFlag(%u)",
-      ReminderFlag);
-  DEBUGLOG_LogIn();
-
-  m_StillRunningReminderFlag=ReminderFlag;
-
-  DEBUGLOG_LogOut();
-  return;
-}
-
-void CONTROLPANELDIALOG_C::SETTINGS_C::
-    SetUpdateInterval(unsigned int const Interval)
-{
-  DEBUGLOG_Printf1("CONTROLPANELDIALOG_C::SETTINGS_C::SetUpdateInterval(%u)",
-      Interval);
-  DEBUGLOG_LogIn();
-
-  m_UpdateInterval=Interval;
-
-  DEBUGLOG_LogOut();
-  return;
-}
-
-void CONTROLPANELDIALOG_C::SETTINGS_C::
-    SetUseOpaqueBackgroundFlag(bool const UseFlag)
-{
-  DEBUGLOG_Printf1(
-      "CONTROLPANELDIALOG_C::SETTINGS_C::SetUseOpaqueBackgroundFlag(%u)",
-      UseFlag);
-  DEBUGLOG_LogIn();
-
-  m_UseOpaqueBackgroundFlag=UseFlag;
-
-  DEBUGLOG_LogOut();
-  return;
-}
-
 INFORMATIONITEM_C::INFORMATIONITEM_C(void)
 {
   DEBUGLOG_Printf0("INFORMATIONITEM_C::INFORMATIONITEM_C()");
   DEBUGLOG_LogIn();
 
-  m_DataIndex=0;
+  m_InformationIndex=-1;
 
   DEBUGLOG_LogOut();
   return;
@@ -1125,44 +262,41 @@ INFORMATIONITEM_C::~INFORMATIONITEM_C(void)
   return;
 }
 
-int INFORMATIONITEM_C::GetDataIndex(void)
+int INFORMATIONITEM_C::GetInformationIndex(void)
 {
-  DEBUGLOG_Printf0("INFORMATIONITEM_C::GetDataIndex()");
+  DEBUGLOG_Printf0("INFORMATIONITEM_C::GetInformationIndex()");
   DEBUGLOG_LogIn();
 
   DEBUGLOG_LogOut();
-  return(m_DataIndex);
+  return(m_InformationIndex);
 }
 
-OPTIONS_C * INFORMATIONITEM_C::GetOptions(void)
+void INFORMATIONITEM_C::GetOptions(OPTIONS_C &Options)
 {
-  OPTIONS_C *pOptions;
-
-
-  DEBUGLOG_Printf0("INFORMATIONITEM_C::GetOptions()");
+  DEBUGLOG_Printf1("INFORMATIONITEM_C::GetOptions(%p)",&Options);
   DEBUGLOG_LogIn();
 
-  pOptions=new OPTIONS_C(m_Options);
+  Options=m_Options;
 
   DEBUGLOG_LogOut();
-  return(pOptions);
+  return;
 }
 
-int INFORMATIONITEM_C::GetUnitIndex(void)
+int INFORMATIONITEM_C::GetUnitFormatIndex(void)
 {
-  DEBUGLOG_Printf0("INFORMATIONITEM_C::GetUnitIndex()");
+  DEBUGLOG_Printf0("INFORMATIONITEM_C::GetUnitFormatIndex()");
   DEBUGLOG_LogIn();
 
   DEBUGLOG_LogOut();
-  return(m_Options.GetUnitIndex());
+  return(m_Options.GetUnitFormatIndex());
 }
 
-void INFORMATIONITEM_C::SetDataIndex(int Index)
+void INFORMATIONITEM_C::SetInformationIndex(int Index)
 {
-  DEBUGLOG_Printf1("INFORMATIONITEM_C::SetDataIndex(%d)",Index);
+  DEBUGLOG_Printf1("INFORMATIONITEM_C::SetInformationIndex(%d)",Index);
   DEBUGLOG_LogIn();
 
-  m_DataIndex=Index;
+  m_InformationIndex=Index;
 
   DEBUGLOG_LogOut();
   return;
@@ -1179,12 +313,12 @@ void INFORMATIONITEM_C::SetOptions(OPTIONS_C const &Options)
   return;
 }
 
-void INFORMATIONITEM_C::SetUnitIndex(int Index)
+void INFORMATIONITEM_C::SetUnitFormatIndex(int Index)
 {
-  DEBUGLOG_Printf1("INFORMATIONITEM_C::SetUnitIndex(%d)",Index);
+  DEBUGLOG_Printf1("INFORMATIONITEM_C::SetUnitFormatIndex(%d)",Index);
   DEBUGLOG_LogIn();
 
-  m_Options.SetUnitIndex(Index);
+  m_Options.SetUnitFormatIndex(Index);
 
   DEBUGLOG_LogOut();
   return;
@@ -1239,7 +373,6 @@ CONTROLPANELDIALOG_C::CONTROLPANELDIALOG_C(QWidget *pParent) : QDialog(pParent)
   m_NextUpdateCheck=QDate::currentDate();
   m_pDoubleClickTimeoutTimer=NULL;
 
-
   /* Set up the user interface. */
   setupUi(this);
 
@@ -1253,9 +386,6 @@ CONTROLPANELDIALOG_C::CONTROLPANELDIALOG_C(QWidget *pParent) : QDialog(pParent)
   move(QPoint(
     (QApplication::desktop()->width()-frameGeometry().width())/2,
     (QApplication::desktop()->height()-frameGeometry().height())/2));
-
-  /* Disable help (temporarily). */
-  m_pButtonBox->button(QDialogButtonBox::Help)->setEnabled(false);
 
   /* Create and set up the tray icon context menu. */
   m_pTrayIconMenu=new QMenu(this);
@@ -1384,24 +514,30 @@ CONTROLPANELDIALOG_C::CONTROLPANELDIALOG_C(QWidget *pParent) : QDialog(pParent)
   }
 
   /* Populate the information list widget. */
-  for(unsigned int Index=0;Index<ARRAY_ELEMENTCOUNT(f_pInformation);Index++)
-    m_pDataListWidget->addItem(f_pInformation[Index].Label);
+  {
+    int Index;
+    char const *pLabel;
+
+    Index=0;
+    goto IntoLoop;
+    while(pLabel!=NULL)
+    {
+      m_pDataListWidget->addItem(pLabel);
+      Index++;
+IntoLoop:
+      /*pLabel=*/Information_GetLabel(Index,&pLabel);
+    }
+  }
 
   /* Resize the control panel to minimum size. */
   resize(minimumSizeHint());
 
-  connect(&m_UpdateNotifier,SIGNAL(VersionSignal(QString)),this,SLOT(VersionSlot(QString)));
+  connect(&m_UpdateNotifier,SIGNAL(VersionSignal(QString)),
+      this,SLOT(VersionSlot(QString)));
   m_UpdateNotifier.SetURL(
       "http://downloads.sourceforge.net/project/moonphase/current_release");
 
   m_StartUpFlag=false;
-
-  /* TEMP */
-  m_MoonData.CTransData.Glat=33.817485;
-  m_pLatitudeSpinBox->setValue(m_MoonData.CTransData.Glat);
-  m_MoonData.CTransData.Glon=-118.348914;
-  m_pLongitudeSpinBox->setValue(m_MoonData.CTransData.Glon);
-  /* TEMP */
 
   DEBUGLOG_LogOut();
   return;
@@ -1446,8 +582,6 @@ CONTROLPANELDIALOG_C::~CONTROLPANELDIALOG_C(void)
   ErrorCode=MoonAnimation_Uninitialize(&m_MoonPreviewImages);
   MESSAGELOG_LogError(ErrorCode);
   ErrorCode=MoonAnimation_Uninitialize(&m_MoonTrayImages);
-  MESSAGELOG_LogError(ErrorCode);
-  ErrorCode=MoonData_Uninitialize(&m_MoonData);
   MESSAGELOG_LogError(ErrorCode);
 
   DEBUGLOG_LogOut();
@@ -1516,10 +650,13 @@ void CONTROLPANELDIALOG_C::CreateAndInitializeTestTab(void)
 
 #ifdef    DEBUG
   m_pTestWidget=new TESTWIDGET_C(this);
+  m_DateTimeOverrideFlag=false;
   m_pTabWidget->addTab(m_pTestWidget,QIcon(":/WidgetIcons/TestIcon"),"&Test");
   m_pTestWidget->m_pDateTimeEdit->setDateTime(QDateTime::currentDateTime());
+  connect(m_pTestWidget->m_pDateTimeGroupBox,SIGNAL(clicked()),
+      this,SLOT(DateTimeGroupBoxClickedSlot()));
   connect(m_pTestWidget->m_pDateTimeEdit,SIGNAL(dateTimeChanged(QDateTime)),
-      this,SLOT(DateTimeChanged(QDateTime)));
+      this,SLOT(DateTimeChangedSlot(QDateTime)));
 #endif    /* DEBUG */
 
   DEBUGLOG_LogOut();
@@ -1661,21 +798,25 @@ void CONTROLPANELDIALOG_C::LoadSettings(void)
   m_pSettings->Load();
 
   /* Set the widget data. */
-  m_pUpdateIntervalSpinBox->setValue(m_pSettings->GetUpdateInterval());
-  m_pAnimationFilenameChooser->setText(m_pSettings->GetAnimationPathname());
-  m_pUseOpaqueBackgroundGroupBox->setChecked(
-      m_pSettings->GetUseOpaqueBackgroundFlag());
-  m_pBackgroundColorButton->setCurrentColor(m_pSettings->GetBackgroundColor());
-  m_pStillRunningReminder->setChecked(
-      m_pSettings->GetStillRunningReminderFlag());
-  m_pRemindOncePerSessionCheckBox->setChecked(
-      m_pSettings->GetRemindOncePerSessionFlag());
-  m_pConfirmDiscardCheckBox->setChecked(m_pSettings->GetConfirmDiscardFlag());
-  m_pConfirmQuitCheckBox->setChecked(m_pSettings->GetConfirmQuitFlag());
-  m_pMetricUnitsRadioButton->setChecked(m_pSettings->GetDefaultToMetricUnitsFlag());
-  m_pImperialUnitsRadioButton->setChecked(!m_pSettings->GetDefaultToMetricUnitsFlag());
   m_pAllowMultipleInstancesCheckBox->setChecked(
       m_pSettings->GetAllowMultipleInstancesFlag());
+  m_pAnimationFilenameChooser->setText(m_pSettings->GetAnimationPathname());
+  m_pBackgroundColorButton->setCurrentColor(m_pSettings->GetBackgroundColor());
+  m_pConfirmDiscardCheckBox->setChecked(m_pSettings->GetConfirmDiscardFlag());
+  m_pConfirmQuitCheckBox->setChecked(m_pSettings->GetConfirmQuitFlag());
+  m_pImperialUnitsRadioButton->setChecked(
+      !m_pSettings->GetDefaultToMetricUnitsFlag());
+  m_pLatitudeSpinBox->setValue(m_pSettings->GetLatitude());
+  m_pLongitudeSpinBox->setValue(m_pSettings->GetLongitude());
+  m_pMetricUnitsRadioButton->setChecked(
+      m_pSettings->GetDefaultToMetricUnitsFlag());
+  m_pRemindOncePerSessionCheckBox->setChecked(
+      m_pSettings->GetRemindOncePerSessionFlag());
+  m_pStillRunningReminder->setChecked(
+      m_pSettings->GetStillRunningReminderFlag());
+  m_pUpdateIntervalSpinBox->setValue(m_pSettings->GetUpdateInterval());
+  m_pUseOpaqueBackgroundGroupBox->setChecked(
+      m_pSettings->GetUseOpaqueBackgroundFlag());
 
   DEBUGLOG_LogOut();
   return;
@@ -1735,19 +876,23 @@ void CONTROLPANELDIALOG_C::ReadPreferences(SETTINGS_C *pSettings)
   DEBUGLOG_LogIn();
 
   /* Get the widget data. */
-  pSettings->SetUpdateInterval(m_pUpdateIntervalSpinBox->value());
-  pSettings->SetAnimationPathname(m_pAnimationFilenameChooser->text());
-  pSettings->SetUseOpaqueBackgroundFlag(
-      m_pUseOpaqueBackgroundGroupBox->isChecked());
-  pSettings->SetBackgroundColor(m_pBackgroundColorButton->currentColor());
-  pSettings->SetStillRunningReminderFlag(m_pStillRunningReminder->isChecked());
-  pSettings->SetRemindOncePerSessionFlag(
-      m_pRemindOncePerSessionCheckBox->isChecked());
-  pSettings->SetConfirmDiscardFlag(m_pConfirmDiscardCheckBox->isChecked());
-  pSettings->SetConfirmQuitFlag(m_pConfirmQuitCheckBox->isChecked());
-  pSettings->SetDefaultToMetricUnitsFlag(m_pMetricUnitsRadioButton->isChecked());
   pSettings->SetAllowMultipleInstancesFlag(
       m_pAllowMultipleInstancesCheckBox->isChecked());
+  pSettings->SetAnimationPathname(m_pAnimationFilenameChooser->text());
+  pSettings->SetBackgroundColor(m_pBackgroundColorButton->currentColor());
+  pSettings->SetConfirmDiscardFlag(m_pConfirmDiscardCheckBox->isChecked());
+  pSettings->SetConfirmQuitFlag(m_pConfirmQuitCheckBox->isChecked());
+  pSettings->SetDefaultToMetricUnitsFlag(
+      m_pMetricUnitsRadioButton->isChecked());
+  pSettings->SetLatitude(m_pLatitudeSpinBox->value());
+  pSettings->SetLongitude(m_pLongitudeSpinBox->value());
+  pSettings->SetRemindOncePerSessionFlag(
+      m_pRemindOncePerSessionCheckBox->isChecked());
+  pSettings->SetStillRunningReminderFlag(m_pStillRunningReminder->isChecked());
+
+  pSettings->SetUpdateInterval(m_pUpdateIntervalSpinBox->value());
+  pSettings->SetUseOpaqueBackgroundFlag(
+      m_pUseOpaqueBackgroundGroupBox->isChecked());
 
   DEBUGLOG_LogOut();
   return;
@@ -1759,7 +904,12 @@ void CONTROLPANELDIALOG_C::RecalculateMoonData(time_t Time)
   DEBUGLOG_LogIn();
 
   /* Recalculate the astronomical data. */
-  MoonData_Recalculate(&m_MoonData,Time);
+#ifdef    DEBUG
+  if (m_DateTimeOverrideFlag==true)
+    MoonData_Recalculate(&m_MoonData,m_DateTimeOverride.toTime_t());
+  else
+#endif    /* DEBUG */
+    MoonData_Recalculate(&m_MoonData,Time);
 
   DEBUGLOG_LogOut();
   return;
@@ -1819,7 +969,6 @@ void CONTROLPANELDIALOG_C::UpdateControls(void)
   bool EnableDownFlag;
   bool EnableOptionsFlag;
   QListWidgetItem *pLWItem;
-  INFORMATIONITEM_C *pIItem;
 
 
   DEBUGLOG_Printf0("CONTROLPANELDIALOG_C::UpdateControls()");
@@ -1853,17 +1002,8 @@ void CONTROLPANELDIALOG_C::UpdateControls(void)
             m_pDisplayListWidget->count())
         EnableDownFlag=true;
 
-      if (m_pDisplayListWidget->selectedItems().count()!=0)
-      {
-        pIItem=LWI2II(pLWItem);
-        if (pIItem==NULL)
-        {
-          MESSAGELOG_Error("NULL information item pointer.");
-        }
-        else if (f_pInformation[pIItem->GetDataIndex()].pUnitList[0].ShortName
-            !=QString())
+      if (m_pDisplayListWidget->selectedItems().count()==1)
         EnableOptionsFlag=true;
-      }
     }
   }
 
@@ -1880,12 +1020,11 @@ void CONTROLPANELDIALOG_C::UpdateControls(void)
 void CONTROLPANELDIALOG_C::AddDataItemButtonClickedSlot(void)
 {
   QListWidgetItem *pSelectedItem;
-  INFORMATIONITEM_C *pIItem;
-  int SelectedIndex;
+  int InfoItemIndex;
+  char const *pLabel;
   QListWidgetItem *pLWItem;
-  UNITFLAGS_F DefaultUnit;
-  int UnitIndex;
-  UNIT_T const *pUnitList;
+  INFORMATIONITEM_C *pIItem;
+  int Index;
 
 
   DEBUGLOG_Printf0("CONTROLPANELDIALOG_C::AddDataItemButtonClickedSlot()");
@@ -1894,8 +1033,14 @@ void CONTROLPANELDIALOG_C::AddDataItemButtonClickedSlot(void)
   foreach(pSelectedItem,m_pDataListWidget->selectedItems())
   {
     /* Add a row at the end of the display list widget. */
-    SelectedIndex=m_pDataListWidget->row(pSelectedItem);
-    m_pDisplayListWidget->addItem(f_pInformation[SelectedIndex].Label);
+    InfoItemIndex=m_pDataListWidget->row(pSelectedItem);
+    /*pLabel=*/Information_GetLabel(InfoItemIndex,&pLabel);
+    if (pLabel==NULL)
+    {
+      MESSAGELOG_Error("Invalid item label index.");
+    }
+    else
+      m_pDisplayListWidget->addItem(pLabel);
 
     /* Get the new list widget item. */
     pLWItem=m_pDisplayListWidget->item(m_pDisplayListWidget->count()-1);
@@ -1911,36 +1056,13 @@ void CONTROLPANELDIALOG_C::AddDataItemButtonClickedSlot(void)
       /* Save the information item in the list widget item data. */
       pLWItem->setData(ROLE_INFORMATIONTYPE,QVariant::fromValue(pIItem));
 
-      /* The index into the information table is the same as the row index. */
-      pIItem->SetDataIndex(SelectedIndex);
+      /* The information item index is the same as the row index. */
+      pIItem->SetInformationIndex(InfoItemIndex);
 
-      /* Determine which default unit has the user has selected (but possibly
-          not "Applied"). */
-      if (m_pMetricUnitsRadioButton->isChecked()==true)
-        DefaultUnit=DEFAULTMETRIC;
-      else
-        DefaultUnit=DEFAULTIMPERIAL;
-
-      /* Default. */
-      UnitIndex=0;
-
-      /* Does the information item have units? */
-      pUnitList=f_pInformation[SelectedIndex].pUnitList;
-      if (pUnitList!=NULL)
-      {
-        /* Yes. */
-
-        /* Loop through the list, looking for a matching default. */
-        for(int Index=0;pUnitList[Index].ShortName!=QString();Index++)
-        {
-          if ( (pUnitList[Index].UnitFlags&DefaultUnit)!=0 )
-          {
-            UnitIndex=Index;
-            break;
-          }
-        }
-      }
-      pIItem->SetUnitIndex(UnitIndex);
+      /* Get the default unit/format index. */
+      Information_GetDefaultUnitFormatIndex(
+          InfoItemIndex,m_pImperialUnitsRadioButton->isChecked()==true,&Index);
+      pIItem->SetUnitFormatIndex(Index);
     }
   }
 
@@ -1962,7 +1084,8 @@ void CONTROLPANELDIALOG_C::AnimationPathnameChangedSlot(void)
 
   /* Try to load the file. */
   if ( (MoonAnimation_ReadFile(
-      &m_MoonPreviewImages,qPrintable(m_pAnimationFilenameChooser->text()))<0) &&
+      &m_MoonPreviewImages,
+      qPrintable(m_pAnimationFilenameChooser->text()))<0) &&
       (m_StartUpFlag==false) )
     READANIMATIONWARNING(this);
   PreferencesChangedSlot();
@@ -2042,10 +1165,8 @@ void CONTROLPANELDIALOG_C::ButtonBoxButtonClickedSlot(QAbstractButton *pButton)
     case QDialogButtonBox::Close:
       close();
       break;
-    case QDialogButtonBox::Help:
-      qDebug("Help");
-      break;
     default:
+      MESSAGELOG_Error("Invalid button.");
       break;
   }
 
@@ -2108,12 +1229,14 @@ void CONTROLPANELDIALOG_C::DataItemSelectionChangedSlot(void)
   return;
 }
 
-void CONTROLPANELDIALOG_C::DateTimeChanged(QDateTime DateTime)
+void CONTROLPANELDIALOG_C::DateTimeChangedSlot(QDateTime DateTime)
 {
-  DEBUGLOG_Printf1("CONTROLPANELDIALOG_C::DateTimeChanged(%1)",&DateTime);
+  DEBUGLOG_Printf1("CONTROLPANELDIALOG_C::DateTimeChanged(%p)",&DateTime);
   DEBUGLOG_LogIn();
 
 #ifdef    DEBUG
+  m_DateTimeOverride=DateTime;
+
   /* Recalculate the astronomical data. */
   RecalculateMoonData(DateTime.toTime_t());
 
@@ -2149,11 +1272,7 @@ void CONTROLPANELDIALOG_C::
   DEBUGLOG_Printf0("CONTROLPANELDIALOG_C::DoubleClickTimeoutTimerTriggered()");
   DEBUGLOG_LogIn();
 
-  if (m_pInformationPanelDialog->isVisible()==false)
-    m_pInformationPanelTimer->start(INFORMATIONPANELTIMER_RATE);
-  m_pInformationPanelDialog->show();
-  m_pInformationPanelDialog->raise();
-  m_pInformationPanelDialog->activateWindow();
+  ShowInformationPanelSlot();
 
   DEBUGLOG_LogOut();
   return;
@@ -2164,9 +1283,7 @@ void CONTROLPANELDIALOG_C::InformationPanelTimerTriggeredSlot(void)
   QListWidgetItem *pLWItem;
   QString Text;
   INFORMATIONITEM_C *pIItem;
-  int InfoType;
-  int UnitIndex;
-  double Scale;
+  OPTIONS_C Options;
 
 
   DEBUGLOG_Printf0(
@@ -2182,7 +1299,7 @@ void CONTROLPANELDIALOG_C::InformationPanelTimerTriggeredSlot(void)
   else
   {
     /* Need to update the information panel. */
-    MoonData_Recalculate(&m_MoonData,time(NULL));
+    RecalculateMoonData(time(NULL));
 
     /* Update each line. */
     for(int Index=0;Index<m_pDisplayListWidget->count();Index++)
@@ -2203,44 +1320,20 @@ void CONTROLPANELDIALOG_C::InformationPanelTimerTriggeredSlot(void)
         }
         else
         {
-          /* Default text. */
-          Text="ERROR";
+          OPTIONS_C Options;
+          DATETIMEOPTIONS_T DTOptions;
+          MOONDATAPRINTOPTIONS_T MDPOptions;
+          char *pPtr;
 
-          /* Get the information type. */
-          InfoType=pIItem->GetDataIndex();
-          if ( (InfoType<0) ||
-              (InfoType>=((signed)ARRAY_ELEMENTCOUNT(f_pInformation))) )
-          {
-            MESSAGELOG_Error("Invalid information index.");
-          }
-          else
-          {
-            UnitIndex=pIItem->GetUnitIndex();
-            if ( (UnitIndex<0) && (((unsigned)UnitIndex)>=
-                ARRAY_ELEMENTCOUNT(f_pInformation[InfoType].pUnitList)) )
-            {
-              MESSAGELOG_Error("Invalid unit index.");
-            }
-            else
-            {
-              Scale=f_pInformation[InfoType].pUnitList[UnitIndex].Scale;
+          pIItem->GetOptions(Options);
+          Options.Convert(&DTOptions);
+          memcpy(&MDPOptions,&DTOptions,sizeof(MDPOptions));
+          Information_Print(&m_MoonData,pIItem->GetInformationIndex(),
+              pIItem->GetUnitFormatIndex(),&MDPOptions,&pPtr);
 
-              /* Print the data. */
-              Text=f_pInformation[InfoType].PrintDataFunction(&m_MoonData,Scale,
-                  f_pInformation[InfoType].pUnitList[UnitIndex].Precision);
-
-              /* Prefix the information label. */
-              Text=f_pInformation[InfoType].Label+": "+Text;
-
-              /* Append the unit (if any). */
-              if (f_pInformation[InfoType].pUnitList!=NULL)
-                Text+=" "+
-                    f_pInformation[InfoType].pUnitList[UnitIndex].ShortName;
-            }
-          }
-
-          /* Send the data to the panel. */
-          m_pInformationPanelDialog->SetLine(Index,Text,pIItem->GetOptions());
+          m_pInformationPanelDialog->SetLine(Index,QString::fromUtf8(pPtr),Options);
+          if (pPtr!=NULL)
+            free(pPtr);
         }
       }
     }
@@ -2270,6 +1363,7 @@ void CONTROLPANELDIALOG_C::LatitudeChangedSlot(double Latitude)
 
   m_MoonData.CTransData.Glat=Latitude;
   MoonData_Recalculate(&m_MoonData,time(NULL));
+  PreferencesChangedSlot();
 
   DEBUGLOG_LogOut();
   return;
@@ -2280,8 +1374,26 @@ void CONTROLPANELDIALOG_C::LongitudeChangedSlot(double Longitude)
   DEBUGLOG_Printf1("CONTROLPANELDIALOG_C::LongitudeChangedSlot(%f)",Longitude);
   DEBUGLOG_LogIn();
 
-  m_MoonData.CTransData.Glon=Longitude;
+  m_MoonData.CTransData.Glon=-Longitude;
   MoonData_Recalculate(&m_MoonData,time(NULL));
+  PreferencesChangedSlot();
+
+  DEBUGLOG_LogOut();
+  return;
+}
+
+void CONTROLPANELDIALOG_C::DateTimeGroupBoxClickedSlot(void)
+{
+  DEBUGLOG_Printf0("CONTROLPANELDIALOG_C::DateTimeGroupBoxClickedSlot()");
+  DEBUGLOG_LogIn();
+
+#ifdef    DEBUG
+  m_DateTimeOverrideFlag=m_pTestWidget->m_pDateTimeGroupBox->isChecked();
+  if (m_DateTimeOverrideFlag==false)
+    m_pTestWidget->m_pDateTimeEdit->setDateTime(QDateTime::currentDateTime());
+  m_DateTimeOverride=m_pTestWidget->m_pDateTimeEdit->dateTime();
+  DateTimeChangedSlot(m_DateTimeOverride);
+#endif    /* DEBUG */
 
   DEBUGLOG_LogOut();
   return;
@@ -2339,6 +1451,7 @@ void CONTROLPANELDIALOG_C::OptionsAppliedSlot(OPTIONS_C const &Options)
     }
   }
 
+  /* Update the display. */
   InformationPanelTimerTriggeredSlot();
 
   DEBUGLOG_LogOut();
@@ -2349,9 +1462,12 @@ void CONTROLPANELDIALOG_C::OptionsDisplayItemButtonClickedSlot(void)
 {
   QListWidgetItem *pLWItem;
   INFORMATIONITEM_C *pIItem;
-  UNIT_T const * pUnit;
+  int Index;
+  char *pPtr;
+  QList<QString> List;
+  INFORMATIONOPTIONSDIALOG_C::DIALOGDATA_T DialogData;
+  OPTIONS_C Options;
   INFORMATIONOPTIONSDIALOG_C OptionsDialog(this);
-  QList<QString> UnitList;
 
 
   DEBUGLOG_Printf0(
@@ -2372,22 +1488,49 @@ void CONTROLPANELDIALOG_C::OptionsDisplayItemButtonClickedSlot(void)
     }
     else
     {
-      /* Create the unit list. */
-      for(pUnit=f_pInformation[pIItem->GetDataIndex()].pUnitList;
-          pUnit->ShortName!=QString();pUnit++)
+      Index=0;
+      goto Start0;
+      while(pPtr!=NULL)
       {
-        UnitList.append(pUnit->ShortName+" ("+pUnit->LongName+")");
+        List.append(QString::fromUtf8(pPtr));
+        free(pPtr);
+        Index++;
+Start0:
+        Information_GetUnitFormatDescription(
+            pIItem->GetInformationIndex(),Index,&pPtr);
       }
+
+      DialogData.DescriptionList=List;
+
+      List.clear();
+      Index=0;
+      goto Start1;
+      while(pPtr!=NULL)
+      {
+        List.append(QString::fromUtf8(pPtr));
+        free(pPtr);
+        Index++;
+Start1:
+        Information_GetFormat(pIItem->GetInformationIndex(),Index,&pPtr);
+      }
+
+      DialogData.FormatsList=List;
+
+      /* Set the mode. */
+      EDITMODE_T EditMode;
+      Information_GetEditMode(pIItem->GetInformationIndex(),&EditMode);
+      DialogData.EditMode=EditMode;
+
+      /* Set the options in the dialog box. */
+      pIItem->GetOptions(Options);
+      DialogData.Options=Options;
+
+      /* Set the dialog data. */
+      OptionsDialog.SetData(DialogData);
 
       /* Catch the signal from the Apply button. */
       connect(&OptionsDialog,SIGNAL(OptionsAppliedSignal(OPTIONS_C const &)),
           this,SLOT(OptionsAppliedSlot(OPTIONS_C const &)));
-
-      /* Set the unit list in the dialog box. */
-      OptionsDialog.SetUnitList(UnitList);
-
-      /* Set the options in the dialog box. */
-      OptionsDialog.SetOptions(pIItem->GetOptions());
 
       /* Show the dialog box. */
       if (OptionsDialog.exec()==QDialog::Accepted)
@@ -2395,8 +1538,10 @@ void CONTROLPANELDIALOG_C::OptionsDisplayItemButtonClickedSlot(void)
         /* Accepted. */
 
         /* Copy the options. */
-        pIItem->SetOptions(OptionsDialog.GetOptions());
+        OptionsDialog.GetOptions(Options);
+        pIItem->SetOptions(Options);
 
+        /* Update the display. */
         InformationPanelTimerTriggeredSlot();
       }
     }
@@ -2463,22 +1608,26 @@ void CONTROLPANELDIALOG_C::QuitSlot(void)
   return;
 }
 
-void CONTROLPANELDIALOG_C::RemoveDataItemButtonClickedSlot(void)
+void CONTROLPANELDIALOG_C::RemoveDisplayItemButtonClickedSlot(void)
 {
+  QListWidgetItem *pSelectedItem;
   QListWidgetItem *pItem;
   int Row;
 
 
-  DEBUGLOG_Printf0("CONTROLPANELDIALOG_C::RemoveDataItemButtonClickedSlot()");
+  DEBUGLOG_Printf0("CONTROLPANELDIALOG_C::RemoveDisplayItemButtonClickedSlot()");
   DEBUGLOG_LogIn();
 
-  Row=m_pDisplayListWidget->row(m_pDisplayListWidget->selectedItems()[0]);
-  pItem=m_pDisplayListWidget->takeItem(Row);
-  if (pItem==NULL)
+  foreach(pSelectedItem,m_pDisplayListWidget->selectedItems())
   {
-    MESSAGELOG_Error("NULL item pointer.");
+    Row=m_pDisplayListWidget->row(pSelectedItem);
+    pItem=m_pDisplayListWidget->takeItem(Row);
+    if (pItem==NULL)
+    {
+      MESSAGELOG_Error("NULL item pointer.");
+    }
+    delete pItem;
   }
-  delete pItem;
   m_pInformationPanelDialog->SetLineCount(m_pDisplayListWidget->count());
 
   /* Update the display. */
@@ -2505,12 +1654,14 @@ void CONTROLPANELDIALOG_C::ShowInformationPanelSlot(void)
   DEBUGLOG_Printf0("CONTROLPANELDIALOG_C::ShowInformationPanelSlot()");
   DEBUGLOG_LogIn();
 
-//  ControlPanelActivatedSlot(QSystemTrayIcon::Trigger);
   if (m_pInformationPanelDialog->isVisible()==false)
     m_pInformationPanelTimer->start(INFORMATIONPANELTIMER_RATE);
   m_pInformationPanelDialog->show();
   m_pInformationPanelDialog->raise();
   m_pInformationPanelDialog->activateWindow();
+
+  /* Update the display. */
+  InformationPanelTimerTriggeredSlot();
 
   DEBUGLOG_LogOut();
   return;
@@ -2685,73 +1836,6 @@ void CONTROLPANELDIALOG_C::VersionSlot(QString Version)
 
   DEBUGLOG_LogOut();
   return;
-}
-
-
-/****
-*****
-***** TEST FUNCTIONS
-*****
-****/
-
-QString PrintAngle0(MOONDATA_T *pMoonData,double Scale,int Precision)
-{
-  QString Text;
-
-
-  Text=QString("%1").arg(90.0*Scale,0,'f',Precision);
-
-  return(Text);
-}
-
-QString PrintAngle1(MOONDATA_T *pMoonData,double Scale,int Precision)
-{
-  QString Text;
-
-
-  Text=QString("%1").arg(180.0*Scale,0,'f',Precision);
-
-  return(Text);
-}
-
-QString PrintAngle2(MOONDATA_T *pMoonData,double Scale,int Precision)
-{
-  QString Text;
-
-
-  Text=QString("%1").arg(270.0*Scale,0,'f',Precision);
-
-  return(Text);
-}
-
-QString PrintDistance0(MOONDATA_T *pMoonData,double Scale,int Precision)
-{
-  QString Text;
-
-
-  Text=QString("%1").arg(1*Scale,0,'f',Precision);
-
-  return(Text);
-}
-
-QString PrintDistance1(MOONDATA_T *pMoonData,double Scale,int Precision)
-{
-  QString Text;
-
-
-  Text=QString("%1").arg(6.2137119*Scale,0,'f',Precision);
-
-  return(Text);
-}
-
-QString PrintDistance2(MOONDATA_T *pMoonData,double Scale,int Precision)
-{
-  QString Text;
-
-
-  Text=QString("%1").arg(92955808.0*Scale,0,'f',Precision);
-
-  return(Text);
 }
 
 

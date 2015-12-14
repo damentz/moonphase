@@ -101,6 +101,7 @@ IF(OPTION_MOONPHASE_BUILDQTAPPLICATION)
       "${CMAKE_CURRENT_SOURCE_DIR}/sources/informationpaneldialog.cpp"
       "${CMAKE_CURRENT_SOURCE_DIR}/sources/moonanimation.cpp"
       "${CMAKE_CURRENT_SOURCE_DIR}/sources/options.cpp"
+      "${CMAKE_CURRENT_SOURCE_DIR}/sources/settings.cpp"
       "${CMAKE_CURRENT_SOURCE_DIR}/../qt-solutions/qtsingleapplication/src/qtlocalpeer.cpp"
       "${CMAKE_CURRENT_SOURCE_DIR}/../qt-solutions/qtsingleapplication/src/qtsingleapplication.cpp")
   SET(MOONPHASEQT_HEADERS

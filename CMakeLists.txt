@@ -32,12 +32,14 @@ INCLUDE("${CMAKE_SOURCE_DIR}/preferences.cmake" OPTIONAL)
 
 # Build information.
 SET(MOONPHASE_MAJORVERSION "0")
-SET(MOONPHASE_MINORVERSION "3")
-SET(MOONPHASE_PATCHVERSION "2")
+SET(MOONPHASE_MINORVERSION "4")
+SET(MOONPHASE_PATCHVERSION "0")
 SET(MOONPHASE_DISPLAYNAME "Moon Phase")
 SET(MOONPHASE_OWNER "Alan Wise")
-SET(MOONPHASE_DESCRIPTION
-    "Displays the phase of the moon in the system tray.")
+SET(MOONPHASE_DESCRIPTION "Displays the phase of the moon in the system tray."
+    " Additionally, a window can be displayed that shows user selectable data"
+    " about the moon (rise/set times, percent illumination, etc).")
+STRING(REPLACE ";" "" MOONPHASE_DESCRIPTION "${MOONPHASE_DESCRIPTION}")
 SET(MOONPHASE_COPYRIGHTNOTICE
     "Copyright (C) 2014-2015 ${MOONPHASE_OWNER}.")
 SET(MOONPHASE_WEBSITE "http://sourceforge.net/projects/moonphase/")
@@ -55,13 +57,16 @@ FILE(WRITE
 # Additional compiler options and settings.
 IF(UNIX)
   SET(DEFINE_PREFIX -D)
-  ADD_DEFINITIONS(-Wall)
   ADD_DEFINITIONS(${DEFINE_PREFIX}_GNU_SOURCE)
       # Need this define for certain prototypes.
+  SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -std=c99") # C99 for wchar_t.
+  SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
 ELSEIF(WIN32 AND MSVC)
   SET(DEFINE_PREFIX /D)
-  ADD_DEFINITIONS(${DEFINE_PREFIX}UNICODE)
-      # Needed for qtsingleapplication (qlockedfile_win.cpp)
+  ADD_DEFINITIONS(${DEFINE_PREFIX}UNICODE
+      ${DEFINE_PREFIX}_CRT_SECURE_NO_WARNINGS
+      ${DEFINE_PREFIX}_USE_MATH_DEFINES)
+      # UNICODE needed for qtsingleapplication (qlockedfile_win.cpp)
 ELSE()
   MESSAGE(FATAL_ERROR
       "Unknown build configuration. CMakeLists.txt needs to be updated!")

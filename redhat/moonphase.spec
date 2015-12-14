@@ -1,6 +1,6 @@
-%define MmVersion 0.3
+%define MmVersion 0.4
 Name:           moonphase
-Version:        %{MmVersion}.2
+Version:        %{MmVersion}.0
 Release:        1
 Summary:        No summary
 License:        GPLv3+
@@ -27,6 +27,9 @@ Displays the phase of the moon in the system tray. Additionally, a window
 %doc COPYING
 
 %changelog
+* Mon Dec 14 2015 Alan Wise <alanwise@users.sourceforge.net> - 0.4.0-1
+- New upstream version.
+
 * Wed Aug 19 2015 Alan Wise <alanwise@users.sourceforge.net> - 0.3.2-1
 - New upstream version.
 

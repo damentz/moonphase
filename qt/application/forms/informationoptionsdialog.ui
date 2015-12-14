@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>285</width>
-    <height>322</height>
+    <width>329</width>
+    <height>611</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -24,6 +24,9 @@
     <normaloff>:/MoonPhaseQtIcon</normaloff>:/MoonPhaseQtIcon</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_3">
+   <property name="spacing">
+    <number>0</number>
+   </property>
    <item>
     <widget class="QGroupBox" name="m_pUnitsGroupBox">
      <property name="sizePolicy">
@@ -35,10 +38,149 @@
      <property name="title">
       <string>&amp;Units</string>
      </property>
-     <layout class="QVBoxLayout" name="m_pUnitsVLayout">
-      <property name="spacing">
-       <number>6</number>
+     <layout class="QVBoxLayout" name="m_pUnitsVLayout"/>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="m_pFormatGroupBox">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="title">
+      <string>Format</string>
+     </property>
+     <layout class="QVBoxLayout" name="m_pFormatVLayout">
+      <property name="bottomMargin">
+       <number>0</number>
       </property>
+      <item>
+       <widget class="QFrame" name="m_pFormatSampleTextFrame">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <layout class="QGridLayout" name="gridLayout_3">
+         <item row="0" column="0">
+          <widget class="QLabel" name="m_pFormatSampleTextLabel">
+           <property name="text">
+            <string>Sample text</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <widget class="QGroupBox" name="m_pTimeGroupBox">
+        <property name="title">
+         <string>Time</string>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_2">
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
+         <item>
+          <widget class="QCheckBox" name="m_p24HourFormatCheckBox">
+           <property name="text">
+            <string>24 &amp;hour format</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="m_pShowSecondsCheckBox">
+           <property name="text">
+            <string>&amp;Show seconds</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <widget class="QGroupBox" name="m_pDateGroupBox">
+        <property name="title">
+         <string>Date</string>
+        </property>
+        <layout class="QVBoxLayout" name="m_pDateVLayout">
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
+         <item>
+          <layout class="QFormLayout" name="m_pStyleFLayout">
+           <item row="0" column="0">
+            <widget class="QLabel" name="m_pStyleLabel">
+             <property name="text">
+              <string>&amp;Style</string>
+             </property>
+             <property name="buddy">
+              <cstring>m_pStyleComboBox</cstring>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QComboBox" name="m_pStyleComboBox">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QFormLayout" name="formLayout">
+           <item row="1" column="0">
+            <widget class="QCheckBox" name="m_pLongMonthFormatCheckBox">
+             <property name="text">
+              <string>Long &amp;month format</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="0">
+            <widget class="QCheckBox" name="m_pShowDayOfWeekCheckBox">
+             <property name="text">
+              <string>Show day of &amp;week</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="1">
+            <widget class="QCheckBox" name="m_pLongDayOfWeekFormatCheckBox">
+             <property name="enabled">
+              <bool>true</bool>
+             </property>
+             <property name="text">
+              <string>&amp;Long format</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0">
+            <widget class="QCheckBox" name="m_p4DigitYearCheckBox">
+             <property name="text">
+              <string>4 digit &amp;year</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </widget>
+      </item>
      </layout>
     </widget>
    </item>
@@ -47,9 +189,9 @@
      <property name="title">
       <string>Display</string>
      </property>
-     <layout class="QVBoxLayout" name="verticalLayout_4">
+     <layout class="QVBoxLayout" name="m_pDisplayVLayout">
       <item>
-       <widget class="QFrame" name="m_pSampleTextFrame">
+       <widget class="QFrame" name="m_pDisplaySampleTextFrame">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
           <horstretch>0</horstretch>
@@ -64,7 +206,7 @@
         </property>
         <layout class="QGridLayout" name="gridLayout_2">
          <item row="0" column="0">
-          <widget class="QLabel" name="m_pSampleTextLabel">
+          <widget class="QLabel" name="m_pDisplaySampleTextLabel">
            <property name="text">
             <string>Sample text</string>
            </property>
@@ -168,7 +310,7 @@ color</string>
          </widget>
         </item>
         <item row="0" column="0">
-         <widget class="QLabel" name="label">
+         <widget class="QLabel" name="m_pMarginLabel">
           <property name="text">
            <string>&amp;Margin</string>
           </property>
@@ -223,7 +365,7 @@ color</string>
    <hints>
     <hint type="sourcelabel">
      <x>253</x>
-     <y>173</y>
+     <y>474</y>
     </hint>
     <hint type="destinationlabel">
      <x>251</x>
@@ -239,7 +381,7 @@ color</string>
    <hints>
     <hint type="sourcelabel">
      <x>212</x>
-     <y>203</y>
+     <y>512</y>
     </hint>
     <hint type="destinationlabel">
      <x>264</x>
@@ -255,75 +397,11 @@ color</string>
    <hints>
     <hint type="sourcelabel">
      <x>212</x>
-     <y>234</y>
+     <y>556</y>
     </hint>
     <hint type="destinationlabel">
      <x>242</x>
      <y>288</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>m_pUseSystemTextColorCheckBox</sender>
-   <signal>clicked()</signal>
-   <receiver>INFORMATIONOPTIONSDIALOGUI_C</receiver>
-   <slot>CheckBoxChangedSlot()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>116</x>
-     <y>203</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>136</x>
-     <y>219</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>m_pUseSystemBackgroundColorCheckBox</sender>
-   <signal>clicked()</signal>
-   <receiver>INFORMATIONOPTIONSDIALOGUI_C</receiver>
-   <slot>CheckBoxChangedSlot()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>121</x>
-     <y>234</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>136</x>
-     <y>219</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>m_pUseSystemFontCheckBox</sender>
-   <signal>clicked()</signal>
-   <receiver>INFORMATIONOPTIONSDIALOGUI_C</receiver>
-   <slot>CheckBoxChangedSlot()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>116</x>
-     <y>171</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>136</x>
-     <y>219</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>m_pMarginSpinBox</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>INFORMATIONOPTIONSDIALOGUI_C</receiver>
-   <slot>MarginChangedSlot(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>194</x>
-     <y>131</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>142</x>
-     <y>144</y>
     </hint>
    </hints>
   </connection>
@@ -334,12 +412,188 @@ color</string>
    <slot>ButtonBoxButtonClickedSlot(QAbstractButton*)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>142</x>
-     <y>299</y>
+     <x>160</x>
+     <y>601</y>
     </hint>
     <hint type="destinationlabel">
      <x>142</x>
      <y>160</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_p24HourFormatCheckBox</sender>
+   <signal>clicked()</signal>
+   <receiver>INFORMATIONOPTIONSDIALOGUI_C</receiver>
+   <slot>OptionChangedSlot()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>172</x>
+     <y>148</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>164</x>
+     <y>305</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pShowSecondsCheckBox</sender>
+   <signal>clicked()</signal>
+   <receiver>INFORMATIONOPTIONSDIALOGUI_C</receiver>
+   <slot>OptionChangedSlot()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>172</x>
+     <y>176</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>164</x>
+     <y>305</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pStyleComboBox</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>INFORMATIONOPTIONSDIALOGUI_C</receiver>
+   <slot>OptionChangedSlot()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>117</x>
+     <y>235</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>164</x>
+     <y>305</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pLongMonthFormatCheckBox</sender>
+   <signal>clicked()</signal>
+   <receiver>INFORMATIONOPTIONSDIALOGUI_C</receiver>
+   <slot>OptionChangedSlot()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>117</x>
+     <y>273</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>164</x>
+     <y>305</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_p4DigitYearCheckBox</sender>
+   <signal>clicked()</signal>
+   <receiver>INFORMATIONOPTIONSDIALOGUI_C</receiver>
+   <slot>OptionChangedSlot()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>92</x>
+     <y>301</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>164</x>
+     <y>305</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pShowDayOfWeekCheckBox</sender>
+   <signal>clicked()</signal>
+   <receiver>INFORMATIONOPTIONSDIALOGUI_C</receiver>
+   <slot>OptionChangedSlot()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>112</x>
+     <y>329</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>164</x>
+     <y>305</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pLongDayOfWeekFormatCheckBox</sender>
+   <signal>clicked()</signal>
+   <receiver>INFORMATIONOPTIONSDIALOGUI_C</receiver>
+   <slot>OptionChangedSlot()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>248</x>
+     <y>329</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>164</x>
+     <y>305</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pMarginSpinBox</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>INFORMATIONOPTIONSDIALOGUI_C</receiver>
+   <slot>OptionChangedSlot()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>194</x>
+     <y>428</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>164</x>
+     <y>305</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pUseSystemFontCheckBox</sender>
+   <signal>clicked()</signal>
+   <receiver>INFORMATIONOPTIONSDIALOGUI_C</receiver>
+   <slot>OptionChangedSlot()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>89</x>
+     <y>458</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>164</x>
+     <y>305</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pUseSystemTextColorCheckBox</sender>
+   <signal>clicked()</signal>
+   <receiver>INFORMATIONOPTIONSDIALOGUI_C</receiver>
+   <slot>OptionChangedSlot()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>89</x>
+     <y>499</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>164</x>
+     <y>305</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_pUseSystemBackgroundColorCheckBox</sender>
+   <signal>clicked()</signal>
+   <receiver>INFORMATIONOPTIONSDIALOGUI_C</receiver>
+   <slot>OptionChangedSlot()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>94</x>
+     <y>543</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>164</x>
+     <y>305</y>
     </hint>
    </hints>
   </connection>
@@ -348,8 +602,11 @@ color</string>
   <slot>ChangeFontButtonClickedSlot()</slot>
   <slot>BackgroundColorPickedSlot(QColor)</slot>
   <slot>TextColorPickedSlot(QColor)</slot>
-  <slot>CheckBoxChangedSlot()</slot>
+  <slot>DisplayCheckBoxChangedSlot()</slot>
   <slot>MarginChangedSlot(int)</slot>
   <slot>ButtonBoxButtonClickedSlot(QAbstractButton*)</slot>
+  <slot>FormatCheckBoxChangedSlot()</slot>
+  <slot>DateStyleCurrentIndexChangedSlot(int)</slot>
+  <slot>OptionChangedSlot()</slot>
  </slots>
 </ui>

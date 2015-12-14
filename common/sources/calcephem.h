@@ -38,5 +38,16 @@ typedef struct CTrans {
   int    Visible;           /* Wether or not moon is above horizon */
 } CTrans;
 
-void CalcEphem(long int, double, CTrans*);
+#ifdef  __cplusplus
+extern "C" {
+#endif  /* __cplusplus */
 
+void CalcEphem(long int, double, CTrans*);
+void MoonRise(int year, int month, int day, double LocalHour,
+    double *UTRise, double *UTSet);
+
+#ifdef  __cplusplus
+}
+
+
+#endif  /* __cplusplus */

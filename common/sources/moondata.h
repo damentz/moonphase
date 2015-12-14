@@ -36,6 +36,7 @@
 
 #include  "calcephem.h"
 #include  "structure.h"
+#include  "datetime.h"
 
 #include  <time.h>
 
@@ -53,9 +54,53 @@
 *****
 ****/
 
+/**
+*** \brief
+*** \details
+**/
 typedef struct structMOONDATA
 {
+  /**
+  *** \brief
+  *** \details
+  **/
   CTrans CTransData;
+
+  /**
+  *** \brief Yesterdays moon rise time.
+  *** \details The time the moon rise yesterday.
+  **/
+  double YesterdaysRise;
+
+  /**
+  *** \brief Yesterdays moon set time.
+  *** \details The time the moon set yesterday.
+  **/
+  double YesterdaysSet;
+
+  /**
+  *** \brief Todays moon rise time.
+  *** \details The time the moon rose/will rise today.
+  **/
+  double TodaysRise;
+
+  /**
+  *** \brief Todays moon set time.
+  *** \details The time the moon set/will set today.
+  **/
+  double TodaysSet;
+
+  /**
+  *** \brief Tomorrows moon rise time.
+  *** \details The time the moon will rise tomorrow.
+  **/
+  double TomorrowsRise;
+
+  /**
+  *** \brief Tomorrows moon set time.
+  *** \details The time the moon set/will set tomorrow.
+  **/
+  double TomorrowsSet;
 } MOONDATA_T;
 
 
@@ -86,7 +131,13 @@ extern "C" {
 STRUCTURE_PROTOTYPE_INITIALIZE(MoonData,MOONDATA_T);
 STRUCTURE_PROTOTYPE_UNINITIALIZE(MoonData,MOONDATA_T);
 float MoonData_GetMoonPhasePercent(MOONDATA_T const *pMoon);
-void MoonData_Recalculate(MOONDATA_T *pMoon,time_t UTC);
+/**
+*** \brief
+*** \details
+*** \param pMoonData Pointer to the moon data.
+*** \param UTC Current time in UTC.
+**/
+void MoonData_Recalculate(MOONDATA_T *pMoonData,time_t UTC);
 
 #ifdef  __cplusplus
 }

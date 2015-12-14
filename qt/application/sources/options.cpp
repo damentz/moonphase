@@ -90,14 +90,16 @@ OPTIONS_C::OPTIONS_C(void)
   DEBUGLOG_Printf0("OPTIONS_C::OPTIONS_C()");
   DEBUGLOG_LogIn();
 
-  m_UnitIndex=0;
-  m_Margin=0;
-  m_UseSystemFontFlag=true;
-  m_Font=QFont();
-  m_UseSystemTextColorFlag=true;
-  m_TextColor=QColor();
-  m_UseSystemBackgroundColorFlag=true;
   m_BackgroundColor=QColor();
+  m_DateTimeOptions.Flags=DATETIMEFLAG_4DIGITYEAR;
+  m_DateTimeOptions.DateStyleIndex=-1;
+  m_Font=QFont();
+  m_Margin=0;
+  m_TextColor=QColor();
+  m_UnitFormatIndex=-1;
+  m_UseSystemBackgroundColorFlag=true;
+  m_UseSystemFontFlag=true;
+  m_UseSystemTextColorFlag=true;
 
   DEBUGLOG_LogOut();
   return;
@@ -108,14 +110,7 @@ OPTIONS_C::OPTIONS_C(OPTIONS_C *pOptions)
   DEBUGLOG_Printf1("OPTIONS_C::OPTIONS_C(%p)",pOptions);
   DEBUGLOG_LogIn();
 
-  m_UnitIndex=pOptions->m_UnitIndex;
-  m_Margin=pOptions->m_Margin;
-  m_UseSystemFontFlag=pOptions->m_UseSystemFontFlag;
-  m_Font=pOptions->m_Font;
-  m_UseSystemTextColorFlag=pOptions->m_UseSystemTextColorFlag;
-  m_TextColor=pOptions->m_TextColor;
-  m_UseSystemBackgroundColorFlag=pOptions->m_UseSystemBackgroundColorFlag;
-  m_BackgroundColor=pOptions->m_BackgroundColor;
+  *this=*pOptions;
 
   DEBUGLOG_LogOut();
   return;
@@ -125,6 +120,19 @@ OPTIONS_C::~OPTIONS_C(void)
 {
   DEBUGLOG_Printf0("OPTIONS_C::~OPTIONS_C()");
   DEBUGLOG_LogIn();
+
+  DEBUGLOG_LogOut();
+  return;
+}
+
+void OPTIONS_C::Convert(DATETIMEOPTIONS_T *pDateTimeOptions)
+{
+  DEBUGLOG_Printf1("OPTIONS_C::Convert(%p)",pDateTimeOptions);
+  DEBUGLOG_LogIn();
+
+  /* Parameter checking. */
+  if (pDateTimeOptions!=NULL)
+    memcpy(pDateTimeOptions,&m_DateTimeOptions,sizeof(*pDateTimeOptions));
 
   DEBUGLOG_LogOut();
   return;
@@ -156,6 +164,24 @@ QString OPTIONS_C::BuildStyleSheetString(void) const
   return(StyleSheetString);
 }
 
+bool OPTIONS_C::Get24HourFormatFlag(void) const
+{
+  DEBUGLOG_Printf0("OPTIONS_C::Get24HourFormatFlag()");
+  DEBUGLOG_LogIn();
+
+  DEBUGLOG_LogOut();
+  return(m_DateTimeOptions.Flags&DATETIMEFLAG_24HOURFORMAT);
+}
+
+bool OPTIONS_C::Get4DigitYearFlag(void) const
+{
+  DEBUGLOG_Printf0("OPTIONS_C::Get4DigitYearFlag()");
+  DEBUGLOG_LogIn();
+
+  DEBUGLOG_LogOut();
+  return(m_DateTimeOptions.Flags&DATETIMEFLAG_4DIGITYEAR);
+}
+
 QColor OPTIONS_C::GetBackgroundColor(void) const
 {
   DEBUGLOG_Printf0("OPTIONS_C::GetBackgroundColor()");
@@ -174,6 +200,24 @@ QFont OPTIONS_C::GetFont(void) const
   return(m_Font);
 }
 
+bool OPTIONS_C::GetLongDayOfWeekFormatFlag(void) const
+{
+  DEBUGLOG_Printf0("OPTIONS_C::GetLongDayOfWeekFormatFlag()");
+  DEBUGLOG_LogIn();
+
+  DEBUGLOG_LogOut();
+  return(m_DateTimeOptions.Flags&DATETIMEFLAG_LONGDAYOFWEEKFORMAT);
+}
+
+bool OPTIONS_C::GetLongMonthFormatFlag(void) const
+{
+  DEBUGLOG_Printf0("OPTIONS_C::GetLongMonthFormatFlag()");
+  DEBUGLOG_LogIn();
+
+  DEBUGLOG_LogOut();
+  return(m_DateTimeOptions.Flags&DATETIMEFLAG_LONGMONTHFORMAT);
+}
+
 int OPTIONS_C::GetMargin(void) const
 {
   DEBUGLOG_Printf0("OPTIONS_C::GetMargin()");
@@ -181,6 +225,24 @@ int OPTIONS_C::GetMargin(void) const
 
   DEBUGLOG_LogOut();
   return(m_Margin);
+}
+
+bool OPTIONS_C::GetShowDayOfWeekFlag(void) const
+{
+  DEBUGLOG_Printf0("OPTIONS_C::GetShowDayOfWeekFlag()");
+  DEBUGLOG_LogIn();
+
+  DEBUGLOG_LogOut();
+  return(m_DateTimeOptions.Flags&DATETIMEFLAG_SHOWDAYOFWEEK);
+}
+
+bool OPTIONS_C::GetShowSecondsFlag(void) const
+{
+  DEBUGLOG_Printf0("OPTIONS_C::GetShowSecondsFlag()");
+  DEBUGLOG_LogIn();
+
+  DEBUGLOG_LogOut();
+  return(m_DateTimeOptions.Flags&DATETIMEFLAG_SHOWSECONDS);
 }
 
 QColor OPTIONS_C::GetTextColor(void) const
@@ -192,13 +254,13 @@ QColor OPTIONS_C::GetTextColor(void) const
   return(m_TextColor);
 }
 
-int OPTIONS_C::GetUnitIndex(void) const
+int OPTIONS_C::GetUnitFormatIndex(void) const
 {
-  DEBUGLOG_Printf0("OPTIONS_C::GetUnitIndex()");
+  DEBUGLOG_Printf0("OPTIONS_C::GetUnitFormatIndex()");
   DEBUGLOG_LogIn();
 
   DEBUGLOG_LogOut();
-  return(m_UnitIndex);
+  return(m_UnitFormatIndex);
 }
 
 bool OPTIONS_C::GetUseSystemBackgroundColorFlag(void) const
@@ -228,6 +290,34 @@ bool OPTIONS_C::GetUseSystemTextColorFlag(void) const
   return(m_UseSystemTextColorFlag);
 }
 
+void OPTIONS_C::Set24HourFormatFlag(bool Flag)
+{
+  DEBUGLOG_Printf1("OPTIONS_C::Set24HourFormatFlag(%u)",Flag);
+  DEBUGLOG_LogIn();
+
+  if (Flag==0)
+    m_DateTimeOptions.Flags&=~DATETIMEFLAG_24HOURFORMAT;
+  else
+    m_DateTimeOptions.Flags|=DATETIMEFLAG_24HOURFORMAT;
+
+  DEBUGLOG_LogOut();
+  return;
+}
+
+void OPTIONS_C::Set4DigitYearFlag(bool Flag)
+{
+  DEBUGLOG_Printf1("OPTIONS_C::Set4DigitYearFlag(%u)",Flag);
+  DEBUGLOG_LogIn();
+
+  if (Flag==0)
+    m_DateTimeOptions.Flags&=~DATETIMEFLAG_4DIGITYEAR;
+  else
+    m_DateTimeOptions.Flags|=DATETIMEFLAG_4DIGITYEAR;
+
+  DEBUGLOG_LogOut();
+  return;
+}
+
 void OPTIONS_C::SetBackgroundColor(QColor Color)
 {
   DEBUGLOG_Printf1("OPTIONS_C::SetBackgroundColor(%p)",&Color);
@@ -250,12 +340,68 @@ void OPTIONS_C::SetFont(QFont Font)
   return;
 }
 
+void OPTIONS_C::SetLongDayOfWeekFormatFlag(bool Flag)
+{
+  DEBUGLOG_Printf1("OPTIONS_C::SetLongDayOfWeekFormatFlag(%u)",Flag);
+  DEBUGLOG_LogIn();
+
+  if (Flag==0)
+    m_DateTimeOptions.Flags&=~DATETIMEFLAG_LONGDAYOFWEEKFORMAT;
+  else
+    m_DateTimeOptions.Flags|=DATETIMEFLAG_LONGDAYOFWEEKFORMAT;
+
+  DEBUGLOG_LogOut();
+  return;
+}
+
+void OPTIONS_C::SetLongMonthFormatFlag(bool Flag)
+{
+  DEBUGLOG_Printf1("OPTIONS_C::SetLongMonthFormatFlag(%u)",Flag);
+  DEBUGLOG_LogIn();
+
+  if (Flag==0)
+    m_DateTimeOptions.Flags&=~DATETIMEFLAG_LONGMONTHFORMAT;
+  else
+    m_DateTimeOptions.Flags|=DATETIMEFLAG_LONGMONTHFORMAT;
+
+  DEBUGLOG_LogOut();
+  return;
+}
+
 void OPTIONS_C::SetMargin(int Margin)
 {
   DEBUGLOG_Printf1("OPTIONS_C::SetMargin(%p)",&Margin);
   DEBUGLOG_LogIn();
 
   m_Margin=Margin;
+
+  DEBUGLOG_LogOut();
+  return;
+}
+
+void OPTIONS_C::SetShowDayOfWeekFlag(bool Flag)
+{
+  DEBUGLOG_Printf1("OPTIONS_C::SetShowDayOfWeekFlag(%u)",Flag);
+  DEBUGLOG_LogIn();
+
+  if (Flag==0)
+    m_DateTimeOptions.Flags&=~DATETIMEFLAG_SHOWDAYOFWEEK;
+  else
+    m_DateTimeOptions.Flags|=DATETIMEFLAG_SHOWDAYOFWEEK;
+
+  DEBUGLOG_LogOut();
+  return;
+}
+
+void OPTIONS_C::SetShowSecondsFlag(bool Flag)
+{
+  DEBUGLOG_Printf1("OPTIONS_C::SetShowSecondsFlag(%u)",Flag);
+  DEBUGLOG_LogIn();
+
+  if (Flag==0)
+    m_DateTimeOptions.Flags&=~DATETIMEFLAG_SHOWSECONDS;
+  else
+    m_DateTimeOptions.Flags|=DATETIMEFLAG_SHOWSECONDS;
 
   DEBUGLOG_LogOut();
   return;
@@ -272,50 +418,50 @@ void OPTIONS_C::SetTextColor(QColor Color)
   return;
 }
 
-void OPTIONS_C::SetUnitIndex(int Index)
+void OPTIONS_C::SetUnitFormatIndex(int Index)
 {
-  DEBUGLOG_Printf1("OPTIONS_C::SetUnitIndex(%d)",Index);
+  DEBUGLOG_Printf1("OPTIONS_C::SetUnitFormatIndex(%d)",Index);
   DEBUGLOG_LogIn();
 
-  m_UnitIndex=Index;
+  m_UnitFormatIndex=Index;
 
   DEBUGLOG_LogOut();
   return;
 }
 
-void OPTIONS_C::SetUseSystemBackgroundColorFlag(bool SystemFlag)
+void OPTIONS_C::SetUseSystemBackgroundColorFlag(bool Flag)
 {
-  DEBUGLOG_Printf1("OPTIONS_C::SetUseSystemBackgroundColorFlag(%u)",SystemFlag);
+  DEBUGLOG_Printf1("OPTIONS_C::SetUseSystemBackgroundColorFlag(%u)",Flag);
   DEBUGLOG_LogIn();
 
-  m_UseSystemBackgroundColorFlag=SystemFlag;
-  if (SystemFlag==true)
+  m_UseSystemBackgroundColorFlag=Flag;
+  if (Flag==true)
     SetBackgroundColor(QColor());
 
   DEBUGLOG_LogOut();
   return;
 }
 
-void OPTIONS_C::SetUseSystemFontFlag(bool SystemFlag)
+void OPTIONS_C::SetUseSystemFontFlag(bool Flag)
 {
-  DEBUGLOG_Printf1("OPTIONS_C::SetUseSystemFontFlag(%u)",SystemFlag);
+  DEBUGLOG_Printf1("OPTIONS_C::SetUseSystemFontFlag(%u)",Flag);
   DEBUGLOG_LogIn();
 
-  m_UseSystemFontFlag=SystemFlag;
-  if (SystemFlag==true)
+  m_UseSystemFontFlag=Flag;
+  if (Flag==true)
     SetFont(QFont());
 
   DEBUGLOG_LogOut();
   return;
 }
 
-void OPTIONS_C::SetUseSystemTextColorFlag(bool SystemFlag)
+void OPTIONS_C::SetUseSystemTextColorFlag(bool Flag)
 {
-  DEBUGLOG_Printf1("OPTIONS_C::SetUseSystemTextColorFlag(%u)",SystemFlag);
+  DEBUGLOG_Printf1("OPTIONS_C::SetUseSystemTextColorFlag(%u)",Flag);
   DEBUGLOG_LogIn();
 
-  m_UseSystemTextColorFlag=SystemFlag;
-  if (SystemFlag==true)
+  m_UseSystemTextColorFlag=Flag;
+  if (Flag==true)
     SetTextColor(QColor());
 
   DEBUGLOG_LogOut();
@@ -330,14 +476,17 @@ bool OPTIONS_C::operator==(OPTIONS_C const RHS) const
   DEBUGLOG_Printf1("OPTIONS_C::operator==(%p)",&RHS);
   DEBUGLOG_LogIn();
 
-  Return=(m_UnitIndex==RHS.m_UnitIndex) &&
-     (m_Margin==RHS.m_Margin) &&
-     (m_UseSystemFontFlag==RHS.m_UseSystemFontFlag) &&
-     (m_Font==RHS.m_Font) &&
-     (m_UseSystemTextColorFlag==RHS.m_UseSystemTextColorFlag) &&
-     (m_TextColor==RHS.m_TextColor) &&
-     (m_UseSystemBackgroundColorFlag==RHS.m_UseSystemBackgroundColorFlag) &&
-     (m_BackgroundColor==RHS.m_BackgroundColor);
+  Return=
+      (m_BackgroundColor==RHS.m_BackgroundColor) &&
+      (m_DateTimeOptions.DateStyleIndex==RHS.m_DateTimeOptions.DateStyleIndex) &&
+      (m_DateTimeOptions.Flags==RHS.m_DateTimeOptions.Flags) &&
+      (m_Font==RHS.m_Font) &&
+      (m_Margin==RHS.m_Margin) &&
+      (m_TextColor==RHS.m_TextColor) &&
+      (m_UnitFormatIndex==RHS.m_UnitFormatIndex) &&
+      (m_UseSystemBackgroundColorFlag==RHS.m_UseSystemBackgroundColorFlag) &&
+      (m_UseSystemFontFlag==RHS.m_UseSystemFontFlag) &&
+      (m_UseSystemTextColorFlag==RHS.m_UseSystemTextColorFlag);
 
   DEBUGLOG_LogOut();
   return(Return);
@@ -345,11 +494,32 @@ bool OPTIONS_C::operator==(OPTIONS_C const RHS) const
 
 bool OPTIONS_C::operator!=(OPTIONS_C const RHS) const
 {
-  DEBUGLOG_Printf1("OPTIONS_C::SetMargin(%p)",&RHS);
+  DEBUGLOG_Printf1("OPTIONS_C::operator!=(%p)",&RHS);
   DEBUGLOG_LogIn();
 
   DEBUGLOG_LogOut();
   return(!((*this)==RHS));
+}
+
+OPTIONS_C & OPTIONS_C::operator=(OPTIONS_C const &RHS)
+{
+  m_BackgroundColor=RHS.m_BackgroundColor;
+  m_DateTimeOptions=RHS.m_DateTimeOptions;
+  m_Font=RHS.m_Font;
+  m_Margin=RHS.m_Margin;
+  m_TextColor=RHS.m_TextColor;
+  m_UnitFormatIndex=RHS.m_UnitFormatIndex;
+  m_UseSystemBackgroundColorFlag=RHS.m_UseSystemBackgroundColorFlag;
+  m_UseSystemFontFlag=RHS.m_UseSystemFontFlag;
+  m_UseSystemTextColorFlag=RHS.m_UseSystemTextColorFlag;
+
+  return(*this);
+}
+
+OPTIONS_C & OPTIONS_C::operator=(OPTIONS_C &RHS)
+{
+  *this=(OPTIONS_C const)RHS;
+  return(*this);
 }
 
 

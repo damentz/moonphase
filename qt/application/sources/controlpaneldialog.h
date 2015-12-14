@@ -57,6 +57,7 @@
 
 class OPTIONS_C;
 class INFORMATIONPANELDIALOG_C;
+class SETTINGS_C;
 
 #ifdef    DEBUG
 /**
@@ -123,8 +124,6 @@ class CONTROLPANELDIALOG_C : public QDialog, public Ui::CONTROLPANELDIALOGUI_C
     void closeEvent(QCloseEvent *pEvent);
 
   private:
-    class SETTINGS_C;
-
     /**
     *** \brief Checks for changed preferences, might prompt to save/discard.
     *** \details Checks if the preferences have changed, and if desired, prompts
@@ -280,7 +279,13 @@ class CONTROLPANELDIALOG_C : public QDialog, public Ui::CONTROLPANELDIALOGUI_C
     *** \details The date and/or time changed in the test widget.
     *** \param DateTime
     **/
-    void DateTimeChanged(QDateTime DateTime);
+    void DateTimeChangedSlot(QDateTime DateTime);
+
+    /**
+    *** \brief
+    *** \details
+    **/
+    void DateTimeGroupBoxClickedSlot(void);
 
     /**
     *** \brief Display item selected.
@@ -363,7 +368,7 @@ class CONTROLPANELDIALOG_C : public QDialog, public Ui::CONTROLPANELDIALOGUI_C
     *** \brief Remove button was clicked.
     *** \details The remove button in the information panel tab was clicked.
     **/
-    void RemoveDataItemButtonClickedSlot(void);
+    void RemoveDisplayItemButtonClickedSlot(void);
 
     /**
     *** \brief Show control panel.
@@ -525,6 +530,20 @@ class CONTROLPANELDIALOG_C : public QDialog, public Ui::CONTROLPANELDIALOGUI_C
     *** \details A test widget used for testing/debugging.
     **/
     TESTWIDGET_C *m_pTestWidget;
+
+    /**
+    *** \brief Date/time override flag.
+    *** \details If set, the program ignores the current date/time and uses
+    ***   the date/time specified in the date/time edit widget.
+    **/
+    bool m_DateTimeOverrideFlag;
+
+    /**
+    *** \brief Date/time override.
+    *** \details If the date time override flag is set, the program uses this
+    ***   date/time for all calculations.
+    **/
+    QDateTime m_DateTimeOverride;
 #endif    /* DEBUG */
 };
 

@@ -97,9 +97,10 @@ INFORMATIONOPTIONSDIALOG_C::INFORMATIONOPTIONSDIALOG_C(QWidget *pParent)
       "INFORMATIONOPTIONSDIALOG_C::INFORMATIONOPTIONSDIALOG_C(%p)",pParent);
   DEBUGLOG_LogIn();
 
+  m_Mode=EDITMODE_DISPLAY;
   m_InitializedFlag=false;
-  m_OriginalOptions=OPTIONS_C();
-  m_Options=OPTIONS_C();
+//  m_Options=OPTIONS_C();
+//  m_OriginalOptions=OPTIONS_C();
 
   /* Set up the user interface. */
   setupUi(this);
@@ -135,9 +136,8 @@ INFORMATIONOPTIONSDIALOG_C::~INFORMATIONOPTIONSDIALOG_C(void)
   return;
 }
 
-OPTIONS_C & INFORMATIONOPTIONSDIALOG_C::GetOptions(void)
+void INFORMATIONOPTIONSDIALOG_C::GetOptions(OPTIONS_C &Options)
 {
-  OPTIONS_C *pOptions;
   int Index;
   QRadioButton *pRadioButton;
 
@@ -145,135 +145,192 @@ OPTIONS_C & INFORMATIONOPTIONSDIALOG_C::GetOptions(void)
   DEBUGLOG_Printf0("INFORMATIONOPTIONSDIALOG_C::GetOptions()");
   DEBUGLOG_LogIn();
 
-  /* Create the options storage. */
-  pOptions=new OPTIONS_C();
-
-  for(Index=0;m_pUnitsVLayout->count();Index++)
-  {
-    pRadioButton=
-        dynamic_cast<QRadioButton*>(m_pUnitsVLayout->itemAt(Index)->widget());
-    if (pRadioButton==NULL)
-    {
-      MESSAGELOG_Error("NULL radio button pointer.");
-    }
-    else if (pRadioButton->isChecked()==true)
-    {
-      pOptions->SetUnitIndex(Index);
-      break;
-    }
-  }
-
-  /* Get the margin. */
-  pOptions->SetMargin(m_pMarginSpinBox->value());
-
-  /* Get the system font flag and font. */
-  pOptions->SetUseSystemFontFlag(m_pUseSystemFontCheckBox->isChecked());
-  if (pOptions->GetUseSystemFontFlag()==false)
-    pOptions->SetFont(m_Options.GetFont());
-  else
-    pOptions->SetFont(QFont());
-
-  /* Get the system text color flag and font. */
-  pOptions->SetUseSystemTextColorFlag(
-      m_pUseSystemTextColorCheckBox->isChecked());
-  if (m_pUseSystemTextColorCheckBox->isChecked()==false)
-    pOptions->SetTextColor(m_pTextColorButton->currentColor());
-  else
-    pOptions->SetTextColor(QColor());
-  pOptions->SetUseSystemBackgroundColorFlag(
-      m_pUseSystemBackgroundColorCheckBox->isChecked());
-  if (m_pUseSystemBackgroundColorCheckBox->isChecked()==false)
-    pOptions->SetBackgroundColor(m_pBackgroundColorButton->currentColor());
-  else
-    pOptions->SetBackgroundColor(QColor());
-
-  DEBUGLOG_LogOut();
-  return(*pOptions);
-}
-
-void INFORMATIONOPTIONSDIALOG_C::SetOptions(OPTIONS_C const &Options)
-{
-  int SelectedIndex;
-  QRadioButton *pRadioButton;
-  QColor Color;
-
-
-  DEBUGLOG_Printf1("INFORMATIONOPTIONSDIALOG_C::SetOptions(%p)",&Options);
-  DEBUGLOG_LogIn();
-
-  /* Copy the options. */
-  m_OriginalOptions=Options;
-  m_Options=Options;
-
-  /* Make sure the selected index is in range. */
-  SelectedIndex=Options.GetUnitIndex();
-  if ( (SelectedIndex<0) || (SelectedIndex>=m_pUnitsVLayout->count()) )
-  {
-    MESSAGELOG_Error("Selected index out of bounds.");
-    SelectedIndex=0;
-  }
-
-  /* Set the selected checkbox. */
+  /* Read the selected unit (if enabled). */
   if (m_pUnitsVLayout->count()>0)
   {
-    pRadioButton=dynamic_cast<QRadioButton*>(
-        m_pUnitsVLayout->itemAt(SelectedIndex)->widget());
-    if (pRadioButton==NULL)
+    for(Index=0;Index<m_pUnitsVLayout->count();Index++)
     {
-      MESSAGELOG_Error("NULL radio button pointer.");
+      pRadioButton=dynamic_cast<QRadioButton*>(
+          m_pUnitsVLayout->itemAt(Index)->widget());
+      if (pRadioButton==NULL)
+      {
+        MESSAGELOG_Error("NULL radio button pointer.");
+      }
+      else if (pRadioButton->isChecked()==true)
+      {
+        Options.SetUnitFormatIndex(Index);
+        break;
+      }
     }
-    else
-      pRadioButton->setChecked(true);
   }
 
-  /* Set the margin. */
-  m_pMarginSpinBox->setValue(Options.GetMargin());
-  m_pSampleTextLabel->setMargin(Options.GetMargin());
+  /* Get the time options. */
+  Options.Set24HourFormatFlag(m_p24HourFormatCheckBox->isChecked());
+  Options.SetShowSecondsFlag(m_pShowSecondsCheckBox->isChecked());
 
-  /* Set the font. */
-  m_pUseSystemFontCheckBox->setChecked(Options.GetUseSystemFontFlag());
-  if ( (Options.GetUseSystemFontFlag()==false) &&
-      (Options.GetFont()!=QFont()) )
-    m_pSampleTextLabel->setFont(Options.GetFont());
+  /* Get the date options. */
+  if (m_pStyleComboBox->count()>0)
+    Options.SetUnitFormatIndex(m_pStyleComboBox->currentIndex());
+  Options.SetLongMonthFormatFlag(m_pLongMonthFormatCheckBox->isChecked());
+  Options.Set4DigitYearFlag(m_p4DigitYearCheckBox->isChecked());
+  Options.SetShowDayOfWeekFlag(m_pShowDayOfWeekCheckBox->isChecked());
+  Options.SetLongDayOfWeekFormatFlag(
+      m_pLongDayOfWeekFormatCheckBox->isChecked());
 
-  /* Set the colors in the color buttons. */
-  m_pUseSystemTextColorCheckBox->setChecked(
-      Options.GetUseSystemTextColorFlag());
-  if ( (Options.GetUseSystemTextColorFlag()==false) &&
-      (Options.GetTextColor()!=QColor()) )
-    m_pTextColorButton->setCurrentColor(Options.GetTextColor());
-  m_pUseSystemBackgroundColorCheckBox->setChecked(
-      Options.GetUseSystemBackgroundColorFlag());
-  if ( (Options.GetUseSystemBackgroundColorFlag()==false) &&
-      (Options.GetBackgroundColor()!=QColor()) )
-    m_pBackgroundColorButton->setCurrentColor(Options.GetBackgroundColor());
+  /* Get the margin. */
+  Options.SetMargin(m_pMarginSpinBox->value());
 
-  /* Update the sample text label. */
-  UpdateSampleTextLabelStyleSheet();
+  /* Get the system font flag and font. */
+  Options.SetUseSystemFontFlag(m_pUseSystemFontCheckBox->isChecked());
+  if (Options.GetUseSystemFontFlag()==false)
+    Options.SetFont(m_Options.GetFont());
+  else
+    Options.SetFont(QFont());
 
-  /* Initialize the checkboxes and related widgets. */
-  CheckBoxChangedSlot();
+  /* Get the system text color flag and font. */
+  Options.SetUseSystemTextColorFlag(
+      m_pUseSystemTextColorCheckBox->isChecked());
+  if (m_pUseSystemTextColorCheckBox->isChecked()==false)
+    Options.SetTextColor(m_pTextColorButton->currentColor());
+  else
+    Options.SetTextColor(QColor());
+  Options.SetUseSystemBackgroundColorFlag(
+      m_pUseSystemBackgroundColorCheckBox->isChecked());
+  if (m_pUseSystemBackgroundColorCheckBox->isChecked()==false)
+    Options.SetBackgroundColor(m_pBackgroundColorButton->currentColor());
+  else
+    Options.SetBackgroundColor(QColor());
 
   DEBUGLOG_LogOut();
   return;
 }
 
-void INFORMATIONOPTIONSDIALOG_C::SetUnitList(QList<QString> List)
+void INFORMATIONOPTIONSDIALOG_C::SetData(DIALOGDATA_T const &Data)
 {
+  int Index;
   QRadioButton *pRadioButton;
+  int SelectedIndex;
 
 
-  DEBUGLOG_Printf1("INFORMATIONOPTIONSDIALOG_C::SetUnitList(%p)",&List);
+  DEBUGLOG_Printf1("INFORMATIONOPTIONSDIALOG_C::SetData(%p)",&Data);
   DEBUGLOG_LogIn();
 
-  /* Create a radio button for each option and set the data. */
-  for(int Index=0;Index<List.count();Index++)
+  /* Populate the units widget or the date format combobox. */
+  if ( (Data.EditMode!=EDITMODE_TIME) && (Data.EditMode!=EDITMODE_DATETIME) )
   {
-    pRadioButton=new QRadioButton(this);
-    pRadioButton->setText(List[Index]);
-    connect(pRadioButton,SIGNAL(clicked()),this,SLOT(RadioButtonClickedSlot()));
-    m_pUnitsVLayout->insertWidget(-1,pRadioButton);   // -1 == end of list.
+    for(Index=0;Index<Data.DescriptionList.count();Index++)
+    {
+      pRadioButton=new QRadioButton(this);
+      pRadioButton->setText(Data.DescriptionList[Index]);
+      connect(pRadioButton,SIGNAL(clicked()),
+          this,SLOT(OptionChangedSlot()));
+      m_pUnitsVLayout->insertWidget(-1,pRadioButton);   // -1 == end of list.
+    }
   }
+  else if (Data.EditMode==EDITMODE_DATETIME)
+    for(Index=0;Index<Data.DescriptionList.count();Index++)
+      m_pStyleComboBox->addItem(Data.DescriptionList[Index]);
+
+  /* Save any formats. */
+  m_FormatList=Data.FormatsList;
+
+  /* Show/hide various widgets depending on mode. */
+  switch(Data.EditMode)
+  {
+    default:
+      MESSAGELOG_Error("Invalid mode.");
+      m_pUnitsGroupBox->setVisible(false);
+      m_pFormatGroupBox->setVisible(false);
+      m_pDisplayGroupBox->setVisible(false);
+      break;
+    case EDITMODE_DISPLAY:
+      m_pUnitsGroupBox->setVisible(false);
+      m_pFormatGroupBox->setVisible(false);
+      break;
+    case EDITMODE_UNITS:
+      m_pFormatGroupBox->setVisible(false);
+      break;
+    case EDITMODE_TIME:
+      m_pUnitsGroupBox->setVisible(false);
+      m_pDateGroupBox->setVisible(false);
+      break;
+    case EDITMODE_DATETIME:
+      m_pUnitsGroupBox->setVisible(false);
+      break;
+  }
+
+  /* Save the mode. */
+  m_Mode=Data.EditMode;
+
+  /* Copy the options. */
+  m_OriginalOptions=Data.Options;
+  m_Options=Data.Options;
+
+  /* Make sure the selected index is in range. */
+  if (m_pUnitsVLayout->count()>0)
+  {
+    SelectedIndex=Data.Options.GetUnitFormatIndex();
+    if ( (SelectedIndex<0) || (SelectedIndex>=m_pUnitsVLayout->count()) )
+    {
+      MESSAGELOG_Error("Selected index out of bounds.");
+      SelectedIndex=0;
+    }
+
+    /* Set the selected checkbox. */
+    if (m_pUnitsVLayout->count()>0)
+    {
+      pRadioButton=dynamic_cast<QRadioButton*>(
+          m_pUnitsVLayout->itemAt(SelectedIndex)->widget());
+      if (pRadioButton==NULL)
+      {
+        MESSAGELOG_Error("NULL radio button pointer.");
+      }
+      else
+        pRadioButton->setChecked(true);
+    }
+  }
+
+  /* Get the time options. */
+  m_p24HourFormatCheckBox->setChecked(Data.Options.Get24HourFormatFlag());
+  m_pShowSecondsCheckBox->setChecked(Data.Options.GetShowSecondsFlag());
+
+  /* Get the date options. */
+  if (m_pStyleComboBox->count()>0)
+    m_pStyleComboBox->setCurrentIndex(Data.Options.GetUnitFormatIndex());
+  m_pLongMonthFormatCheckBox->setChecked(Data.Options.GetLongMonthFormatFlag());
+  m_p4DigitYearCheckBox->setChecked(Data.Options.Get4DigitYearFlag());
+  m_pShowDayOfWeekCheckBox->setChecked(Data.Options.GetShowDayOfWeekFlag());
+  m_pLongDayOfWeekFormatCheckBox->setChecked(
+      Data.Options.GetLongDayOfWeekFormatFlag());
+
+  /* Set the margin. */
+  m_pMarginSpinBox->setValue(Data.Options.GetMargin());
+  m_pDisplaySampleTextLabel->setMargin(Data.Options.GetMargin());
+
+  /* Set the font. */
+  m_pUseSystemFontCheckBox->setChecked(Data.Options.GetUseSystemFontFlag());
+  if ( (Data.Options.GetUseSystemFontFlag()==false) &&
+      (Data.Options.GetFont()!=QFont()) )
+    m_pDisplaySampleTextLabel->setFont(Data.Options.GetFont());
+
+  /* Set the colors in the color buttons. */
+  m_pUseSystemTextColorCheckBox->setChecked(
+      Data.Options.GetUseSystemTextColorFlag());
+  if ( (Data.Options.GetUseSystemTextColorFlag()==false) &&
+      (Data.Options.GetTextColor()!=QColor()) )
+    m_pTextColorButton->setCurrentColor(Data.Options.GetTextColor());
+  m_pUseSystemBackgroundColorCheckBox->setChecked(
+      Data.Options.GetUseSystemBackgroundColorFlag());
+  if ( (Data.Options.GetUseSystemBackgroundColorFlag()==false) &&
+      (Data.Options.GetBackgroundColor()!=QColor()) )
+    m_pBackgroundColorButton->setCurrentColor(
+        Data.Options.GetBackgroundColor());
+
+  /* Update the sample text label. */
+  UpdateSampleTextLabelStyleSheet();
+
+  /* Initialize the checkboxes and related widgets. */
+  OptionChangedSlot();
 
   /* Resize the dialog to minimum size. */
   resize(minimumSizeHint());
@@ -293,7 +350,7 @@ void INFORMATIONOPTIONSDIALOG_C::UpdateSampleTextLabelStyleSheet(void)
 
   /* Set the style sheet. */
   StyleSheetString=m_Options.BuildStyleSheetString();
-  m_pSampleTextLabel->setStyleSheet(StyleSheetString);
+  m_pDisplaySampleTextLabel->setStyleSheet(StyleSheetString);
 
   DEBUGLOG_LogOut();
   return;
@@ -333,7 +390,7 @@ void INFORMATIONOPTIONSDIALOG_C::ButtonBoxButtonClickedSlot(
       accept();
       break;
     case QDialogButtonBox::Apply:
-      m_Options=GetOptions();
+      GetOptions(m_Options);
       m_OriginalOptions=m_Options;
       emit OptionsAppliedSignal(m_Options);
       m_pButtonBox->button(QDialogButtonBox::Apply)->setEnabled(false);
@@ -362,7 +419,7 @@ void INFORMATIONOPTIONSDIALOG_C::ChangeFontButtonClickedSlot(void)
     if (Font!=QDialog::font())
     {
       m_Options.SetFont(Font);
-      m_pSampleTextLabel->setFont(Font);
+      m_pDisplaySampleTextLabel->setFont(Font);
       m_pButtonBox->button(QDialogButtonBox::Apply)->setEnabled(
           m_Options!=m_OriginalOptions);
     }
@@ -372,70 +429,126 @@ void INFORMATIONOPTIONSDIALOG_C::ChangeFontButtonClickedSlot(void)
   return;
 }
 
-void INFORMATIONOPTIONSDIALOG_C::CheckBoxChangedSlot(void)
+void INFORMATIONOPTIONSDIALOG_C::OptionChangedSlot(void)
 {
-  DEBUGLOG_Printf0("INFORMATIONOPTIONSDIALOG_C::CheckBoxChangedSlot()");
-  DEBUGLOG_LogIn();
-
-  m_pChangeFontButton->setEnabled(!m_pUseSystemFontCheckBox->isChecked());
-  m_Options.SetUseSystemFontFlag(m_pUseSystemFontCheckBox->isChecked());
-
-  m_pTextColorButton->setEnabled(!m_pUseSystemTextColorCheckBox->isChecked());
-  m_Options.SetUseSystemTextColorFlag(
-      m_pUseSystemTextColorCheckBox->isChecked());
-
-  m_pBackgroundColorButton->setEnabled(
-      !m_pUseSystemBackgroundColorCheckBox->isChecked());
-  m_Options.SetUseSystemBackgroundColorFlag(
-      m_pUseSystemBackgroundColorCheckBox->isChecked());
-
-  /* Update the sample text label. */
-  m_pSampleTextLabel->setFont(m_Options.GetFont());
-  UpdateSampleTextLabelStyleSheet();
-
-  m_pButtonBox->button(QDialogButtonBox::Apply)->setEnabled(
-      m_Options!=m_OriginalOptions);
-
-  DEBUGLOG_LogOut();
-  return;
-}
-
-void INFORMATIONOPTIONSDIALOG_C::MarginChangedSlot(int Margin)
-{
-  DEBUGLOG_Printf1("INFORMATIONOPTIONSDIALOG_C::MarginChangedSlot(%d)",Margin);
-  DEBUGLOG_LogIn();
-
-  m_pSampleTextLabel->setMargin(Margin);
-  m_Options.SetMargin(Margin);
-  m_pButtonBox->button(QDialogButtonBox::Apply)->setEnabled(
-      m_Options!=m_OriginalOptions);
-
-  DEBUGLOG_LogOut();
-  return;
-}
-
-void INFORMATIONOPTIONSDIALOG_C::RadioButtonClickedSlot(void)
-{
-  int Index;
   QRadioButton *pRadioButton;
+  int Index;
+  struct tm Time;
+  time_t TimeT;
+  struct tm *pTime;
+  DATETIMEOPTIONS_T DTO;
+  QString DateFormat;
+  char *pString;
 
 
-  DEBUGLOG_Printf0("INFORMATIONOPTIONSDIALOG_C::RadioButtonClickedSlot()");
+  DEBUGLOG_Printf0("INFORMATIONOPTIONSDIALOG_C::OptionChangedSlot()");
   DEBUGLOG_LogIn();
 
-  for(Index=0;Index<m_pUnitsVLayout->count();Index++)
+  /*
+  ** Units group box.
+  */
+  /* I consider this a fix for a Qt "bug". If there is only one radio button
+      in a button group, that radio button can actually be unselected. WTF?
+      Why not just use a checkbox then? */
+  if (m_pUnitsVLayout->count()==1)
   {
     pRadioButton=
-        dynamic_cast<QRadioButton*>(m_pUnitsVLayout->itemAt(Index)->widget());
+        dynamic_cast<QRadioButton*>(m_pUnitsVLayout->itemAt(0)->widget());
     if (pRadioButton==NULL)
     {
       MESSAGELOG_Error("NULL radio button pointer.");
     }
-    else if (pRadioButton->isChecked()==true)
+    else if (pRadioButton->isChecked()==false)
+      pRadioButton->setChecked(true);
+  }
+
+  if (m_pUnitsVLayout->count()>0)
+  {
+    for(Index=0;Index<m_pUnitsVLayout->count();Index++)
     {
-      m_Options.SetUnitIndex(Index);
-      break;
+      pRadioButton=dynamic_cast<QRadioButton*>(
+          m_pUnitsVLayout->itemAt(Index)->widget());
+      if (pRadioButton==NULL)
+      {
+        MESSAGELOG_Error("NULL radio button pointer.");
+      }
+      else if (pRadioButton->isChecked()==true)
+      {
+        m_Options.SetUnitFormatIndex(Index);
+        break;
+      }
     }
+  }
+
+  /*
+  ** Format group box.
+  */
+  m_Options.Set24HourFormatFlag(m_p24HourFormatCheckBox->isChecked());
+  m_Options.SetShowSecondsFlag(m_pShowSecondsCheckBox->isChecked());
+  if (m_pStyleComboBox->count()>0)
+    m_Options.SetUnitFormatIndex(m_pStyleComboBox->currentIndex());
+  m_Options.SetLongMonthFormatFlag(m_pLongMonthFormatCheckBox->isChecked());
+  m_Options.Set4DigitYearFlag(m_p4DigitYearCheckBox->isChecked());
+  m_Options.SetShowDayOfWeekFlag(m_pShowDayOfWeekCheckBox->isChecked());
+  if (m_Options.GetShowDayOfWeekFlag()==false)
+  {
+    m_Options.SetLongDayOfWeekFormatFlag(
+        m_OriginalOptions.GetLongDayOfWeekFormatFlag());
+    m_pLongDayOfWeekFormatCheckBox->setChecked(
+        m_OriginalOptions.GetLongMonthFormatFlag());
+  }
+  m_Options.SetLongDayOfWeekFormatFlag(
+      m_pLongDayOfWeekFormatCheckBox->isChecked());
+  m_pLongDayOfWeekFormatCheckBox->setEnabled(m_Options.GetShowDayOfWeekFlag());
+
+  /*
+  ** Display group box.
+  */
+  m_pDisplaySampleTextLabel->setMargin(m_pMarginSpinBox->value());
+  m_Options.SetMargin(m_pMarginSpinBox->value());
+  m_pChangeFontButton->setEnabled(!m_pUseSystemFontCheckBox->isChecked());
+  m_Options.SetUseSystemFontFlag(m_pUseSystemFontCheckBox->isChecked());
+  m_pTextColorButton->setEnabled(!m_pUseSystemTextColorCheckBox->isChecked());
+  m_Options.SetUseSystemTextColorFlag(
+      m_pUseSystemTextColorCheckBox->isChecked());
+  m_pBackgroundColorButton->setEnabled(
+      !m_pUseSystemBackgroundColorCheckBox->isChecked());
+  m_Options.SetUseSystemBackgroundColorFlag(
+      m_pUseSystemBackgroundColorCheckBox->isChecked());
+  /* Update the sample text label. */
+  m_pDisplaySampleTextLabel->setFont(m_Options.GetFont());
+  UpdateSampleTextLabelStyleSheet();
+
+  /* Set up a date/time. */
+  memset(&Time,0,sizeof(Time));
+  Time.tm_sec=45;
+  Time.tm_min=23;
+  Time.tm_hour=13;
+  Time.tm_mday=24;
+  Time.tm_mon=1-1;
+  Time.tm_year=2019-1900;
+  Time.tm_isdst=-1;
+
+  /* Convert to time_t and then localtime. */
+  TimeT=mktime(&Time);
+  pTime=localtime(&TimeT);
+
+  /* Copy the options,  */
+  m_Options.Convert(&DTO);
+  DateFormat="";
+  if (m_Mode==EDITMODE_DATETIME)
+    if (m_pStyleComboBox->currentIndex()!=-1)
+      DateFormat=m_FormatList[m_pStyleComboBox->currentIndex()];
+  if (DateTime_Print(
+      (m_Mode==EDITMODE_DATETIME),pTime,qPrintable(DateFormat),&DTO,&pString)<0)
+  {
+    MESSAGELOG_Error("Print error. Buffer exceeded?");
+    pString=strdup("Error");
+  }
+  else
+  {
+    m_pFormatSampleTextLabel->setText(pString);
+    free(pString);
   }
 
   m_pButtonBox->button(QDialogButtonBox::Apply)->setEnabled(

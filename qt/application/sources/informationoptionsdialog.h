@@ -36,6 +36,7 @@
 
 #include  "ui_informationoptionsdialog.h"
 
+#include  "information.h"
 #include  "options.h"
 
 
@@ -63,6 +64,31 @@ class INFORMATIONOPTIONSDIALOG_C :
   Q_OBJECT
 
   public:
+    typedef struct DIALOGDATA
+    {
+      /**
+      *** \brief Description list.
+      *** \details Depending on the edit mode, a list of either units or
+      ***   date/time options.
+      **/
+      QList<QString> DescriptionList;
+      /**
+      *** \brief Date/time print formats.
+      *** \details The list of formats used to print the date/time.
+      **/
+      QList<QString> FormatsList;
+      /**
+      *** \brief Edit mode.
+      *** \details Determines which widgets are displayed in the options dialog.
+      **/
+      EDITMODE_T EditMode;
+      /**
+      *** \brief Display options.
+      *** \details Various options used when displaying a line of information.
+      **/
+      OPTIONS_C Options;
+    } DIALOGDATA_T;
+
     /**
     *** \brief Constructor.
     *** \details Constructor.
@@ -77,25 +103,18 @@ class INFORMATIONOPTIONSDIALOG_C :
     ~INFORMATIONOPTIONSDIALOG_C(void);
 
     /**
-    *** \brief Read options.
-    *** \details Read the options from the widgets.
-    *** \returns Options.
+    *** \brief Get options.
+    *** \details Get the options from the widgets.
+    *** \param Options Storage for the options.
     **/
-    OPTIONS_C & GetOptions(void);
+    void GetOptions(OPTIONS_C &Options);
 
     /**
-    *** \brief Set options.
-    *** \details Set the options to the widgets.
-    *** \param Options Options.
+    *** \brief Set dialog box data.
+    *** \details Set the data needed to initialize the dialog box.
+    *** \param Data Dialog box data.
     **/
-    void SetOptions(OPTIONS_C const &Options);
-
-    /**
-    *** \brief Set unit list.
-    *** \details Set the list of units.
-    *** \param List Unit list.
-    **/
-    void SetUnitList(QList<QString> List);
+    void SetData(DIALOGDATA_T const &Data);
 
   private:
     /**
@@ -126,23 +145,10 @@ class INFORMATIONOPTIONSDIALOG_C :
     void ChangeFontButtonClickedSlot(void);
 
     /**
-    *** \brief A checkbox changed.
-    *** \details On of the checkboxes (font, text, background) was changed.
+    *** \brief An option changed.
+    *** \details One of the option widgets in the dialog was changed.
     **/
-    void CheckBoxChangedSlot(void);
-
-    /**
-    *** \brief Margin changed.
-    *** \details The margin changed.
-    *** \param Margin Size (in pixels) of area around text.
-    **/
-    void MarginChangedSlot(int Margin);
-
-    /**
-    *** \brief Radio button selection changed.
-    *** \details A unit radio button selection changed.
-    **/
-    void RadioButtonClickedSlot(void);
+    void OptionChangedSlot(void);
 
     /**
     *** \brief Text color picked.
@@ -162,10 +168,23 @@ class INFORMATIONOPTIONSDIALOG_C :
 
   private:
     /**
+    *** \brief Edit mode.
+    *** \details The edit mode of the dialog box. This determines which options
+    ***   can be edited by the user.
+    **/
+    EDITMODE_T m_Mode;
+
+    /**
     *** \brief Widget is initialized.
     *** \details The widget is initialized.
     **/
     bool m_InitializedFlag;
+
+    /**
+    *** \brief Current options.
+    *** \details The current state of the options.
+    **/
+    OPTIONS_C m_Options;
 
     /**
     *** \brief Original options.
@@ -174,10 +193,10 @@ class INFORMATIONOPTIONSDIALOG_C :
     OPTIONS_C m_OriginalOptions;
 
     /**
-    *** \brief Current options.
-    *** \details The current state of the options.
+    *** \brief Date/time print formats.
+    *** \details The list of formats used to print the date/time.
     **/
-    OPTIONS_C m_Options;
+    QList<QString> m_FormatList;
 };
 
 

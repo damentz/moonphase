@@ -1,6 +1,4 @@
-#ifdef    _MSC_VER
-#define   _USE_MATH_DEFINES
-#endif    /* _MSC_VER */
+/** \todo This needs a lot of clean up. **/
 #include  "calcephem.h"
 #include  <string.h>
 #include  <time.h>
@@ -15,13 +13,13 @@ static void term(int, int, int, int, double*, double*);
 static void addthe(double, double, double, double, double*, double*);
 static void addn(double, int, int, int, int);
 static double NewMoon(double ax, double bx, double cx);
-/*static void MiniMoon(double T, double *RA, double *DEC);*/
+static void MiniMoon(double T, double *RA, double *DEC);
 /*static void MoonRise(int year, int month, int day, double LocalHour,
     double *UTRise, double *UTSet);*/
 /*static void UTTohhmm(double UT, int *h, int *m);*/
-/*static void Interp(double ym, double y0, double yp, double *xe, double *ye,
-    double *z1, double *z2, int *nz);*/
-/*static double SinH(int year, int month, int day, double UT);*/
+static void Interp(double ym, double y0, double yp, double *xe, double *ye,
+    double *z1, double *z2, int *nz);
+static double SinH(int year, int month, int day, double UT);
 static double kepler(double M,double e);
 static int DayofYear(int year,int month,int day);
 static int DayofWeek(int year,int month,int day,char dowstr[]);
@@ -411,7 +409,6 @@ double NewMoon(double ax, double bx, double cx){
 
 
 
-#if 0
 /*
  * MINI_MOON: low precision lunar coordinates (approx. 5'/1')
  *            T  : time in Julian centuries since J2000
@@ -466,7 +463,7 @@ void MiniMoon(double T, double *RA, double *DEC){
 
 
 }
-#endif
+
 
 
 /*#include <stdio.h>*/
@@ -477,9 +474,8 @@ void MiniMoon(double T, double *RA, double *DEC){
 /*#define DegPerRad       57.29577951308232087680*/
 /*#define RadPerDeg        0.01745329251994329576*/
 
-/*extern static double Glon, SinGlat, CosGlat, TimeZone;*/
+/*extern static*/ double Glon, SinGlat, CosGlat, TimeZone;
 
-#if 0
 void MoonRise(int year, int month, int day, double LocalHour, double *UTRise, double *UTSet){
 
   double UT, ym, y0, yp, SinH0;
@@ -548,7 +544,7 @@ void MoonRise(int year, int month, int day, double LocalHour, double *UTRise, do
 
 }
 
-
+#if 0
 void UTTohhmm(double UT, int *h, int *m){
 
 
@@ -569,7 +565,7 @@ void UTTohhmm(double UT, int *h, int *m){
   }
 
 }
-
+#endif
 
 
 
@@ -641,7 +637,7 @@ double SinH(int year, int month, int day, double UT){
 
 
 }
-#endif
+
 /*#include <string.h>*/
 /*#include "CalcEphem.h"*/
 
@@ -658,7 +654,7 @@ void CalcEphem(long int date,double UT,CTrans *c)
   double TDT, AGE, LambdaMoon, BetaMoon, R;
   /* double jd(), hour24(), angle2pi(), angle360(), kepler(), Moon(), NewMoon();*/
   double Ta, Tb, Tc/*, frac()*/;
-  double SinGlat, CosGlat,/* SinGlon, CosGlon,*/ Tau, lmst, x, y, z;
+  double /*SinGlat, CosGlat, SinGlon, CosGlon,*/ Tau, lmst, x, y, z;
   double SinTau, CosTau, SinDec, CosDec;
 
 

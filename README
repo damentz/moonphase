@@ -1,10 +1,42 @@
+For versions prior to 4.0.0.
+----------------------------
+
+Installing
+----------
+Under Windows, if the installer is run using "Run as...", uncheck the
+"Start program" checkbox and start the program manually using the Start menu.
+Failure to do so will result in the program will be running under the control
+of the "Run as..." user and any configuration changes will be saved to that
+account, not to the current user.
+
 Upgrading
 ---------
-Follow the recommendations for uninstall, and then install as normal.
+Follow the recommendations for uninstalling, and then install as normal.
 
-Uninstall
----------
+Uninstalling
+------------
 Stop the program before uninstalling. Under Windows, if the program is still
 running during the uninstall process, the executable and installation
 directory will not be removed. Under Linux, the program will remain in the
 system tray until the next logout/reboot.
+
+
+For versions 4.0.0 and after.
+-----------------------------
+
+Installing
+----------
+Under Windows, if the installer is run using "Run as...", uncheck the
+"Start program" checkbox and start the program manually using the Start menu.
+Failure to do so will result in the program will be running under the control
+of the "Run as..." user and any configuration changes will be saved to that
+account, not to the current user.
+
+Upgrading
+---------
+Follow the recommendations for uninstalling, and then install as normal.
+
+Uninstalling
+------------
+Under Windows, the uninstaller should be run as "Administrator". Failure to do
+so will prevent the program from properly uninstalling.

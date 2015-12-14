@@ -39,8 +39,8 @@
 #define   USE_DEBUGLOG
 #endif    /* USE_DEBUGLOG */
 #endif    /* DEBUG_MOONDATA_C */
-#include  "sysdefs.h"
-#include  <math.h>
+#include  "debuglog.h"
+#include  "messagelog.h"
 
 
 /****
@@ -55,6 +55,9 @@
 ***** DATA TYPES
 *****
 ****/
+
+extern double Glon;
+extern double TimeZone;
 
 
 /****
@@ -134,18 +137,21 @@ float MoonData_GetMoonPhasePercent(MOONDATA_T const *pMoon)
   DEBUGLOG_LogOut();
   return(Percent);
 }
-
-void MoonData_Recalculate(MOONDATA_T *pMoon,time_t UTC)
+void MoonData_Recalculate(MOONDATA_T *pMoonData,time_t UTC)
 {
   struct tm *pUTC;
+  int UTCHour;
+  struct tm *pLocalTime;
   double Time;
-  long /*time_t*/ Date;
+  long Date;
+  struct tm AdjustedTime;
+  time_t NormalizedTime;
 
 
-  DEBUGLOG_Printf1("MoonData_Recalculate(%p)",pMoon);
+  DEBUGLOG_Printf1("MoonData_Recalculate(%p)",pMoonData);
   DEBUGLOG_LogIn();
 
-  /* Break the time apart (day, month, etc.). */
+  /* Get the UTC time. */
   pUTC=gmtime(&UTC);
 
   /* Convert time to hours. */
@@ -154,8 +160,39 @@ void MoonData_Recalculate(MOONDATA_T *pMoon,time_t UTC)
   /* Covert date to CalcEphem format (YYYYMMDD).*/
   Date=10000*(pUTC->tm_year+1900)+100*(pUTC->tm_mon+1)+pUTC->tm_mday;
 
+  /* Get the local time. */
+  UTCHour=pUTC->tm_hour;    // pUTC and pLocalTime use same buffer.
+  pLocalTime=localtime(&UTC);
+
   /* Update moon data. */
-  CalcEphem(Date,Time,&pMoon->CTransData);
+  Glon=pMoonData->CTransData.Glon;
+  TimeZone=UTCHour-pLocalTime->tm_hour; /* tm_gmtoff not supported in Windows */
+  CalcEphem(Date,Time,&pMoonData->CTransData);
+
+  /* Update yesterdays rise/set times. */
+  memset(&AdjustedTime,0,sizeof(AdjustedTime));
+  AdjustedTime.tm_year=pMoonData->CTransData.year-1900;
+  AdjustedTime.tm_mon=pMoonData->CTransData.month-1;
+  AdjustedTime.tm_mday=pMoonData->CTransData.day-1;   // Yesterday.
+  AdjustedTime.tm_isdst=-1;   // Figure it out.
+  NormalizedTime=mktime(&AdjustedTime);
+  pUTC=gmtime(&NormalizedTime);
+  MoonRise(pUTC->tm_year+1900,pUTC->tm_mon+1,pUTC->tm_mday,0,
+    &pMoonData->YesterdaysRise,&pMoonData->YesterdaysSet);
+
+  /* Update todays rise/set times. */
+  AdjustedTime.tm_mday++;
+  NormalizedTime=mktime(&AdjustedTime);
+  pUTC=gmtime(&NormalizedTime);
+  MoonRise(pUTC->tm_year+1900,pUTC->tm_mon+1,pUTC->tm_mday,0,
+    &pMoonData->TodaysRise,&pMoonData->TodaysSet);
+
+  /* Update tomorrows rise/set times. */
+  AdjustedTime.tm_mday++;
+  NormalizedTime=mktime(&AdjustedTime);
+  pUTC=gmtime(&NormalizedTime);
+  MoonRise(pUTC->tm_year+1900,pUTC->tm_mon+1,pUTC->tm_mday,0,
+    &pMoonData->TomorrowsRise,&pMoonData->TomorrowsSet);
 
   DEBUGLOG_LogOut();
   return;
