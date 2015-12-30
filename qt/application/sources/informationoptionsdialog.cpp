@@ -545,11 +545,8 @@ void INFORMATIONOPTIONSDIALOG_C::OptionChangedSlot(void)
     MESSAGELOG_Error("Print error. Buffer exceeded?");
     pString=strdup("Error");
   }
-  else
-  {
-    m_pFormatSampleTextLabel->setText(pString);
-    free(pString);
-  }
+  m_pFormatSampleTextLabel->setText(pString);
+  free(pString);
 
   m_pButtonBox->button(QDialogButtonBox::Apply)->setEnabled(
       m_Options!=m_OriginalOptions);

@@ -1824,10 +1824,10 @@ void CONTROLPANELDIALOG_C::VersionSlot(QString Version)
 
         UpdateMessageBox.setWindowTitle(MOONPHASEQT_DISPLAYNAME);
         UpdateMessageBox.setTextFormat(Qt::RichText); // Makes links clickable
-        UpdateMessageBox.setText("An update to this program is available!"
+        UpdateMessageBox.setText(tr("An update to this program is available!"
             "<br><br>"
             "Visit the <a href='"MOONPHASEQT_WEBSITE"'>"
-            MOONPHASEQT_DISPLAYNAME" Web Site</a>");
+            MOONPHASEQT_DISPLAYNAME" Web Site</a>"));
         UpdateMessageBox.exec();
       }
     }

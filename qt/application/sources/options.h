@@ -316,14 +316,6 @@ class OPTIONS_C
     OPTIONS_C & operator=(OPTIONS_C const &RHS);
 
     /**
-    *** \brief Assignment operator (=)
-    *** \details Assignment operator (=)
-    *** \param RHS Object on right hand side of operator.
-    *** \return Copy of data.
-    **/
-    OPTIONS_C & operator=(OPTIONS_C &RHS);
-
-    /**
     *** \brief Comparison operator (==).
     *** \details Comparison operator (==).
     *** \param RHS Object on right hand side of operator.

@@ -41,6 +41,7 @@
 #endif    /* DEBUG_TODO_C */
 #include  "debuglog.h"
 #include  "messagelog.h"
+#include  "visualstudio.h"
 
 #include  <stdlib.h>
 #include  <math.h>
@@ -70,9 +71,9 @@
     (int)(sizeof(a)/sizeof(*a))
 
 #define   DOUBLE2STRUCTTM(db,tm) \
-              (tm).tm_hour=(db); \
-              (tm).tm_min=60*((db)-(tm).tm_hour); \
-              (tm).tm_sec=3600*((db)-((tm).tm_hour+(tm).tm_min/60.0));
+              (tm).tm_hour=(int)(db); \
+              (tm).tm_min=(int)(60*((db)-(tm).tm_hour)); \
+              (tm).tm_sec=(int)(3600*((db)-((tm).tm_hour+(tm).tm_min/60.0)));
 
 #define   UNITTYPE2UNITPOINTERANDSIZE(ut,up,us) \
               (up)=NULL; \
@@ -320,7 +321,7 @@ static const INFORMATIONDATA_T f_pInformation[]=
   { "Todays set",UNITTYPE_TIME,EDITMODE_TIME },
 #define   INFOTYPE_TOMORROWSRISE      (12)
   { "Tomorrows rise",UNITTYPE_TIME,EDITMODE_TIME },
-#define   INFOTYPE_TOMORROWSRSET      (13)
+#define   INFOTYPE_TOMORROWSSET       (13)
   { "Tomorrows set",UNITTYPE_TIME,EDITMODE_TIME },
 #define   INFOTYPE_UNIVERSALTIME      (14)
   { "Universal time",UNITTYPE_DATETIME,EDITMODE_DATETIME },
@@ -388,9 +389,9 @@ static ERRORCODE_T PrintArcHMS(double DTime,int Precision,char **ppText)
 
   /* Break the time into H, M, S. */
   DTime/=15.0;
-  H=DTime;
-  M=60*(DTime-H);
-  S=60*(60*DTime-60*H-M);
+  H=(int)DTime;
+  M=(int)(60*(DTime-H));
+  S=(int)(60*(60*DTime-60*H-M));
 
   /* Print. */
   if (DTime>=0)
@@ -679,6 +680,7 @@ ERRORCODE_T Information_Print(
   else
   {
     ErrorCode=ERRORCODE_SUCCESS;
+    pText=NULL;
 
     /* Get the unit/format table pointers and sizes. */
     UNITTYPE2UNITPOINTERANDSIZE(
@@ -819,8 +821,17 @@ ERRORCODE_T Information_Print(
 
             memset(&Time,0,sizeof(Time));
             DOUBLE2STRUCTTM(pMoonData->TodaysRise,Time);
-            ErrorCode=
-                DateTime_Print(0,&Time,NULL,&pOptions->DateTimeOptions,&pText);
+            if (pMoonData->TodaysRise==-999)
+            {
+                pText=strdup("None");
+                if (pText==NULL)
+                  ErrorCode=ERRORCODE_OUTOFMEMORY;
+                else
+                  ErrorCode=ERRORCODE_SUCCESS;
+            }
+            else
+              ErrorCode=
+                  DateTime_Print(0,&Time,NULL,&pOptions->DateTimeOptions,&pText);
             UnitFlags=UNITFLAGS_DONTSHOW;
           }
           break;
@@ -831,8 +842,17 @@ ERRORCODE_T Information_Print(
 
             memset(&Time,0,sizeof(Time));
             DOUBLE2STRUCTTM(pMoonData->TodaysSet,Time);
-            ErrorCode=
-                DateTime_Print(0,&Time,NULL,&pOptions->DateTimeOptions,&pText);
+            if (pMoonData->TodaysSet==-999)
+            {
+                pText=strdup("None");
+                if (pText==NULL)
+                  ErrorCode=ERRORCODE_OUTOFMEMORY;
+                else
+                  ErrorCode=ERRORCODE_SUCCESS;
+            }
+            else
+              ErrorCode=
+                  DateTime_Print(0,&Time,NULL,&pOptions->DateTimeOptions,&pText);
             UnitFlags=UNITFLAGS_DONTSHOW;
           }
           break;
@@ -843,20 +863,38 @@ ERRORCODE_T Information_Print(
 
             memset(&Time,0,sizeof(Time));
             DOUBLE2STRUCTTM(pMoonData->TomorrowsRise,Time);
-            ErrorCode=
-                DateTime_Print(0,&Time,NULL,&pOptions->DateTimeOptions,&pText);
+            if (pMoonData->TomorrowsRise==-999)
+            {
+                pText=strdup("None");
+                if (pText==NULL)
+                  ErrorCode=ERRORCODE_OUTOFMEMORY;
+                else
+                  ErrorCode=ERRORCODE_SUCCESS;
+            }
+            else
+              ErrorCode=
+                  DateTime_Print(0,&Time,NULL,&pOptions->DateTimeOptions,&pText);
             UnitFlags=UNITFLAGS_DONTSHOW;
           }
           break;
-        case INFOTYPE_TOMORROWSRSET:
+        case INFOTYPE_TOMORROWSSET:
           {
             struct tm Time;
 
 
             memset(&Time,0,sizeof(Time));
             DOUBLE2STRUCTTM(pMoonData->TomorrowsSet,Time);
-            ErrorCode=
-                DateTime_Print(0,&Time,NULL,&pOptions->DateTimeOptions,&pText);
+            if (pMoonData->TomorrowsSet==-999)
+            {
+                pText=strdup("None");
+                if (pText==NULL)
+                  ErrorCode=ERRORCODE_OUTOFMEMORY;
+                else
+                  ErrorCode=ERRORCODE_SUCCESS;
+            }
+            else
+              ErrorCode=
+                  DateTime_Print(0,&Time,NULL,&pOptions->DateTimeOptions,&pText);
             UnitFlags=UNITFLAGS_DONTSHOW;
           }
           break;
@@ -888,8 +926,17 @@ ERRORCODE_T Information_Print(
 
             memset(&Time,0,sizeof(Time));
             DOUBLE2STRUCTTM(pMoonData->YesterdaysRise,Time);
-            ErrorCode=
-                DateTime_Print(0,&Time,NULL,&pOptions->DateTimeOptions,&pText);
+            if (pMoonData->YesterdaysRise==-999)
+            {
+                pText=strdup("None");
+                if (pText==NULL)
+                  ErrorCode=ERRORCODE_OUTOFMEMORY;
+                else
+                  ErrorCode=ERRORCODE_SUCCESS;
+            }
+            else
+              ErrorCode=
+                  DateTime_Print(0,&Time,NULL,&pOptions->DateTimeOptions,&pText);
             UnitFlags=UNITFLAGS_DONTSHOW;
           }
           break;
@@ -900,8 +947,17 @@ ERRORCODE_T Information_Print(
 
             memset(&Time,0,sizeof(Time));
             DOUBLE2STRUCTTM(pMoonData->YesterdaysSet,Time);
-            ErrorCode=
-                DateTime_Print(0,&Time,NULL,&pOptions->DateTimeOptions,&pText);
+            if (pMoonData->YesterdaysSet==-999)
+            {
+                pText=strdup("None");
+                if (pText==NULL)
+                  ErrorCode=ERRORCODE_OUTOFMEMORY;
+                else
+                  ErrorCode=ERRORCODE_SUCCESS;
+            }
+            else
+              ErrorCode=
+                  DateTime_Print(0,&Time,NULL,&pOptions->DateTimeOptions,&pText);
             UnitFlags=UNITFLAGS_DONTSHOW;
           }
           break;
@@ -927,7 +983,7 @@ ERRORCODE_T Information_Print(
               pText,pSeparator,pBuffer)==-1)
             ErrorCode=ERRORCODE_SYSTEMFAILURE;
         }
-        if (ErrorCode==ERRORCODE_SUCCESS)
+        if (pText!=NULL)
           free(pText);
       }
     }

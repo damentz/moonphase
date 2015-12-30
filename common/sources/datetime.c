@@ -57,13 +57,6 @@
 **/
 #define   BUFFER_SIZEOF   (2048)
 
-/**
-*** \brief Check print buffer limit.
-*** \details Checks if the last print operation reached the limit of the print
-***   buffer.
-**/
-#define   CHECKBUFFER(b,s)    if ( (*((b)+(s)-1))!='\0' ) BufferError=!0;
-
 
 /****
 *****
@@ -106,7 +99,6 @@ ERRORCODE_T DateTime_Print(BOOLEAN_T DateTimeModeFlag,struct tm const *pTime,
   char pFormat[BUFFER_SIZEOF];
   char pTimeString[BUFFER_SIZEOF];
   char *pPtr;
-  BOOLEAN_T BufferError;
   size_t Length;
 
 
@@ -119,119 +111,67 @@ ERRORCODE_T DateTime_Print(BOOLEAN_T DateTimeModeFlag,struct tm const *pTime,
     ErrorCode=ERRORCODE_NULLPARAMETER;
   else if ( (DateTimeModeFlag!=0) && (pDTFormat==NULL) )
     ErrorCode=ERRORCODE_INVALIDPARAMETER;
+  else if ( (DateTimeModeFlag!=0) && (pDTFormat!=NULL) &&
+      (strlen(pDTFormat)>=BUFFER_SIZEOF) )
+    ErrorCode=ERRORCODE_INVALIDDATA;
   else
   {
-    BufferError=0;
-    memset(pFormat,0,BUFFER_SIZEOF);
+    *pFormat='\0';
     if (DateTimeModeFlag!=0)
     {
       /* Day of week? */
       if (pOptions->Flags&DATETIMEFLAG_SHOWDAYOFWEEK)
       {
         if (pOptions->Flags&DATETIMEFLAG_LONGDAYOFWEEKFORMAT)
-          strncat(pFormat,"%A",BUFFER_SIZEOF);        /* Long DOW. */
+          strcat(pFormat,"%A");                       /* Long DOW. */
         else
-          strncat(pFormat,"%a.",BUFFER_SIZEOF);       /* Short DOW. */
-        CHECKBUFFER(pFormat,BUFFER_SIZEOF);
-        if (BufferError==0)
-        {
-          strncat(pFormat,", ",BUFFER_SIZEOF);        /* Comma+Space. */
-          CHECKBUFFER(pFormat,BUFFER_SIZEOF);
-        }
+          strcat(pFormat,"%a.");                      /* Short DOW. */
+        strcat(pFormat,", ");                         /* Comma+Space. */
       }
 
-      if (BufferError==0)
-      {
-        strncat(pFormat,pDTFormat,BUFFER_SIZEOF);     /* Day, month, year. */
-        CHECKBUFFER(pFormat,BUFFER_SIZEOF);
-      }
+      strcat(pFormat,pDTFormat);                      /* Day, month, year. */
 
-      if (BufferError==0)
+      /* Long month? */
+      if (pOptions->Flags&DATETIMEFLAG_LONGMONTHFORMAT)
       {
-        /* Long month? */
-        if (pOptions->Flags&DATETIMEFLAG_LONGMONTHFORMAT)
-        {
-          pPtr=strstr(pFormat,"%b.");                 /* From short month. */
-          if (pPtr!=NULL)
-          {
-            memcpy(pPtr,"%B",2*sizeof(char));         /* to long month. */
-            CHECKBUFFER(pFormat,BUFFER_SIZEOF);
-            if (BufferError==0)
-            {
-              Length=strlen(pPtr+3);
-              memmove(pPtr+2,pPtr+3,Length+1);
-            }
-          }
-        }
-      }
-
-      if (BufferError==0)
-      {
-        /* 4 digit year? */
-        if (pOptions->Flags&DATETIMEFLAG_4DIGITYEAR)
-        {
-          pPtr=strstr(pFormat,"%y");                  /* From 2 digits. */
-          if (pPtr!=NULL)
-          {
-            memcpy(pPtr,"%Y",2*sizeof(char));         /* to 4 digits. */
-            CHECKBUFFER(pFormat,BUFFER_SIZEOF);
-          }
-        }
-      }
-      if (BufferError==0)
-      {
-        strncat(pFormat," ",BUFFER_SIZEOF);           /* Space. */
-        CHECKBUFFER(pFormat,BUFFER_SIZEOF);
-      }
-    }
-
-    if (BufferError==0)
-    {
-      strncat(pFormat,"%l:%M",BUFFER_SIZEOF);         /* Hours:Minutes. */
-      CHECKBUFFER(pFormat,BUFFER_SIZEOF);
-    }
-
-    if (BufferError==0)
-    {
-      /* 24 hour format? */
-      if (pOptions->Flags&DATETIMEFLAG_24HOURFORMAT)
-      {
-        pPtr=strstr(pFormat,"%l");                    /* From am/pm format. */
+        pPtr=strstr(pFormat,"%b.");                   /* From short month. */
         if (pPtr!=NULL)
         {
-          memcpy(pPtr,"%H",2*sizeof(char));           /* to 24 hour format. */
-          CHECKBUFFER(pFormat,BUFFER_SIZEOF);
+          memcpy(pPtr,"%B",2*sizeof(char));           /* to long month. */
+          Length=strlen(pPtr+3);
+          memmove(pPtr+2,pPtr+3,Length+1);
         }
       }
-    }
 
-    if (BufferError==0)
-    {
-      /* Show seconds? */
-      if (pOptions->Flags&DATETIMEFLAG_SHOWSECONDS)
+      /* 4 digit year? */
+      if (pOptions->Flags&DATETIMEFLAG_4DIGITYEAR)
       {
-        strncat(pFormat,":%S",BUFFER_SIZEOF);         /* Colon+Seconds. */
-        CHECKBUFFER(pFormat,BUFFER_SIZEOF);
+        pPtr=strstr(pFormat,"%y");                    /* From 2 digits. */
+        if (pPtr!=NULL)
+          memcpy(pPtr,"%Y",2*sizeof(char));           /* to 4 digits. */
       }
+      strcat(pFormat," ");                            /* Space. */
     }
 
-    if (BufferError==0)
+    strcat(pFormat,"%I:%M");                          /* Hours:Minutes. */
+
+    /* 24 hour format? */
+    if (pOptions->Flags&DATETIMEFLAG_24HOURFORMAT)
     {
-      /* Show AM/PM? */
-      if (!(pOptions->Flags&DATETIMEFLAG_24HOURFORMAT))
-      {
-        strncat(pFormat," %p",BUFFER_SIZEOF);         /* AM/PM. */
-        CHECKBUFFER(pFormat,BUFFER_SIZEOF);
-      }
+      pPtr=strstr(pFormat,"%I");                      /* From am/pm format. */
+      if (pPtr!=NULL)
+        memcpy(pPtr,"%H",2*sizeof(char));             /* to 24 hour format. */
     }
 
-    if (BufferError==0)
-    {
-      if (strftime(pTimeString,BUFFER_SIZEOF,pFormat,pTime)==0)
-        BufferError=!0;
-    }
+    /* Show seconds? */
+    if (pOptions->Flags&DATETIMEFLAG_SHOWSECONDS)
+      strcat(pFormat,":%S");                          /* Colon+Seconds. */
 
-    if (BufferError!=0)
+    /* Show AM/PM? */
+    if (!(pOptions->Flags&DATETIMEFLAG_24HOURFORMAT))
+      strcat(pFormat," %p");            /* AM/PM. */
+
+    if (strftime(pTimeString,BUFFER_SIZEOF,pFormat,pTime)==0)
       ErrorCode=ERRORCODE_SYSTEMFAILURE;
     else
     {

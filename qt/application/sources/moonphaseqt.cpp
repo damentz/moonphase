@@ -21,7 +21,6 @@
 *** \brief moonphase-qt operating system entry point.
 *** \details Operating system entry point for moonphase-qt. Initializes the
 ***   application, creates the main window, and begins event processing.
-*** \todo If another instance is running, activate the current instance.
 **/
 
 
@@ -98,10 +97,8 @@
 *** \details Operating system entry function for the application. Initializes
 ***   the application, creates the main window, and begins event processing on
 ***   the window.
-*** \param ArgC
-***   Number of command line arguments.
-*** \param ppArgV
-***   Pointer to array of command line argument strings.
+*** \param ArgC Number of command line arguments.
+*** \param ppArgV Pointer to array of command line argument strings.
 *** \retval 0 Success.
 *** \retval !0 Error.
 **/
@@ -110,6 +107,7 @@ int main(int ArgC, char *ppArgV[])
   QtSingleApplication *pApplication=NULL;
   CONTROLPANELDIALOG_C *pDialog=NULL;
   int Return;
+
 
   /* Initialize the debug and message logs (possibly, depends on defines). */
   DEBUGLOG_Initialize(!0);

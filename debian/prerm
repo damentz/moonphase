@@ -1,1 +1,2 @@
 killall moonphase-qt
+exit 0

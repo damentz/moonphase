@@ -732,9 +732,6 @@
       <layout class="QGridLayout" name="gridLayout_7">
        <item row="0" column="0">
         <widget class="ABOUTWIDGET_C" name="m_pAboutWidget">
-         <property name="toolTip">
-          <string>Tool tip</string>
-         </property>
          <property name="whatsThis">
           <string>What's this?</string>
          </property>

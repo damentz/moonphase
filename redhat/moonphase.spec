@@ -1,6 +1,6 @@
 %define MmVersion 0.4
 Name:           moonphase
-Version:        %{MmVersion}.0
+Version:        %{MmVersion}.1
 Release:        1
 Summary:        No summary
 License:        GPLv3+
@@ -25,6 +25,10 @@ Displays the phase of the moon in the system tray. Additionally, a window
 %{_datadir}/icons/%{name}-qt.xpm
 %{_datadir}/applications/%{name}-qt.desktop
 %doc COPYING
+
+%changelog
+* Tue Dec 29 2015 Alan Wise <alanwise@users.sourceforge.net> - 0.4.1-1
+- New upstream version.
 
 %changelog
 * Mon Dec 14 2015 Alan Wise <alanwise@users.sourceforge.net> - 0.4.0-1
@@ -66,3 +70,4 @@ make
 
 %preun qt
 killall moonphase-qt
+exit 0

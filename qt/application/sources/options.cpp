@@ -516,11 +516,5 @@ OPTIONS_C & OPTIONS_C::operator=(OPTIONS_C const &RHS)
   return(*this);
 }
 
-OPTIONS_C & OPTIONS_C::operator=(OPTIONS_C &RHS)
-{
-  *this=(OPTIONS_C const)RHS;
-  return(*this);
-}
-
 
 #undef    OPTIONS_CPP
