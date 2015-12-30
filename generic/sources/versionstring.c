@@ -17,7 +17,7 @@
 */
 
 /**
-*** \file versionstring.cpp
+*** \file versionstring.c
 *** \brief versionstring.h implementation file.
 *** \details Implementation file for versionstring.h.
 **/
@@ -146,7 +146,7 @@ ERRORCODE_T VersionString_Set(
     pPtr=pString;
     for(Index=0;Index<DIGITS_MAXIMUMCOUNT;Index++)
     {
-      pVersionString->Digits[Index]=strtol(pPtr,&pEndPtr,10);
+      pVersionString->Digits[Index]=(short)strtol(pPtr,&pEndPtr,10);
       if (*pEndPtr=='\0')
       {
         ErrorCode=ERRORCODE_SUCCESS;
