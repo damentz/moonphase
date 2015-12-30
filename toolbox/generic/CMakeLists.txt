@@ -71,7 +71,8 @@ IF(OPTION_TOOLBOX_BUILDGENERICLIBRARY)
       ${CMAKE_CURRENT_LIST_DIR}/sources/messagelog.c
       ${CMAKE_CURRENT_LIST_DIR}/sources/pathnamelist.c
       ${CMAKE_CURRENT_LIST_DIR}/sources/utility.c
-      ${CMAKE_CURRENT_LIST_DIR}/sources/versionstring.c)
+      ${CMAKE_CURRENT_LIST_DIR}/sources/versionstring.c
+      ${CMAKE_CURRENT_LIST_DIR}/sources/visualstudio.c)
   IF(MHASH_FOUND)
     SET(TOOLBOXGENERIC_SOURCES ${TOOLBOXGENERIC_SOURCES}
         ${CMAKE_CURRENT_LIST_DIR}/sources/checksum.c)

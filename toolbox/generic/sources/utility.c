@@ -41,6 +41,7 @@
 #endif    /* DEBUG_UTILITY_C */
 #include  "debuglog.h"
 #include  "sysdefs.h"
+#include  "visualstudio.h"
 
 #include  <stdlib.h>
 #include  <stdio.h>

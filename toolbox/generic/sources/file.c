@@ -42,6 +42,7 @@
 #include  "debuglog.h"
 #include  "utility.h"
 #include  "messagelog.h"
+#include  "visualstudio.h"
 
 #include  <stdlib.h>
 #include  <sys/stat.h>

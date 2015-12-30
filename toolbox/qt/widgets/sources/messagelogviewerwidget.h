@@ -119,6 +119,7 @@ class MESSAGELOGVIEWERWIDGET_C :
     **/
     void CheckFileDateTimeSlot(void);
 
+  private slots:
     /**
     *** \brief Dialog button clicked.
     *** \details A button in the dialog button box was clicked.
