@@ -2,7 +2,7 @@ Source: moonphase
 Section: x11
 Priority: optional
 Maintainer: Alan Wise <alanwise@users.sourceforge.net>
-Build-Depends: debhelper (>= 8.0.0), cmake
+Build-Depends: debhelper (>= 8.0.0), cmake, libqt4-dev
 Standards-Version: 3.9.4
 Homepage: http://moonphase.sourceforge.net/
 Vcs-Git: git://git.code.sf.net/p/moonphase/code
